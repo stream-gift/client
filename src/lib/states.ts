@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { type IWallet, Wallet } from './wallet';
 
 /* Modal States */
 // Wallet Modal
@@ -43,3 +44,15 @@ export const useAccountStore = create<TwitchStore>((set) => ({
     user: null,
     setUser: (user) => set(() => ({ user }))
 }));
+
+/* Wallet States */
+// Wallet Class
+interface IWalletStore {
+    wallet: IWallet | null;
+    setWallet: (w: IWallet) => void;
+}
+
+export const useWalletStore = create<IWalletStore>((set) => ({
+    wallet: null,
+    setWallet: (wallet) => set(() => ({ wallet }))
+}))

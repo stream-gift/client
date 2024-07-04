@@ -5,13 +5,16 @@ import Link from "next/link";
 import DropdownButton from "../Dropdown/DropdownButton";
 
 export default function Header() {
-
     const links: JSX.Element[] = [
-        <Link key={1} className="text-lg" href="/"><span className="text-blue">#</span>home</Link>,
-        <Link key={3} className="text-lg" href="/about"><span className="text-blue">#</span>about</Link>,
+        <Link key={1} className="text-lg" href="/">
+            <span className="text-blue">#</span>home
+        </Link>,
+        <Link key={3} className="text-lg" href="/about">
+            <span className="text-blue">#</span>about
+        </Link>,
         /* <Link key={2} className="text-lg" href="/"><span className="text-blue">#</span>dashboard</Link>, */
         /* <Link key={4} className="text-lg" href="/donate"><span className="text-blue">#</span>donate</Link>, */
-    ]
+    ];
 
     return (
         <header
@@ -35,10 +38,7 @@ export default function Header() {
                 <WalletButton />
             </div>
             <div className="flex-1 flex-col items-end hidden max-lg:flex">
-                <DropdownButton
-                    type="blank"
-                    items={links}
-                >
+                <DropdownButton type="blank" items={links}>
                     <Image
                         src="/hamburger.svg"
                         alt="Hamburger icon"
@@ -52,5 +52,5 @@ export default function Header() {
                 </div>
             </div>
         </header>
-    )
+    );
 }
