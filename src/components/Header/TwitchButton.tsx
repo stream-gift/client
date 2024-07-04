@@ -1,14 +1,13 @@
-'use client'
+"use client";
 
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { TwitchUserStore, useAccountStore } from "@/lib/states";
 
-import './wallet-button.scss';
-import { handleLogin } from '@/lib/auth';
+import "./wallet-button.scss";
+import { handleLogin } from "@/lib/auth";
 
 export default function TwitchButton() {
-
     const user = useAccountStore(state => state.user);
     const setUser = useAccountStore(state => state.setUser);
 
@@ -21,26 +20,23 @@ export default function TwitchButton() {
         setLoading(false);
     }
 
-    if (loading) return <></>
+    if (loading) return <></>;
 
     return (
         <>
-        { user ? (
-            <p
-                className="wallet-connect-button"
-                style={{ color: "#6441a5" }}
-            >
-                {user.preferred_username}
-            </p>
-        ) : (
-            <button
-                onClick={login_twitch}
-                className="wallet-connect-button"
-                style={{ color: "#6441a5" }}
-            >
-                #twitch-login
-            </button>
-        )}
+            {user ? (
+                <p className="wallet-connect-button" style={{ color: "#6441a5" }}>
+                    {user.preferred_username}
+                </p>
+            ) : (
+                <button
+                    onClick={login_twitch}
+                    className="wallet-connect-button"
+                    style={{ color: "#6441a5" }}
+                >
+                    #twitch-login
+                </button>
+            )}
         </>
-    )
+    );
 }

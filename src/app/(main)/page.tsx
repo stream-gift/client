@@ -12,14 +12,14 @@ import Checkbox from "@/components/Checkbox";
 import VerifySignAddress from "@/components/VerifySignAddress";
 import { b64DecodeUnicode, truncateWalletAddress } from "@/lib/helper";
 import { useAccountStore, useWalletStore } from "@/lib/states";
-import { Wallet } from '@/lib/wallet';
+import { Wallet } from "@/lib/wallet";
 
 export default function Dashboard() {
     const router = useRouter();
 
-    const setWallet = useWalletStore((state) => state.setWallet);
-    const setUser = useAccountStore((state) => state.setUser);
-    const user = useAccountStore((state) => state.user);
+    const setWallet = useWalletStore(state => state.setWallet);
+    const setUser = useAccountStore(state => state.setUser);
+    const user = useAccountStore(state => state.user);
     const currentAccount = useCurrentAccount();
 
     const [search, setSearch] = useState<string>("");
@@ -38,7 +38,7 @@ export default function Dashboard() {
                     toast.success("Handle is successfully changed");
                 }
             })
-            .catch((err) => {
+            .catch(err => {
                 if (err?.error_message) toast.error(err.error_message);
                 setSubmitting(false);
             });
@@ -46,12 +46,9 @@ export default function Dashboard() {
 
     const [eventURL, setEventURL] = useState<string>();
     useEffect(() => {
-        if (user)
-            setEventURL(
-                `https://stream.gift/${user?.preferred_username}/donationEvents`
-            );
+        if (user) setEventURL(`https://stream.gift/${user?.preferred_username}/donationEvents`);
         else {
-            RecentDonations().then((res) => {
+            RecentDonations().then(res => {
                 if (res?.status !== false) {
                     setRecentDonations(res);
                 }
@@ -60,7 +57,7 @@ export default function Dashboard() {
     }, [user]);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
             setWallet(new Wallet());
         }
     }, [typeof window]);
@@ -95,25 +92,21 @@ export default function Dashboard() {
                     {user.signature ? (
                         <>
                             <p className="text-gr font-medium mt-2 mb-5 text-lg max-w-[70%] max-md:max-w-full max-md:text-center">
-                                Need to change your address? You can link
-                                another wallet and sign & verify a message with
-                                another address. Click &quot;Stream Connection
+                                Need to change your address? You can link another wallet and sign &
+                                verify a message with another address. Click &quot;Stream Connection
                                 Instructions&quot; for help.
                             </p>
 
                             <p className="text-gr font-bold mt-2 mb-5 text-lg max-w-[70%] max-md:max-w-full max-md:text-center">
                                 Donation event listener:{" "}
-                                <p className="dots max-md:w-[90vw]">
-                                    {eventURL}
-                                </p>
+                                <p className="dots max-md:w-[90vw]">{eventURL}</p>
                             </p>
                         </>
                     ) : (
                         <>
                             <p className="text-gr font-bold mt-2 mb-5 text-lg max-w-[70%] max-md:max-w-full max-md:text-center">
-                                In order to receive donations, you must sign and
-                                verify your address. Click &quot;Sign and verify
-                                address&quot; to continue.
+                                In order to receive donations, you must sign and verify your
+                                address. Click &quot;Sign and verify address&quot; to continue.
                             </p>
                         </>
                     )}
@@ -126,17 +119,11 @@ export default function Dashboard() {
                         SUI Identifier
                         {user?.signature ? (
                             <>
-                                <span className="text-green-500">
-                                    {" "}
-                                    (Verified)
-                                </span>
+                                <span className="text-green-500"> (Verified)</span>
                             </>
                         ) : (
                             <>
-                                <span className="text-yellow-500">
-                                    {" "}
-                                    (Unverified)
-                                </span>
+                                <span className="text-yellow-500"> (Unverified)</span>
                             </>
                         )}
                     </label>
@@ -157,9 +144,7 @@ export default function Dashboard() {
                         )}
                     </div>
 
-                    <label className="text-md text-gr block max-md:text-center">
-                        Settings
-                    </label>
+                    <label className="text-md text-gr block max-md:text-center">Settings</label>
                     <div
                         className="
           max-w-[768px] mb-7 border-[1px] border-gr rounded-md py-3 px-4 flex flex-col gap-2
@@ -168,7 +153,7 @@ export default function Dashboard() {
                         <div className="flex items-center gap-2">
                             <Checkbox
                                 checked={user.notificationsound}
-                                onChange={(checked) => {
+                                onChange={checked => {
                                     setUser({
                                         ...user,
                                         notificationsound: checked,
@@ -176,8 +161,7 @@ export default function Dashboard() {
                                 }}
                             />
                             <label className="text-gr font-bold text-xl">
-                                Play a notification sound when you get a
-                                donation
+                                Play a notification sound when you get a donation
                             </label>
                         </div>
                     </div>
@@ -204,8 +188,8 @@ export default function Dashboard() {
 
                     <input
                         placeholder="Search for streamer"
-                        onChange={(e) => setSearch(e.target.value)}
-                        onKeyDown={(e) => {
+                        onChange={e => setSearch(e.target.value)}
+                        onKeyDown={e => {
                             if (e.key === "Enter") router.push(`/${search}`);
                         }}
                         className="
@@ -235,39 +219,23 @@ export default function Dashboard() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {recentDonations.map(
-                                            (d: any, i: number) => {
-                                                return (
-                                                    <tr key={i}>
-                                                        <td>
-                                                            {d.sender_suins ??
-                                                                truncateWalletAddress(
-                                                                    d.sender
-                                                                )}
-                                                        </td>
-                                                        <td>
-                                                            {d.message !==
-                                                            "null"
-                                                                ? b64DecodeUnicode(
-                                                                      d.message
-                                                                  )
-                                                                : "-"}
-                                                        </td>
-                                                        <td>
-                                                            {parseFloat(
-                                                                d.amount
-                                                            )?.toFixed(3)}{" "}
-                                                            SUI
-                                                        </td>
-                                                        <td>
-                                                            {truncateWalletAddress(
-                                                                d.recipient
-                                                            )}
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            }
-                                        )}
+                                        {recentDonations.map((d: any, i: number) => {
+                                            return (
+                                                <tr key={i}>
+                                                    <td>
+                                                        {d.sender_suins ??
+                                                            truncateWalletAddress(d.sender)}
+                                                    </td>
+                                                    <td>
+                                                        {d.message !== "null"
+                                                            ? b64DecodeUnicode(d.message)
+                                                            : "-"}
+                                                    </td>
+                                                    <td>{parseFloat(d.amount)?.toFixed(3)} SUI</td>
+                                                    <td>{truncateWalletAddress(d.recipient)}</td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </>

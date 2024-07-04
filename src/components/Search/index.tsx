@@ -1,11 +1,10 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function Search() {
-
     const router = useRouter();
 
     const [content, setContent] = useState<string>("");
@@ -38,5 +37,5 @@ export default function Search() {
                 className="absolute right-3"
             />
         </div>
-    )
+    );
 }

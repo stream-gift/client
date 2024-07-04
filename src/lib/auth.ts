@@ -1,7 +1,9 @@
-import { ParticleNetwork } from '@particle-network/auth';
-import { Ethereum } from '@particle-network/chains';
+import { ParticleNetwork } from "@particle-network/auth";
+import { Ethereum } from "@particle-network/chains";
 
-export const handleLogin = async (preferredAuthType: 'google' | 'twitter' | 'twitch' | 'github' | 'discord' | 'linkedin') => {
+export const handleLogin = async (
+    preferredAuthType: "google" | "twitter" | "twitch" | "github" | "discord" | "linkedin",
+) => {
     const particle = new ParticleNetwork({
         projectId: "b54fa1c5-dfc4-4ec5-a975-b50e77aa7a22",
         clientKey: "c9nGKTYhlfEArbdw2WMDrn8GucRYgrazbdI0Vzqu",
@@ -10,9 +12,9 @@ export const handleLogin = async (preferredAuthType: 'google' | 'twitter' | 'twi
         chainId: Ethereum.id,
         wallet: {
             displayWalletEntry: true,
-            uiMode: "dark"
+            uiMode: "dark",
         },
     });
 
-    return (await particle.auth.login({ preferredAuthType }));
-}
+    return await particle.auth.login({ preferredAuthType });
+};

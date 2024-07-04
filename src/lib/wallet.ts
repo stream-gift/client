@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
 export interface IWallet {
     connect(): Promise<void>;
@@ -14,69 +14,69 @@ export class Wallet {
         if ((window as any).ethereum) {
             this.provider = new ethers.BrowserProvider((window as any).ethereum);
         } else {
-            throw new Error('MetaMask is not installed');
+            throw new Error("MetaMask is not installed");
         }
     }
 
     async connect() {
         if (!this.provider) {
-            throw new Error('Provider not initialized');
+            throw new Error("Provider not initialized");
         }
 
         try {
-            await this.provider.send('eth_requestAccounts', []);
+            await this.provider.send("eth_requestAccounts", []);
             this.signer = await this.provider.getSigner();
             await this.switchToThetaNetwork();
         } catch (error) {
-            console.error('Failed to connect to MetaMask:', error);
+            console.error("Failed to connect to MetaMask:", error);
             throw error;
         }
     }
 
     async switchToThetaNetwork() {
         if (!this.provider) {
-            throw new Error('Provider not initialized');
+            throw new Error("Provider not initialized");
         }
 
-        const thetaChainId = '0x169';
+        const thetaChainId = "0x169";
         const thetaNetwork = {
             chainId: thetaChainId,
-            chainName: 'THETA Mainnet',
+            chainName: "THETA Mainnet",
             nativeCurrency: {
-                name: 'Theta Fuel',
-                symbol: 'TFUEL',
-                decimals: 18
+                name: "Theta Fuel",
+                symbol: "TFUEL",
+                decimals: 18,
             },
-            rpcUrls: ['https://eth-rpc-api.thetatoken.org/rpc'],
-            blockExplorerUrls: ['https://explorer.thetatoken.org/']
+            rpcUrls: ["https://eth-rpc-api.thetatoken.org/rpc"],
+            blockExplorerUrls: ["https://explorer.thetatoken.org/"],
         };
 
         try {
             await (window as any).ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [thetaNetwork]
+                method: "wallet_addEthereumChain",
+                params: [thetaNetwork],
             });
 
             await (window as any).ethereum.request({
-                method: 'wallet_switchEthereumChain',
-                params: [{ chainId: thetaChainId }]
+                method: "wallet_switchEthereumChain",
+                params: [{ chainId: thetaChainId }],
             });
         } catch (error) {
-            console.error('Failed to switch to THETA network:', error);
+            console.error("Failed to switch to THETA network:", error);
             throw error;
         }
     }
 
     async signMessage(message: string): Promise<string> {
         if (!this.signer) {
-            throw new Error('Signer not initialized');
+            throw new Error("Signer not initialized");
         }
 
         try {
             const signature = await this.signer.signMessage(message);
             return signature;
         } catch (error) {
-            console.error('Failed to sign message:', error);
+            console.error("Failed to sign message:", error);
             throw error;
         }
     }

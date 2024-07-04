@@ -26,11 +26,15 @@
         padding: 24px;
         max-width: 55vw;
         max-height: 50vh;
-        border: 1px solid #ABB2BF;
+        border: 1px solid #abb2bf;
         @include glass;
 
-        @media only screen and (max-width: 1650px) { max-width: 80vw; }
-        @media only screen and (max-width: 1030px) { max-width: 90vw; }
+        @media only screen and (max-width: 1650px) {
+            max-width: 80vw;
+        }
+        @media only screen and (max-width: 1030px) {
+            max-width: 90vw;
+        }
         @media only screen and (max-width: 768px) {
             max-width: 100%;
             padding: 20px;
@@ -38,8 +42,9 @@
             .buttons {
                 flex-wrap: wrap;
                 margin: 12px auto 0 auto;
-    
-                button, a {
+
+                button,
+                a {
                     margin: 10px 0 !important;
                 }
             }
@@ -50,7 +55,7 @@
             font-size: 22px;
             margin-bottom: 16px;
         }
-    
+
         .buttons {
             width: 100%;
             display: flex;
@@ -58,15 +63,20 @@
             justify-content: space-between;
             margin: 24px auto 0 auto;
 
-            button, a {
+            button,
+            a {
                 width: 100%;
                 white-space: nowrap;
-    
+
                 // Custom
                 padding: 14px 52px;
-    
-                &:first-child { margin-right: 10px; }
-                &:last-child { margin-left: 10px; }
+
+                &:first-child {
+                    margin-right: 10px;
+                }
+                &:last-child {
+                    margin-left: 10px;
+                }
             }
         }
     }

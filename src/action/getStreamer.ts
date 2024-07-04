@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 export default async function GetStreamer(streamer: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
@@ -9,6 +9,6 @@ export default async function GetStreamer(streamer: string): Promise<any> {
             })
             .catch(e => {
                 return reject({ status: false });
-            })
-    })
+            });
+    });
 }

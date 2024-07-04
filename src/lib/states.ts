@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { type IWallet, Wallet } from './wallet';
+import { type IWallet, Wallet } from "./wallet";
 
 /* Modal States */
 // Wallet Modal
@@ -11,28 +11,29 @@ interface ModalStore {
     setLoading: (loading: boolean) => void;
 }
 
-export const useModalStore = create<ModalStore>((set) => ({
+export const useModalStore = create<ModalStore>(set => ({
     modal: "", // Modal Key
     options: {},
     loading: false,
-    setModal: (type, options = {}) => set(() => ({
-        modal: type,
-        options: options,
-    })),
-    setLoading: (loading) => set(() => ({ loading }))
+    setModal: (type, options = {}) =>
+        set(() => ({
+            modal: type,
+            options: options,
+        })),
+    setLoading: loading => set(() => ({ loading })),
 }));
 
 /* Account States */
 // Twitch Account
 export interface TwitchUserStore {
-    suins?: string,
-    signature?: string,
-    streamer_address?: string,
-    preferred_username: string,
+    suins?: string;
+    signature?: string;
+    streamer_address?: string;
+    preferred_username: string;
 
     // Preferences -->
-    textToSpeech: Boolean,
-    notificationsound: Boolean
+    textToSpeech: Boolean;
+    notificationsound: Boolean;
 }
 
 interface TwitchStore {
@@ -40,9 +41,9 @@ interface TwitchStore {
     setUser: (user: TwitchUserStore) => void;
 }
 
-export const useAccountStore = create<TwitchStore>((set) => ({
+export const useAccountStore = create<TwitchStore>(set => ({
     user: null,
-    setUser: (user) => set(() => ({ user }))
+    setUser: user => set(() => ({ user })),
 }));
 
 /* Wallet States */
@@ -52,7 +53,7 @@ interface IWalletStore {
     setWallet: (w: IWallet) => void;
 }
 
-export const useWalletStore = create<IWalletStore>((set) => ({
+export const useWalletStore = create<IWalletStore>(set => ({
     wallet: null,
-    setWallet: (wallet) => set(() => ({ wallet }))
-}))
+    setWallet: wallet => set(() => ({ wallet })),
+}));

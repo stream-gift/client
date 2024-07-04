@@ -1,13 +1,9 @@
-import Image from "next/image"
-import Button from "../Button"
-import Bid from "./Bid"
-import toast from "react-hot-toast"
+import Image from "next/image";
+import Button from "../Button";
+import Bid from "./Bid";
+import toast from "react-hot-toast";
 
-export default function Bids({
-    search
-} : {
-    search: string
-}) {
+export default function Bids({ search }: { search: string }) {
     return (
         <div
             id="bids"
@@ -23,7 +19,7 @@ export default function Bids({
                     rounded-tl-md rounded-tr-md"
             >
                 <div className="flex items-center justify-start gap-2">
-                    <p className="text-xl">{ search }</p>
+                    <p className="text-xl">{search}</p>
                 </div>
                 <Button
                     type="blank"
@@ -32,30 +28,21 @@ export default function Bids({
                             // Copy the address to clipboard
                             navigator.clipboard.writeText(search);
                             toast.success("Address is copied to the clipboard");
-                        } catch(e) {
+                        } catch (e) {
                             console.error(e);
                             toast.error("An error occured");
                         }
                     }}
                 >
-                    <Image
-                        src="/icons/copy.svg"
-                        alt="Copy Button"
-                        height={18}
-                        width={18}
-                    />
+                    <Image src="/icons/copy.svg" alt="Copy Button" height={18} width={18} />
                 </Button>
             </div>
 
             {/* List */}
             <div className="flex items-start justify-start p-3">
-
                 {/* Bid Placeholder */}
-                <Bid
-                    img={"/dummy/pfp-1.png"}
-                    name={"nicky.sui"}
-                />
+                <Bid img={"/dummy/pfp-1.png"} name={"nicky.sui"} />
             </div>
         </div>
-    )
+    );
 }

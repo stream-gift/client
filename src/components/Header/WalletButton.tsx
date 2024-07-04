@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useWalletStore } from '@/lib/states';
-import './wallet-button.scss';
+import { useWalletStore } from "@/lib/states";
+import "./wallet-button.scss";
 
 export default function WalletButton() {
     const wallet = useWalletStore(s => s.wallet);
@@ -13,11 +13,8 @@ export default function WalletButton() {
     }
 
     return (
-        <button
-            id="wallet-connect-button"
-            onClick={connect_wallet}
-        >
+        <button id="wallet-connect-button" onClick={connect_wallet}>
             #connect-wallet
         </button>
-    )
+    );
 }

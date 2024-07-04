@@ -9,7 +9,7 @@ export const THETA_NETWORK = {
     nativeCurrency: {
         name: "Theta Fuel",
         symbol: "TFUEL",
-        decimals: 18
+        decimals: 18,
     },
     rpcUrl: "https://eth-rpc-api.thetatoken.org/rpc",
     blockExplorerUrl: "https://explorer.thetatoken.org/",

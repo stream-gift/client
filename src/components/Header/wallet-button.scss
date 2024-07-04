@@ -7,18 +7,21 @@ button[data-dapp-kit] {
     background: transparent !important;
     // margin-bottom: 2px !important;
 
-    > svg { display: none; }
+    > svg {
+        display: none;
+    }
     > div {
-        color: #4DA2FF !important;
+        color: #4da2ff !important;
         font-size: 16px !important;
         margin-top: 2px !important;
     }
 }
 
-.wallet-connect-button, #wallet-connect-button {
+.wallet-connect-button,
+#wallet-connect-button {
     background: transparent;
     box-shadow: none;
-    color: #4DA2FF;
+    color: #4da2ff;
     font-size: 18px;
     padding: 0 !important;
     margin-bottom: 0 !important;
@@ -39,11 +42,11 @@ button[data-dapp-kit] {
 #wallet-connect-button-3 {
     padding: 5px !important;
     border-radius: 8px;
-    background: #4DA2FF !important;
+    background: #4da2ff !important;
     width: 100%;
-    
-    > div { 
-        color: #FFF !important;
+
+    > div {
+        color: #fff !important;
         font-size: 16px;
         font-weight: 400;
     }

@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import type { MouseEventHandler } from "react";
 
-import './button.scss';
+import "./button.scss";
 
 export default function Button({
     type = "main",
@@ -11,14 +11,14 @@ export default function Button({
     click,
     custom,
     className,
-    children
-} : {
-    type?: string,
-    href?: string,
-    click?: MouseEventHandler,
-    custom?: Object,
-    className?: string,
-    children: React.ReactNode
+    children,
+}: {
+    type?: string;
+    href?: string;
+    click?: MouseEventHandler;
+    custom?: Object;
+    className?: string;
+    children: React.ReactNode;
 }) {
     // Link
     if (href) {
@@ -30,7 +30,7 @@ export default function Button({
             >
                 {children}
             </Link>
-        )
+        );
     }
 
     // Button
@@ -42,5 +42,5 @@ export default function Button({
         >
             {children}
         </button>
-    )
+    );
 }

@@ -5,5 +5,5 @@ export default function DonationEventLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return <Wrapper>{children}</Wrapper>
+    return <Wrapper>{children}</Wrapper>;
 }

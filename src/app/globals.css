@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
-  background: #000;
-  color: #fff;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    background: #000;
+    color: #fff;
 }
 
 h1,
@@ -24,77 +24,77 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 700;
-  margin: 0;
+    font-weight: 700;
+    margin: 0;
 }
 
 p {
-  margin: 0;
+    margin: 0;
 }
 
 a {
-  color: #fff;
-  transition: 200ms;
-  text-decoration: none;
-  cursor: pointer;
+    color: #fff;
+    transition: 200ms;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 button {
-  transition: 200ms;
-  outline: none;
-  /* border: none; */
-  background: transparent;
-  cursor: pointer;
+    transition: 200ms;
+    outline: none;
+    /* border: none; */
+    background: transparent;
+    cursor: pointer;
 }
 
 input,
 textarea {
-  transition: 200ms;
-  outline: none;
-  /* border: none; */
-  background: transparent;
+    transition: 200ms;
+    outline: none;
+    /* border: none; */
+    background: transparent;
 }
 
 main {
-  min-height: 100vh;
+    min-height: 100vh;
 }
 
 table {
-  color: #ABB2BF;
+    color: #abb2bf;
 }
 
 table th {
-  text-align: start;
-  padding-right: 40px;
-  padding-bottom: 20px;
-  font-size: 18px;
+    text-align: start;
+    padding-right: 40px;
+    padding-bottom: 20px;
+    font-size: 18px;
 }
 
 table tr td {
-  padding-right: 40px;
-  padding-bottom: 7px;
-  font-size: 17px;
-  font-weight: 500;
+    padding-right: 40px;
+    padding-bottom: 7px;
+    font-size: 17px;
+    font-weight: 500;
 }
 
 ::selection {
-  background: white;
-  color: #000;
+    background: white;
+    color: #000;
 }
 
 .vertical-center {
-  top: 50%;
-  transform: translateY(-50%);
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .dots {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
 }

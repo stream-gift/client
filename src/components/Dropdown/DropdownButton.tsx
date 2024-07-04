@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import { type ReactElement, useState } from "react";
-import Button from "../Button"
+import Button from "../Button";
 import Dropdown from "./index";
 
-import './dropdown.scss';
+import "./dropdown.scss";
 
 export default function DropdownButton({
     click = () => {},
@@ -12,14 +12,13 @@ export default function DropdownButton({
     custom,
     items,
     children,
-} : {
-    click?: () => void,
-    type: string,
-    custom?: object,
-    items: Array<ReactElement>,
-    children: React.ReactNode
+}: {
+    click?: () => void;
+    type: string;
+    custom?: object;
+    items: Array<ReactElement>;
+    children: React.ReactNode;
 }) {
-
     const [state, setState] = useState<Boolean>(false);
 
     return (
@@ -35,7 +34,7 @@ export default function DropdownButton({
                 {children}
             </Button>
 
-            { state && <Dropdown items={items} set={setState} />}
+            {state && <Dropdown items={items} set={setState} />}
         </div>
-    )
+    );
 }
