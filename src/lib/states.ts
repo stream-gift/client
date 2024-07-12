@@ -26,7 +26,7 @@ export const useModalStore = create<ModalStore>(set => ({
 /* Account States */
 // Twitch Account
 export interface TwitchUserStore {
-    suins?: string;
+    handle?: string;
     signature?: string;
     streamer_address?: string;
     preferred_username: string;
@@ -37,23 +37,31 @@ export interface TwitchUserStore {
 }
 
 interface TwitchStore {
+    status: 'loading' | 'fetched';
     user: TwitchUserStore | null;
     setUser: (user: TwitchUserStore) => void;
+    setStatus: (status: 'loading' | 'fetched') => void;
 }
 
 export const useAccountStore = create<TwitchStore>(set => ({
+    status: 'loading',
     user: null,
     setUser: user => set(() => ({ user })),
+    setStatus: status => set(() => ({ status }))
 }));
 
 /* Wallet States */
 // Wallet Class
 interface IWalletStore {
-    wallet: IWallet | null;
-    setWallet: (w: IWallet) => void;
+    wallet: string | null;
+    handler: IWallet | null;
+    setWallet: (w: string) => void;
+    setHandler: (h: IWallet) => void;
 }
 
 export const useWalletStore = create<IWalletStore>(set => ({
     wallet: null,
+    handler: null,
     setWallet: wallet => set(() => ({ wallet })),
+    setHandler: handler => set(() => ({ handler })),
 }));

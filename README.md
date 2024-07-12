@@ -1,11 +1,11 @@
 # [stream.gift](https://stream.gift)
 
-Receive & send Twitch & streaming donations via crypto / SUI. Developed by @nickmura & @oynozan
+Receive & send Twitch & streaming donations via crypto / TFUEL. Developed by @nickmura & @oynozan
 
 
 ## Instructions
 
-- Create a [Sui Wallet](https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil) via zkLogin Twitch, hardware wallet, etc
+- Connect your wallet and change your network to THETA
 
 - Login to [stream.gift](https://stream.gift) via Twitch
 
@@ -15,13 +15,14 @@ Receive & send Twitch & streaming donations via crypto / SUI. Developed by @nick
 
 - Copy and paste the event listener URL that appears on the dashboard after verifying your address into the URL of the Browser source.
 
-- Customize, and done. This will display & listen for incoming SUI donations.
+- Customize, and done. This will display & listen for incoming TFUEL donations.
 
 
 ## Troubleshooting
 
 // TODO
 
+- Inconsistency at donation notification sounds
 
 ## Dependancies 
 

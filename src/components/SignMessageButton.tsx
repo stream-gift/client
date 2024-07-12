@@ -1,9 +1,7 @@
 "use client";
-import { useCurrentAccount, useSignPersonalMessage } from "@mysten/dapp-kit";
 import { useState } from "react";
 
 type SignedMessageResult = {
-    // should import type SuiSignPersonalMessageOutput instead (line 102 result type)...
     signature: string;
     bytes: string;
 };
@@ -17,11 +15,9 @@ export default function SignMessageButton({
     message: string;
     callback: (...args: any[]) => void;
 }) {
-    const { mutate: signPersonalMessage } = useSignPersonalMessage(); // message
     const [signedMessageResult, setSignedMessageResult] = useState<SignedMessageResult>();
     const [signature, setSignature] = useState("");
     const [bytes, setBytes] = useState("");
-    const currentAccount = useCurrentAccount();
 
     return (
         <div className="mt-8">

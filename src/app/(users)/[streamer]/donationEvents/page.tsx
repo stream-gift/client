@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { SuiClient, getFullnodeUrl } from "@mysten/sui.js/client";
 
 import Donation from "@/components/Donation";
 import CheckDonations from "@/action/checkDonations";
@@ -72,7 +71,7 @@ export default function DonationEventListener() {
             <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex"></div>
             {donation && (
                 <Donation
-                    sender={donation.sender_suins ?? truncateWalletAddress(donation.sender)}
+                    sender={truncateWalletAddress(donation.sender)}
                     amount={donation.amount}
                     message={b64DecodeUnicode(donation.message)}
                 />

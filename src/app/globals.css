@@ -12,9 +12,10 @@ html {
 
 body {
     overflow-x: hidden;
+    background: url('../../public/background.png');
+    background-size: 33%;
     margin: 0;
     padding: 0;
-    background: #000;
     color: #fff;
 }
 
@@ -56,7 +57,7 @@ textarea {
 }
 
 main {
-    min-height: 100vh;
+    min-height: calc(100dvh - 80px);
 }
 
 table {

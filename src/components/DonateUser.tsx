@@ -1,9 +1,8 @@
 "use client";
 import { useState } from "react";
-import { useCurrentAccount } from "@mysten/dapp-kit";
-import { EXAMPLE_RECIPIENT_ADDRESS } from "@/lib/config";
 import DonateButton from "./DonateButton";
 import DonateButtonWithMessage from "./DonateButtonWithMessage";
+import { useWalletStore } from '@/lib/states';
 
 export default function DonateUser({ address, user }: { address: string; user: string }) {
     //Basically the 'streamer' who is getting a donation
@@ -11,7 +10,7 @@ export default function DonateUser({ address, user }: { address: string; user: s
     const [handleInput, setHandleInput] = useState<number>(0);
     const [handleMessage, setHandleMessage] = useState<string>("");
 
-    const currentAccount = useCurrentAccount();
+    const wallet = useWalletStore(s => s.wallet);
 
     function changeHandle(value: number) {
         setHandleInput(value);
@@ -28,7 +27,7 @@ export default function DonateUser({ address, user }: { address: string; user: s
                     {handleInput ? (
                         <>
                             <div id="donation-info-amount" className="">
-                                Donation amount: {handleInput} SUI
+                                Donation amount: {handleInput} TFUEL
                             </div>
                         </>
                     ) : (
@@ -54,7 +53,7 @@ export default function DonateUser({ address, user }: { address: string; user: s
                         value={handleInput} //@ts-ignore
                         onInput={e => changeHandle(e.currentTarget.value)}
                         required
-                        placeholder="1 SUI"
+                        placeholder="1 TFUEL"
                         className="block w-full pl-8 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3 py-2"
                     />
                     <input
@@ -70,7 +69,7 @@ export default function DonateUser({ address, user }: { address: string; user: s
                 </div>
 
                 <div className="flex justify-center mt-2">
-                    {currentAccount && handleInput && handleMessage ? (
+                    {wallet && handleInput && handleMessage ? (
                         <>
                             <DonateButtonWithMessage
                                 recipient={recipientAddress}
@@ -78,7 +77,7 @@ export default function DonateUser({ address, user }: { address: string; user: s
                                 message={handleMessage}
                             />
                         </>
-                    ) : currentAccount && handleInput && !handleMessage ? (
+                    ) : wallet && handleInput && !handleMessage ? (
                         <>
                             <DonateButton recipient={recipientAddress} amount={handleInput} />
                         </>

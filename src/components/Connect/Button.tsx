@@ -1,0 +1,55 @@
+'use client'
+
+import { truncateWalletAddress } from '@/lib/helper';
+import { useWalletStore } from '@/lib/states'
+import { Wallet } from '@/lib/wallet';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+
+export default function ConnectButton() {
+
+    const wallet = useWalletStore(s => s.wallet);
+    const handler = useWalletStore(s => s.handler);
+    const setWallet = useWalletStore(s => s.setWallet);
+    const setHandler = useWalletStore(s => s.setHandler);
+
+    useEffect(() => {
+        try {
+            const walletHandler = new Wallet();
+            setHandler(walletHandler);
+        } catch(e) {
+            console.error(e);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!handler) return;
+
+        (async() => {
+            let accounts = await handler.accounts();
+            if (accounts) connect();
+        })()
+    }, [handler])
+
+    async function connect() {
+        if (wallet) return;
+        if (!handler) return toast.error("Please install MetaMask extension.");
+        const wallet_ = await handler.connect();
+
+        if (!wallet_) return toast.error("An error has been occured while connecting your wallet");
+        setWallet(wallet_);
+    }
+
+    return (
+        <button
+            onClick={connect}
+            className="h-12 flex items-center text-md text-[#262626] font-medium p-3 rounded-[4px] bg-teal"
+        >
+            {wallet ? (
+                <>{truncateWalletAddress(wallet)}</>
+            ) : (
+                <>Connect wallet</>
+            )}
+        </button>
+    )
+}

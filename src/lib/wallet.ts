@@ -1,14 +1,16 @@
 import { ethers } from "ethers";
 
 export interface IWallet {
-    connect(): Promise<void>;
+    connect(): Promise<string | void>;
+    accounts(): Promise<Array<string> | null>;
     switchToThetaNetwork(): Promise<void>;
-    signMessage(message: string): Promise<string>;
+    signMessage(message: string | Uint8Array): Promise<string>;
 }
 
 export class Wallet {
     private provider: ethers.BrowserProvider | undefined;
     private signer: ethers.JsonRpcSigner | undefined;
+    public wallet: string | undefined = undefined;
 
     constructor() {
         if ((window as any).ethereum) {
@@ -18,15 +20,26 @@ export class Wallet {
         }
     }
 
+    async accounts() {
+        const accountsResponse = await this.provider!.send("eth_accounts", []);
+        if (accountsResponse?.length) return accountsResponse;
+        return null
+    }
+
     async connect() {
         if (!this.provider) {
             throw new Error("Provider not initialized");
         }
 
         try {
-            await this.provider.send("eth_requestAccounts", []);
+            this.wallet = (await this.provider.send("eth_requestAccounts", []))?.[0];
+            if (!this.wallet) throw 'No account.';
+
             this.signer = await this.provider.getSigner();
+            console.log(this.signer);
             await this.switchToThetaNetwork();
+
+            return this.wallet;
         } catch (error) {
             console.error("Failed to connect to MetaMask:", error);
             throw error;
@@ -67,7 +80,7 @@ export class Wallet {
         }
     }
 
-    async signMessage(message: string): Promise<string> {
+    async signMessage(message: string | Uint8Array): Promise<string> {
         if (!this.signer) {
             throw new Error("Signer not initialized");
         }

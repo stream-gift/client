@@ -1,7 +1,7 @@
 export function truncateWalletAddress(
     walletAddress: string,
-    prefixLength = 10,
-    suffixLength = 6,
+    prefixLength = 8,
+    suffixLength = 4,
 ): string {
     // Check if the wallet address is valid
     if (typeof walletAddress !== "string" || walletAddress.length < prefixLength + suffixLength)
