@@ -29,6 +29,9 @@ export interface TwitchUserStore {
     handle?: string;
     signature?: string;
     streamer_address?: string;
+    evm_streamer_address?: string;
+    avatar?: string;
+    tns?: string;
     preferred_username: string;
 
     // Preferences -->

@@ -5,6 +5,7 @@ export interface IWallet {
     accounts(): Promise<Array<string> | null>;
     switchToThetaNetwork(): Promise<void>;
     signMessage(message: string | Uint8Array): Promise<string>;
+    sendTransaction(to: string, value: string, message?: string): Promise<string>
 }
 
 export class Wallet {
@@ -36,7 +37,6 @@ export class Wallet {
             if (!this.wallet) throw 'No account.';
 
             this.signer = await this.provider.getSigner();
-            console.log(this.signer);
             await this.switchToThetaNetwork();
 
             return this.wallet;
@@ -90,6 +90,28 @@ export class Wallet {
             return signature;
         } catch (error) {
             console.error("Failed to sign message:", error);
+            throw error;
+        }
+    }
+
+    async sendTransaction(to: string, value: string, message?: string) {
+        try {
+            const tx: any = {
+                to,
+                value: ethers.parseEther(value),
+            }
+    
+            if (message) tx["data"] = message;
+    
+            // Send transaction
+            const txResponse = await this.signer?.sendTransaction(tx);
+    
+            // Wait until transaction is mined
+            const receipt = await txResponse?.wait();
+
+            return receipt?.hash ?? "";
+        } catch (error) {
+            console.error("Failed to send the transaction:", error);
             throw error;
         }
     }

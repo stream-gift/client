@@ -12,7 +12,8 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "tealbox": "linear-gradient(100deg, rgba(38, 205, 213, 0.25) 1.73%, rgba(20, 107, 111, 0.25) 100%);",
+        "tealbox": "linear-gradient(100deg, rgba(38, 205, 213, 0.25) 1.73%, rgba(20, 107, 111, 0.25) 100%)",
+        "blueglass": "linear-gradient(100deg, rgba(38, 205, 213, 0.03) 1.73%, rgba(0, 0, 0, 0.03) 100%)"
       },
       colors: {
         "gr": "#ABB2BF",

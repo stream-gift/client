@@ -1,14 +1,17 @@
 'use client'
 
+import TwitchAccountUpdate from '@/action/twitchAccountUpdate';
 import { truncateWalletAddress } from '@/lib/helper';
-import { useWalletStore } from '@/lib/states'
+import { useAccountStore, useWalletStore } from '@/lib/states'
 import { Wallet } from '@/lib/wallet';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 export default function ConnectButton() {
 
+    const user = useAccountStore(s => s.user);
     const wallet = useWalletStore(s => s.wallet);
+    const setUser = useAccountStore(s => s.setUser);
     const handler = useWalletStore(s => s.handler);
     const setWallet = useWalletStore(s => s.setWallet);
     const setHandler = useWalletStore(s => s.setHandler);
@@ -38,6 +41,16 @@ export default function ConnectButton() {
 
         if (!wallet_) return toast.error("An error has been occured while connecting your wallet");
         setWallet(wallet_);
+
+        // Add streamer_address to DB
+        if (user) {
+            TwitchAccountUpdate({ streamer_address: wallet_ })
+                .then((response: any) => {
+                    if (response?.status) {
+                        setUser({ ...user, streamer_address: wallet_ });
+                    }
+                })
+        }
     }
 
     return (
