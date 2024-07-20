@@ -28,7 +28,7 @@ export default function StepOne({
 
     return (
         <>
-            <h1 className="font-light text-5xl mb-8 max-md:max-w-full text-center">
+            <h1 className="font-light text-5xl mb-8 text-center max-md:max-w-full max-md:text-3xl">
                 Send {streamer} a tip on{" "}
                 <a
                     href={`https://twitch.tv/${userInfo.preferred_username}`}
@@ -39,7 +39,7 @@ export default function StepOne({
                 </a>
             </h1>
 
-            <div className="flex flex-col items-center px-2 py-3 rounded-[6px] border-[1px] border-[rgba(38,205,213,0.50)] bg-blueglass w-[460px]">
+            <div className="flex flex-col items-center px-2 py-3 rounded-[6px] border-[1px] border-[rgba(38,205,213,0.50)] bg-blueglass w-[460px] max-md:w-[calc(100%-20px)]">
                 <Pagination maxPages={3} page={1} />
 
                 <p className="text-center mt-6 leading-8">

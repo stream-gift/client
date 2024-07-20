@@ -71,7 +71,7 @@ export default function Dashboard() {
                 </p>
             )}
 
-            <div className='w-[700px] p-4 rounded-2xl border-[1px] border-[rgba(255,255,255,0.20)]'>
+            <div className='w-[700px] p-4 rounded-2xl border-[1px] border-[rgba(255,255,255,0.20)] max-md:w-full'>
                 <p className='text-xl font-light mb-12'>
                     {user?.handle ? (
                         <>Your stream.gift handle has been set! Users can now view your profile on the above link(s).</>
@@ -79,7 +79,7 @@ export default function Dashboard() {
                         <><span className='font-medium'>Set your stream.gift handle.</span> This should be the same name as your livestream. This is permanent, so you cannot change it once you set it!</>
                     )}
                 </p>
-                <div className='flex items-center p-2 rounded-md border-[1px] border-[rgba(255,255,255,0.50)] w-[420px]'>
+                <div className='flex items-center p-2 rounded-md border-[1px] border-[rgba(255,255,255,0.50)] w-[420px] max-md:w-full'>
                     <input
                         value={user?.handle ? ('@' + user.handle) : handle}
                         placeholder={"@" + user.preferred_username}
@@ -98,7 +98,7 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            <div className='w-[700px] p-4 mt-7 rounded-2xl border-[1px] border-[rgba(255,255,255,0.20)]'>
+            <div className='w-[700px] p-4 mt-7 rounded-2xl border-[1px] border-[rgba(255,255,255,0.20)] max-md:w-full'>
                 <p className='text-xl font-light mb-12'>
                     {wallet ? (
                         "Sign a message with your connected address to verify your address. This will be the destination address, and login auth for stream.gift account."

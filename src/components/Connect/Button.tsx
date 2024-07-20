@@ -56,7 +56,7 @@ export default function ConnectButton() {
     return (
         <button
             onClick={connect}
-            className="h-12 flex items-center text-md text-[#262626] font-medium p-3 rounded-[4px] bg-teal"
+            className="h-12 flex items-center text-md text-[#262626] font-medium p-3 rounded-[4px] bg-teal max-md:px-2 max-md:h-8"
         >
             {wallet ? (
                 <>{truncateWalletAddress(wallet)}</>

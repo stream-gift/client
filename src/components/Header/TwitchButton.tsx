@@ -20,19 +20,19 @@ export default function TwitchButton() {
         if (user) return;
         else setLoading(false);
 
-        (async() => {
+        (async () => {
             // Get Twitch account via access-token
             await loginAction();
             setLoading(false);
-            setStatus('fetched');
-        })()
+            setStatus("fetched");
+        })();
     }, []);
 
     async function login_twitch() {
         try {
             if (user || loading) return;
             setLoading(true);
-            setStatus('loading');
+            setStatus("loading");
 
             const user_ = await handleLogin("twitch");
             if (!user_?.thirdparty_user_info?.user_info?.name) return toast.error("Login failed");
@@ -47,11 +47,9 @@ export default function TwitchButton() {
 
             if (wallet) newUser["streamer_address"] = wallet;
 
-            loginAction(user_.uuid, user_.token, newUser?.streamer_address)
-                .catch(() => {
-                    toast.error("Login is failed");
-                });
-
+            loginAction(user_.uuid, user_.token, newUser?.streamer_address).catch(() => {
+                toast.error("Login is failed");
+            });
         } catch (e) {
             console.error(e);
             toast.error("Login failed");
@@ -77,16 +75,31 @@ export default function TwitchButton() {
             onClick={async () => {
                 await login_twitch();
                 setLoading(false);
-                setStatus('fetched');
+                setStatus("fetched");
             }}
-            className="flex items-center gap-2 px-5 h-12 text-[#A821DC] font-medium border-[1px] border-[#A51FDD] bg-black rounded-[26px] transition-colors hover:bg-[#00000020]"
+            className="flex items-center gap-2 px-5 h-12 text-[#A821DC] font-medium border-[1px] border-[#A51FDD] bg-black rounded-[26px] transition-colors hover:bg-[#00000020] max-md:px-2 max-md:h-8"
         >
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 <>
-                    {user ? <>Logged in as {user.preferred_username}</> : <>Twitch Login</>}
-                    <Image src="/twitch.svg" alt="Twitch" height={28} width={28} />
+                    {user ? (
+                        <>
+                            <span className="max-md:hidden">
+                                Logged in as {user.preferred_username}
+                            </span>
+                            <span className="hidden max-md:flex">{user.preferred_username}</span>
+                        </>
+                    ) : (
+                        <>Twitch Login</>
+                    )}
+                    <Image
+                        className="max-md:hidden"
+                        src="/twitch.svg"
+                        alt="Twitch"
+                        height={28}
+                        width={28}
+                    />
                 </>
             )}
         </button>

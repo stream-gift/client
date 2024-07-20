@@ -16,7 +16,7 @@ export default function StepZero({
 }: any) {
     return (
         <>
-            <h1 className="font-light text-5xl mb-5 max-md:max-w-full text-center">
+            <h1 className="font-light text-5xl mb-5 max-lg:max-w-full mx-2 text-center max-lg:text-3xl">
                 Show some love to {streamer} with a tip on{" "}
                 <a
                     href={`https://twitch.tv/${userInfo.preferred_username}`}
@@ -26,12 +26,12 @@ export default function StepZero({
                     Twitch
                 </a>
             </h1>
-            <p className="text-center font-light text-2xl max-w-[40%]">
+            <p className="text-center font-light text-2xl max-w-[40%] max-lg:max-w-full max-md:mx-2 max-lg:text-lg">
                 Send a tip & message to your favorite streamer. Your donation will be read on
                 stream.
             </p>
 
-            <div className="max-w-[600px] w-full flex flex-col mx-auto mt-12">
+            <div className="max-w-[600px] w-full flex flex-col mx-auto mt-12 max-lg:px-2">
                 <label
                     htmlFor="donation-amount"
                     className="text-md text-gr block max-md:text-center"

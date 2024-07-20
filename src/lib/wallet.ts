@@ -101,7 +101,7 @@ export class Wallet {
                 value: ethers.parseEther(value),
             }
     
-            if (message) tx["data"] = message;
+            if (message) tx["data"] = ethers.toUtf8Bytes(message);
     
             // Send transaction
             const txResponse = await this.signer?.sendTransaction(tx);

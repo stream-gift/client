@@ -6,11 +6,14 @@ import { usePathname } from "next/navigation";
 import Button from "../Button";
 import Logout from "@/action/logout";
 import { useAccountStore } from "@/lib/states";
+import { useState } from "react";
 
 export default function Sidebar() {
     const pathname = usePathname();
 
     const user = useAccountStore(s => s.user);
+
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const links = [
         { href: "/dashboard", label: "Home", icon: "home" },
@@ -25,7 +28,10 @@ export default function Sidebar() {
     }
 
     return (
-        <nav className="flex flex-col w-[300px] min-h-[calc(100dvh-160px)] p-4 border-r-[1px] border-r-[#D9D9D950] bg-[rgba(30,30,30,0.60)]">
+        <nav
+            className={`relative flex flex-col w-[300px] min-w-[300px] min-h-[calc(100dvh-160px)] p-4 border-r-[1px] border-r-[#D9D9D950] bg-[rgba(30,30,30,0.60)] transition-all
+            max-llg:fixed ${isExpanded ? 'left-0 min-h-[calc(100dvh-80px)] bg-[rgba(30,30,30,1)]' : 'left-[-300px]'}`}
+        >
             <div className="flex-1 flex flex-col gap-3">
                 {links.map((l, i) => {
                     const isActive = pathname === l.href;
@@ -88,6 +94,13 @@ export default function Sidebar() {
                     </div>
                 )}
             </div>
+
+            <button
+                onClick={() => setIsExpanded(e => !e)}
+                className={`fixed ${isExpanded ? 'left-[300px]' : 'left-0'} bottom-10`}
+            >
+                <Image src="/icons/left-button.svg" alt="Left" height={30} width={30} />
+            </button>
         </nav>
     );
 }

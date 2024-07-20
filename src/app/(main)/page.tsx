@@ -4,6 +4,28 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const placeholders = ["IShowSpeed", "Kai Cenat", "Technoblade", "Pokimane", "XQc"];
+const welcomeTexts = [
+    <>
+        Watch VODs of your favorite
+        <br />
+        streamers on Twitch
+    </>,
+    <>
+        Replay your beloved streamers&apos;
+        <br />
+        VODs on Twitch
+    </>,
+    <>
+        Access archived videos of your
+        <br />
+        favorite streamers on Twitch
+    </>,
+    <>
+        Donate to your favorite streamer
+        <br />
+        on THETA network
+    </>,
+];
 
 export default function Home() {
     const router = useRouter();
@@ -13,6 +35,7 @@ export default function Home() {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
+    const [rand, setRand] = useState<number | null>(null);
 
     useEffect(() => {
         const currentWord = placeholders[currentWordIndex];
@@ -44,13 +67,15 @@ export default function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [placeholder, currentWordIndex, isDeleting, isPaused, placeholders]);
 
+    useEffect(() => {
+        setRand(Math.floor(Math.random() * 4));
+    }, [])
+
     return (
-        <div className="min-h-[calc(100dvh-160px)] flex flex-col items-center justify-center">
-            <h1 className="font-light text-5xl text-center max-w-[70%] max-md:max-w-full max-md:text-center">
-                Watch VODs of your favorite
-                <br />
-                streamers on Twitch
-            </h1>
+        <div className="min-h-[calc(100dvh-160px)] flex flex-col items-center justify-center max-md:px-2">
+            {rand !== null && (
+                <h1 className="font-light text-5xl text-center max-w-[70%] max-md:max-w-full max-md:text-center">{welcomeTexts[rand]}</h1>
+            )}
 
             <input
                 placeholder={placeholder}

@@ -6,7 +6,7 @@ import "../../../components/Header/wallet-button.scss";
 
 export default function GetStarted() {
     return (
-        <div className="min-h-screen p-16">
+        <div className="min-h-screen p-16 max-md:p-4">
             <h1 className="font-bold text-5xl max-w-[70%] mb-6 max-md:max-w-full max-md:text-center">
                 About stream.gift
             </h1>

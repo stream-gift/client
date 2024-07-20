@@ -8,6 +8,7 @@ export default async function GetStreamer(streamer: string): Promise<any> {
                 return resolve(res);
             })
             .catch(e => {
+                console.error(e);
                 return reject({ status: false });
             });
     });
