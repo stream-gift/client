@@ -30,7 +30,7 @@ export default function Sidebar() {
     return (
         <nav
             className={`relative flex flex-col w-[300px] min-w-[300px] min-h-[calc(100dvh-160px)] p-4 border-r-[1px] border-r-[#D9D9D950] bg-[rgba(30,30,30,0.60)] transition-all
-            max-llg:fixed ${isExpanded ? 'left-0 min-h-[calc(100dvh-80px)] bg-[rgba(30,30,30,1)]' : 'left-[-300px]'}`}
+            max-llg:fixed ${isExpanded ? 'max-llg:left-0 max-llg:min-h-[calc(100dvh-80px)] max-llg:bg-[rgba(30,30,30,1)]' : 'max-llg:left-[-300px]'}`}
         >
             <div className="flex-1 flex flex-col gap-3">
                 {links.map((l, i) => {
@@ -97,7 +97,7 @@ export default function Sidebar() {
 
             <button
                 onClick={() => setIsExpanded(e => !e)}
-                className={`fixed ${isExpanded ? 'left-[300px]' : 'left-0'} bottom-10`}
+                className={`hidden max-llg:flex max-llg:fixed ${isExpanded ? 'max-llg:left-[300px]' : 'max-llg:left-0'} max-llg:bottom-10`}
             >
                 <Image src="/icons/left-button.svg" alt="Left" height={30} width={30} />
             </button>

@@ -44,10 +44,10 @@ export default function ConnectButton() {
 
         // Add streamer_address to DB
         if (user) {
-            TwitchAccountUpdate({ streamer_address: wallet_ })
+            TwitchAccountUpdate({ evm_streamer_address: wallet_ })
                 .then((response: any) => {
                     if (response?.status) {
-                        setUser({ ...user, streamer_address: wallet_ });
+                        setUser({ ...user, evm_streamer_address: wallet_ });
                     }
                 })
         }

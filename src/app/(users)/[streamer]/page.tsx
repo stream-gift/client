@@ -48,14 +48,14 @@ export default function Donate({ params }: { params: { streamer: string } }) {
                     </p>
                 </div>
             )}
-            {(userInfo && !userInfo?.streamer_address) && (
+            {(userInfo && !userInfo?.evm_streamer_address) && (
                 <div className="min-h-[calc(100dvh-160px)] flex flex-col items-center justify-center">
                     <p className="font-light text-5xl text-center max-md:max-w-full max-md:text-center max-md:text-3xl p-3">
                         Streamer has a stream.gift account but wallet is not verified yet
                     </p>
                 </div>
             )}
-            {(userInfo || {})?.streamer_address && (
+            {(userInfo || {})?.evm_streamer_address && (
                 <div className="min-h-[calc(100dvh-160px)] w-full pt-16 flex flex-col items-center">
                     {step === 0 && (
                         <StepZero

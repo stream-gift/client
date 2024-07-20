@@ -18,7 +18,7 @@ export default function StepTwo({ streamer, userInfo, amount, message, setStep }
         setLoading(true);
 
         try {
-            const hash = await handler?.sendTransaction(userInfo.streamer_address, amount.toString(), message);
+            const hash = await handler?.sendTransaction(userInfo.evm_streamer_address, amount.toString(), message);
 
             if (!hash) return toast.error("Transaction is cancelled");
 

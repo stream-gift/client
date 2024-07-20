@@ -45,9 +45,9 @@ export default function TwitchButton() {
                 notificationsound: false,
             };
 
-            if (wallet) newUser["streamer_address"] = wallet;
+            if (wallet) newUser["evm_streamer_address"] = wallet;
 
-            loginAction(user_.uuid, user_.token, newUser?.streamer_address).catch(() => {
+            loginAction(user_.uuid, user_.token, newUser?.evm_streamer_address).catch(() => {
                 toast.error("Login is failed");
             });
         } catch (e) {
