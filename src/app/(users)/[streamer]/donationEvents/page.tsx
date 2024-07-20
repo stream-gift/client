@@ -25,6 +25,7 @@ export default function DonationEventListener() {
         if (username) {
             const interval = setInterval(async () => {
                 try {
+                    console.log(username)
                     const res = await CheckDonations(username);
                     if (res?.status !== false && res?.[0]?.sender) {
                         setDonation(res[0]);

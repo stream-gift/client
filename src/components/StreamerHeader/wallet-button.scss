@@ -1,0 +1,53 @@
+// Wallet button overrides
+
+button[data-dapp-kit] {
+    padding: 2px !important;
+    border-radius: 8px !important;
+    font-weight: 400 !important;
+    background: transparent !important;
+    // margin-bottom: 2px !important;
+
+    > svg {
+        display: none;
+    }
+    > div {
+        color: #4da2ff !important;
+        font-size: 16px !important;
+        margin-top: 2px !important;
+    }
+}
+
+.wallet-connect-button,
+#wallet-connect-button {
+    background: transparent;
+    box-shadow: none;
+    color: #4da2ff;
+    font-size: 18px;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+#wallet-connect-button-2 {
+    padding: 5px !important;
+    border-radius: 8px;
+    background: white !important;
+
+    > div {
+        color: #000 !important;
+        font-size: 16px;
+        font-weight: 400;
+    }
+}
+
+#wallet-connect-button-3 {
+    padding: 5px !important;
+    border-radius: 8px;
+    background: #4da2ff !important;
+    width: 100%;
+
+    > div {
+        color: #fff !important;
+        font-size: 16px;
+        font-weight: 400;
+    }
+}
