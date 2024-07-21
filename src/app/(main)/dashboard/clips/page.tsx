@@ -28,7 +28,7 @@ export default function Clips() {
                 .sort(
                     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
                 )
-                .filter(vod => vod.status !== "failed")
+                // .filter(vod => vod.status !== "failed")
                 .map(vod => ({
                     ...vod,
                     thumb: vod.thumb || "/thumbs/placeholder.jpg",
@@ -99,7 +99,7 @@ export default function Clips() {
                                         <div className="absolute z-50 w-full h-full top-0 left-0 bg-[rgba(0,0,0,0.80)] rounded-md flex flex-col items-center justify-center">
                                             <p className="text-white font-medium">Uploading...</p>
                                             <small className="text-white mt-1">
-                                                {vod.progress}%
+                                                {vod.progress || '0'}%
                                             </small>
                                         </div>
                                     )}

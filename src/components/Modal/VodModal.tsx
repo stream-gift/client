@@ -49,6 +49,7 @@ export default function VodModal({
             setError("Please enter a valid URL");
             return;
         }
+        
         try {
             const hash = await CreateNewVod(url, name, `twitch:${user.preferred_username}`);
         } catch (error) {
