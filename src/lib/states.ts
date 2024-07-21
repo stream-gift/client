@@ -12,7 +12,7 @@ interface ModalStore {
 }
 
 export const useModalStore = create<ModalStore>(set => ({
-    modal: "create-vod", // Modal Key
+    modal: "", // Modal Key
     options: {},
     loading: false,
     setModal: (type, options = {}) =>
