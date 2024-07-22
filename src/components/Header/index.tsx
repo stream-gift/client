@@ -26,8 +26,8 @@ export default function Header() {
                 <Image
                     src="/logo.svg"
                     alt="stream.gift Logo"
-                    height={20}
-                    width={20}
+                    height={30}
+                    width={30}
                     className="min-w-4"
                 />
                 <h1 className="text-lg font-bold max-sm:hidden">stream.gift</h1>

@@ -5,9 +5,10 @@ import { useAccountStore, useWalletStore } from '@/lib/states'
 import VerifySignAddress from '@/components/VerifySignAddress';
 import ConnectButton from '@/components/Connect/Button';
 import TwitchButton from '@/components/Header/TwitchButton';
-import TwitchLogin from '@/action/twitchLogin';
-import TwitchAccountUpdate from '@/action/twitchAccountUpdate';
+import AccountUpdate from '@/action/accountUpdate';
 import toast from 'react-hot-toast';
+import ThetaButton from '@/components/Header/ThetaButton';
+import KickButton from '@/components/Header/KickButton';
 
 export default function Dashboard() {
 
@@ -32,7 +33,7 @@ export default function Dashboard() {
         let handle_ = handle;
         if (handle[0] === '@') handle_ = handle.slice(1, handle.length);
 
-        TwitchAccountUpdate({ handle: handle_ })
+        AccountUpdate({ handle: handle_ })
             .then(() => {
                 toast.success("Handle is successfully set");
                 setUser({ ...user, handle: handle_ });
@@ -42,14 +43,18 @@ export default function Dashboard() {
             })
     }
 
-    if (status === 'loading') return <></>;
+    // if (status === 'loading') return <></>;
 
     if (!loggedIn) return (
         <div>
             <h1 className='text-5xl font-medium mb-10'>Dashboard</h1>
-
             <p className='text-2xl font-light mb-8 w-[80%]'>In order to accept donations, we need to know what platform you are streaming on.</p>
-            <TwitchButton />
+
+            <div className="flex items-center gap-6">
+                <TwitchButton />
+                <ThetaButton />
+                <KickButton />
+            </div>
         </div>
     )
 

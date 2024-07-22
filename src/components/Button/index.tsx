@@ -12,6 +12,7 @@ export default function Button({
     custom,
     className,
     children,
+    disabled = false,
 }: {
     type?: string;
     href?: string;
@@ -19,6 +20,7 @@ export default function Button({
     custom?: Object;
     className?: string;
     children: React.ReactNode;
+    disabled?: boolean;
 }) {
     // Link
     if (href) {
@@ -39,6 +41,7 @@ export default function Button({
             className={`button ${type} ${className ? className : ""}`}
             style={custom ? custom : undefined}
             onClick={click}
+            disabled={disabled}
         >
             {children}
         </button>

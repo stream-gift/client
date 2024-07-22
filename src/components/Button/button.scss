@@ -13,6 +13,17 @@
         }
     }
 
+    &.tealbox {
+        background: linear-gradient(100deg, rgba(38, 205, 213, 1) 1.73%, rgba(20, 107, 111, 1) 100%);
+        color: var(--light);
+        padding: 5px 20px;
+        border-radius: 7px;
+
+        &:disabled {
+            background: linear-gradient(100deg, rgba(38, 205, 213, .5) 1.73%, rgba(20, 107, 111, .5) 100%);
+        }
+    }
+
     &.light {
         background: transparent;
         color: var(--light);
@@ -26,5 +37,9 @@
         background: transparent;
         padding: 0;
         color: var(--light);
+    }
+
+    &:disabled {
+        cursor: default;
     }
 }

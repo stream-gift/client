@@ -57,7 +57,7 @@ export default function DonationEventListener() {
     if (!user || user?.preferred_username !== username) return <p>Please login...</p>;
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-12">
+        <main className="donation-event flex min-h-screen flex-col items-center justify-between p-12">
             {user?.notificationsound && !soundEnabled && (
                 <button
                     onClick={() => {

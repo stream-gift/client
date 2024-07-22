@@ -1,14 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import toast from "react-hot-toast";
+import { IUser, useAccountStore, useWalletStore } from "@/lib/states";
 import { useEffect, useState } from "react";
-import { type IUser, useAccountStore, useWalletStore } from "@/lib/states";
-import TwitchLogin from "@/action/twitchLogin";
-import { handleLogin } from "@/lib/auth";
-import "./wallet-button.scss";
+import toast from "react-hot-toast";
+import Image from "next/image";
+import { truncateWalletAddress } from '@/lib/helper';
+import ThetaLogin from '@/action/thetaLogin';
 
-export default function TwitchButton() {
+export default function ThetaButton() {
     const user = useAccountStore(state => state.user);
     const wallet = useWalletStore(state => state.wallet);
     const setUser = useAccountStore(state => state.setUser);
@@ -17,41 +16,37 @@ export default function TwitchButton() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (user) return setStatus("fetched");
+        if (user || !wallet) return setStatus("fetched");
         else setLoading(false);
 
         (async () => {
-            // Get Twitch account via access-token
-            try {
-                await loginAction();
-            } catch (e) {
-                console.log(e);
-            }
-            setLoading(false);
-            setStatus("fetched");
+            // Get Theta account via access-token
+            await loginAction();
         })();
-    }, []);
+    }, [wallet]);
 
-    async function login_twitch() {
+    useEffect(() => {
+        if (user) setStatus("fetched");
+    }, [user])
+
+    async function login_theta() {
         try {
             if (user || loading) return;
+            if (!wallet) return toast.error("You must connect your wallet");
             setLoading(true);
 
-            const user_ = await handleLogin("twitch");
-            if (!user_?.thirdparty_user_info?.user_info?.name) return toast.error("Login failed");
-
             const newUser: IUser = {
-                preferred_username: user_.thirdparty_user_info.user_info.name,
+                preferred_username: truncateWalletAddress(wallet),
 
                 // Temporarily set as false
                 textToSpeech: false,
                 notificationsound: false,
-                logged_via: "twitch"
+                logged_via: "theta",
             };
 
-            if (wallet) newUser["evm_streamer_address"] = wallet;
+            newUser["evm_streamer_address"] = wallet;
 
-            loginAction(user_.uuid, user_.token, newUser?.evm_streamer_address).catch((e) => {
+            loginAction(wallet).catch((e) => {
                 console.log(e);
                 if (e?.error_message) toast.error(e.error_message);
                 else toast.error("Login is failed");
@@ -62,10 +57,20 @@ export default function TwitchButton() {
         }
     }
 
-    function loginAction(uuid?: string, token?: string, wallet?: string): Promise<void> {
+    function loginAction(wallet_?: string): Promise<void> {
+        setLoading(true);
         return new Promise((resolve, reject) => {
-            TwitchLogin(uuid, token, wallet)
+            if (!wallet_ && !wallet) {
+                setLoading(false);
+                setStatus("fetched");
+                return reject()
+            };
+
+            ThetaLogin(wallet_)
                 .then((response: any) => {
+                    setLoading(false);
+                    setStatus("fetched");
+
                     if (response?.success !== false) {
                         setUser(response);
                         return resolve();
@@ -78,16 +83,12 @@ export default function TwitchButton() {
         });
     }
 
-    if (user && user.logged_via !== "twitch") return <></>
-
     return (
         <button
             onClick={async () => {
-                await login_twitch();
-                setLoading(false);
-                setStatus("fetched");
+                await login_theta();
             }}
-            className="flex items-center gap-2 px-5 h-12 text-[#A821DC] font-medium border-[1px] border-[#A51FDD] bg-black rounded-[26px] transition-colors hover:bg-[#00000020] max-md:px-2 max-md:h-8"
+            className="flex items-center gap-2 px-5 h-12 text-white font-bold border-[1px] border-teal bg-black rounded-[26px] transition-colors hover:bg-[#00000020] max-md:px-2 max-md:h-8"
         >
             {loading ? (
                 <p>Loading...</p>
@@ -101,12 +102,12 @@ export default function TwitchButton() {
                             <span className="hidden max-md:flex">{user.preferred_username}</span>
                         </>
                     ) : (
-                        <>LOGIN WITH TWITCH</>
+                        <>THETA EDGECLOUD</>
                     )}
                     <Image
                         className="max-md:hidden"
-                        src="/twitch.svg"
-                        alt="Twitch"
+                        src="/edgecloud.svg"
+                        alt="Edgecloud"
                         height={28}
                         width={28}
                     />

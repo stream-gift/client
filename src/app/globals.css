@@ -19,6 +19,10 @@ body {
     color: #fff;
 }
 
+body:has(.donation-event) {
+    background: black;
+}
+
 h1,
 h2,
 h3,

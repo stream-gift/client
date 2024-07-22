@@ -25,7 +25,7 @@ export const useModalStore = create<ModalStore>(set => ({
 
 /* Account States */
 // Twitch Account
-export interface TwitchUserStore {
+export interface IUser {
     handle?: string;
     signature?: string;
     streamer_address?: string;
@@ -33,20 +33,21 @@ export interface TwitchUserStore {
     avatar?: string;
     tns?: string;
     preferred_username: string;
+    logged_via: "theta" | "twitch" | "kick",
 
     // Preferences -->
-    textToSpeech: Boolean;
-    notificationsound: Boolean;
+    textToSpeech: boolean;
+    notificationsound: boolean;
 }
 
-interface TwitchStore {
+interface UserStore {
     status: 'loading' | 'fetched';
-    user: TwitchUserStore | null;
-    setUser: (user: TwitchUserStore) => void;
+    user: IUser | null;
+    setUser: (user: IUser) => void;
     setStatus: (status: 'loading' | 'fetched') => void;
 }
 
-export const useAccountStore = create<TwitchStore>(set => ({
+export const useAccountStore = create<UserStore>(set => ({
     status: 'loading',
     user: null,
     setUser: user => set(() => ({ user })),

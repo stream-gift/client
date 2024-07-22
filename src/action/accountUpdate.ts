@@ -1,14 +1,14 @@
 "use server";
 
-import { TwitchUserStore } from "@/lib/states";
+import { type IUser } from "@/lib/states";
 import { cookies } from "next/headers";
 
 type AtLeastOneTwitchUserStoreKey = {
-    [K in keyof TwitchUserStore]: { [P in K]: TwitchUserStore[P] };
-}[keyof TwitchUserStore] &
-    Partial<TwitchUserStore>;
+    [K in keyof IUser]: { [P in K]: IUser[P] };
+}[keyof IUser] &
+    Partial<IUser>;
 
-export default async function TwitchAccountUpdate(update: AtLeastOneTwitchUserStoreKey) {
+export default async function AccountUpdate(update: AtLeastOneTwitchUserStoreKey) {
     return new Promise(async (resolve, reject) => {
         let token: string | undefined = cookies().get("access-token")?.value;
 

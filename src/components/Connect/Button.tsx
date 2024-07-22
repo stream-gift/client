@@ -1,14 +1,13 @@
-'use client'
+"use client";
 
-import TwitchAccountUpdate from '@/action/twitchAccountUpdate';
-import { truncateWalletAddress } from '@/lib/helper';
-import { useAccountStore, useWalletStore } from '@/lib/states'
-import { Wallet } from '@/lib/wallet';
-import { useEffect } from 'react';
-import toast from 'react-hot-toast';
+import AccountUpdate from "@/action/accountUpdate";
+import { truncateWalletAddress } from "@/lib/helper";
+import { useAccountStore, useWalletStore } from "@/lib/states";
+import { Wallet } from "@/lib/wallet";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export default function ConnectButton() {
-
     const user = useAccountStore(s => s.user);
     const wallet = useWalletStore(s => s.wallet);
     const setUser = useAccountStore(s => s.setUser);
@@ -20,7 +19,7 @@ export default function ConnectButton() {
         try {
             const walletHandler = new Wallet();
             setHandler(walletHandler);
-        } catch(e) {
+        } catch (e) {
             console.error(e);
         }
     }, []);
@@ -28,11 +27,22 @@ export default function ConnectButton() {
     useEffect(() => {
         if (!handler) return;
 
-        (async() => {
-            let accounts = await handler.accounts();
-            if (accounts) connect();
-        })()
-    }, [handler])
+        const finalize = () => {
+            clearInterval(interval);
+        };
+
+        const interval = setInterval(async () => {
+            const accounts = await handler.accounts();
+
+            if (accounts) {
+                let wallet_ = await connect();
+                if (!wallet_) return finalize();
+                setWallet(wallet_);
+
+                finalize();
+            } else finalize();
+        }, 500);
+    }, [handler]);
 
     async function connect() {
         if (wallet) return;
@@ -44,12 +54,11 @@ export default function ConnectButton() {
 
         // Add streamer_address to DB
         if (user) {
-            TwitchAccountUpdate({ evm_streamer_address: wallet_ })
-                .then((response: any) => {
-                    if (response?.status) {
-                        setUser({ ...user, evm_streamer_address: wallet_ });
-                    }
-                })
+            AccountUpdate({ evm_streamer_address: wallet_ }).then((response: any) => {
+                if (response?.status) {
+                    setUser({ ...user, evm_streamer_address: wallet_ });
+                }
+            });
         }
     }
 
@@ -58,11 +67,7 @@ export default function ConnectButton() {
             onClick={connect}
             className="h-12 flex items-center text-md text-[#262626] font-medium p-3 rounded-[4px] bg-teal max-md:px-2 max-md:h-8"
         >
-            {wallet ? (
-                <>{truncateWalletAddress(wallet)}</>
-            ) : (
-                <>Connect wallet</>
-            )}
+            {wallet ? <>{truncateWalletAddress(wallet)}</> : <>Connect wallet</>}
         </button>
-    )
+    );
 }

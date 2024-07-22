@@ -3,7 +3,7 @@
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { TwitchUserStore, useAccountStore, useWalletStore } from "@/lib/states";
+import { type IUser, useAccountStore, useWalletStore } from "@/lib/states";
 import TwitchLogin from "@/action/twitchLogin";
 import { handleLogin } from "@/lib/auth";
 import "./wallet-button.scss";
@@ -17,7 +17,7 @@ export default function TwitchButton() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (user) return;
+        if (user) return setStatus("fetched");
         else setLoading(false);
 
         (async () => {
@@ -32,23 +32,25 @@ export default function TwitchButton() {
         try {
             if (user || loading) return;
             setLoading(true);
-            setStatus("loading");
 
             const user_ = await handleLogin("twitch");
             if (!user_?.thirdparty_user_info?.user_info?.name) return toast.error("Login failed");
 
-            const newUser: TwitchUserStore = {
+            const newUser: IUser = {
                 preferred_username: user_.thirdparty_user_info.user_info.name,
 
                 // Temporarily set as false
                 textToSpeech: false,
                 notificationsound: false,
+                logged_via: "twitch"
             };
 
             if (wallet) newUser["evm_streamer_address"] = wallet;
 
-            loginAction(user_.uuid, user_.token, newUser?.evm_streamer_address).catch(() => {
-                toast.error("Login is failed");
+            loginAction(user_.uuid, user_.token).catch((e) => {
+                console.log(e);
+                if (e?.error_message) toast.error(e.error_message);
+                else toast.error("Login is failed");
             });
         } catch (e) {
             console.error(e);
@@ -56,19 +58,23 @@ export default function TwitchButton() {
         }
     }
 
-    function loginAction(uuid?: string, token?: string, wallet?: string): Promise<void> {
+    function loginAction(uuid?: string, token?: string): Promise<void> {
         return new Promise((resolve, reject) => {
-            TwitchLogin(uuid, token, wallet)
+            TwitchLogin(uuid, token)
                 .then((response: any) => {
-                    setUser(response);
-                    resolve();
+                    if (response?.success !== false) {
+                        setUser(response);
+                        return resolve();
+                    }
+                    if (response?.error_message) {
+                        return reject(response);
+                    }
+                    return reject();
                 })
-                .catch(response => {
-                    console.error(response);
-                    reject();
-                });
         });
     }
+
+    if (user && user.logged_via !== "twitch") return <></>
 
     return (
         <button
@@ -91,7 +97,7 @@ export default function TwitchButton() {
                             <span className="hidden max-md:flex">{user.preferred_username}</span>
                         </>
                     ) : (
-                        <>Twitch Login</>
+                        <>LOGIN WITH TWITCH</>
                     )}
                     <Image
                         className="max-md:hidden"
