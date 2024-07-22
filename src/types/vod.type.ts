@@ -1,4 +1,4 @@
-export interface Vod {
+export interface IVod {
     id: number;
     userid: string;
     src: string;

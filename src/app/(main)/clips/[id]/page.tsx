@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Vod } from "@/types/vod.type";
 import { useEffect, useState } from "react";
 import { useTimeAgo } from "next-timeago";
 import { useParams, useRouter } from "next/navigation";
 import GetVodStatus from "@/action/getVodStatus";
 import Link from "next/link";
+import { IVod } from "@/types/vod.type";
 
 export default function Clips() {
     const { TimeAgo } = useTimeAgo();
@@ -15,7 +15,7 @@ export default function Clips() {
     const params = useParams();
 
     const [initialLoading, setInitialLoading] = useState(true);
-    const [vod, setVod] = useState<Vod>();
+    const [vod, setVod] = useState<IVod>();
 
     useEffect(() => {
         const getVod = async () => {
@@ -23,8 +23,6 @@ export default function Clips() {
                 const userVod = await GetVodStatus(params.id as string);
                 setVod(userVod);
                 setInitialLoading(false);
-
-                console.log(userVod);
             } catch {
                 router.push("/dashboard/clips");
             }
@@ -34,11 +32,10 @@ export default function Clips() {
     }, []);
 
     return (
-        <div className="w-full h-full">
-            <Link href="/dashboard/clips" className="text-teal transition-all underline">
+        <div className="w-full h-full sm:p-4 p-8">
+            {/* <Link href="/dashboard/clips" className="text-teal transition-all underline">
                 Back to Clips/VODs
-            </Link>
-
+            </Link> */}
             {vod && <>
                 <h1 className="text-5xl font-medium mt-6 mb-3">{vod.name}</h1>
                 <p className="text-gray-400">

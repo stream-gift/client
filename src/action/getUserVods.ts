@@ -1,9 +1,9 @@
 "use server";
 
-import { Vod } from "@/types/vod.type";
+import { IVod } from "@/types/vod.type";
 import { cookies } from "next/headers";
 
-export default async function GetUserVods(userId: string): Promise<Vod[]> {
+export default async function GetUserVods(userId: string): Promise<IVod[]> {
     const _cookies = cookies();
 
     return new Promise((resolve, reject) => { 
