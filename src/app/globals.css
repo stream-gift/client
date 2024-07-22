@@ -12,7 +12,7 @@ html {
 
 body {
     overflow-x: hidden;
-    background: url('../../public/background.png');
+    background: #000;
     background-size: 33%;
     margin: 0;
     padding: 0;

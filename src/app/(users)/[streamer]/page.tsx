@@ -109,7 +109,7 @@ export default function Donate({ params }: { params: { streamer: string } }) {
 
             <div className="mt-8 w-full max-w-[80%] mx-auto mb-6">
                 {vods.length > 0 && (
-                    <h1 className="text-2xl font-medium mb-8">{streamer}&apos;s VODs</h1>
+                    <h1 className="text-2xl font-medium mb-8">{streamer}&apos;s past livestreams (VODs)</h1>
                 )}
                 <div className="grid grid-cols-4 gap-4">
                     {vods.length > 0 && vods.map(vod => <Vod key={vod.hash} vod={vod} />)}
