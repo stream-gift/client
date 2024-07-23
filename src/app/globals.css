@@ -12,16 +12,19 @@ html {
 
 body {
     overflow-x: hidden;
+    /*
     background: url('../../public/background.png');
     background-size: 33%;
+    */
+    background: #000;
     margin: 0;
     padding: 0;
     color: #fff;
 }
 
-body:has(.donation-event) {
+/* body:has(.donation-event) {
     background: black;
-}
+} */
 
 h1,
 h2,

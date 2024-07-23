@@ -25,7 +25,7 @@ export default function DonationEventListener() {
         if (username) {
             const interval = setInterval(async () => {
                 try {
-                    console.log(username)
+                    console.log(username);
                     const res = await CheckDonations(username);
                     if (res?.status !== false && res?.[0]?.sender) {
                         setDonation(res[0]);
@@ -54,7 +54,12 @@ export default function DonationEventListener() {
         if (soundEnabled && donation !== false) (audio as () => void)();
     }, [soundEnabled, donation, toggleAudio]);
 
-    if (!user || user?.preferred_username !== username) return <p>Please login...</p>;
+    if (!user || user?.preferred_username !== username)
+        return (
+            <main className="donation-event">
+                <p>Please login...</p>
+            </main>
+        );
 
     return (
         <main className="donation-event flex min-h-screen flex-col items-center justify-between p-12">
