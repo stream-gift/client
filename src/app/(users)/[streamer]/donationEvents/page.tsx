@@ -73,7 +73,7 @@ export default function DonationEventListener() {
             <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex"></div>
             {donation && (
                 <Donation
-                    sender={truncateWalletAddress(donation.sender)}
+                    sender={donation.sender_tns ?? truncateWalletAddress(donation.sender, 6, 6)}
                     amount={donation.amount}
                     message={donation.message}
                 />

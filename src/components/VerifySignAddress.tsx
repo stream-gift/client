@@ -29,8 +29,6 @@ export default function VerifySignAddress({ address }: { address: string | null 
 
     if (!address) return <></>;
 
-    if (user?.signature) return <p className="text-tealtext font-medium text-lg">Already Signed</p>;
-
     return (
         <button
             onClick={signMessage}

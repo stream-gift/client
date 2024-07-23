@@ -2,6 +2,7 @@
 
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Modals from '../Modal/Modals';
 
 export default function Wrapper({
     children,
@@ -13,6 +14,7 @@ export default function Wrapper({
     return (
         <>
             <Toaster />
+            <Modals />
             <QueryClientProvider client={queryClient}>
                 {children}
             </QueryClientProvider>

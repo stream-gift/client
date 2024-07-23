@@ -1,14 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { useAccountStore, useWalletStore } from '@/lib/states'
-import VerifySignAddress from '@/components/VerifySignAddress';
+import { useAccountStore, useModalStore, useWalletStore } from '@/lib/states'
 import ConnectButton from '@/components/Connect/Button';
 import TwitchButton from '@/components/Header/TwitchButton';
 import AccountUpdate from '@/action/accountUpdate';
 import toast from 'react-hot-toast';
 import ThetaButton from '@/components/Header/ThetaButton';
 import KickButton from '@/components/Header/KickButton';
+import SignatureModal from '@/components/SignatureModal';
 
 export default function Dashboard() {
 
@@ -16,6 +16,7 @@ export default function Dashboard() {
     const wallet = useWalletStore(s => s.wallet);
     const status = useAccountStore(s => s.status);
     const setUser = useAccountStore(s => s.setUser);
+    const setModal = useModalStore(s => s.setModal);
 
     const [loggedIn, setLoggedIn] = useState(false);
 
@@ -113,7 +114,16 @@ export default function Dashboard() {
                 </p>
 
                 {wallet ? (
-                    <VerifySignAddress address={wallet} />
+                    <button
+                        onClick={() => {
+                            setModal("custom", {
+                                content: <SignatureModal address={wallet} signature={user?.signature} />
+                            })
+                        }}
+                        className="px-6 py-2 border-[1px] border-teal rounded-md bg-tealbox text-white text-lg"
+                    >
+                        Sign message
+                    </button>
                 ) : (
                     <ConnectButton />
                 )}

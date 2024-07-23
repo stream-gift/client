@@ -27,9 +27,9 @@ export const useModalStore = create<ModalStore>(set => ({
 // Twitch Account
 export interface IUser {
     handle?: string;
-    signature?: string;
+    signature?: string | null;
     streamer_address?: string;
-    evm_streamer_address?: string;
+    evm_streamer_address?: string | null;
     avatar?: string;
     tns?: string;
     preferred_username: string;

@@ -24,7 +24,7 @@ export default function Tips() {
 
         AccountUpdate({ textToSpeech, notificationsound })
             .then(() => {
-                toast.success("Handle is successfully set");
+                toast.success("Settings are saved");
                 setUser({ ...user, textToSpeech, notificationsound });
             })
             .catch(response => {
