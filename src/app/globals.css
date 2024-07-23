@@ -13,8 +13,6 @@ html {
 body {
     overflow-x: hidden;
     /*
-    background: url('../../public/background.png');
-    background-size: 33%;
     */
     background: #000;
     margin: 0;
