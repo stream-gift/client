@@ -97,7 +97,10 @@ export default function TwitchButton() {
                             <span className="hidden max-md:flex">{user.preferred_username}</span>
                         </>
                     ) : (
-                        <>LOGIN WITH TWITCH</>
+                        <>
+                            <span className="max-md:hidden">LOGIN WITH TWITCH</span>
+                            <span className="hidden max-md:flex">TWITCH</span>
+                        </>
                     )}
                     <Image
                         className="max-md:hidden"

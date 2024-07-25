@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const placeholders = ["IShowSpeed", "Kai Cenat", "Technoblade", "Pokimane", "XQc"];
 const welcomeTexts = [
@@ -69,24 +71,124 @@ export default function Home() {
 
     useEffect(() => {
         setRand(Math.floor(Math.random() * 4));
-    }, [])
+    }, []);
 
     return (
-        <div className="min-h-[calc(100dvh-160px)] flex flex-col items-center justify-center max-md:px-2">
-            {rand !== null && (
-                <h1 className="font-light text-5xl text-center max-w-[70%] max-md:max-w-full max-md:text-center">{welcomeTexts[rand]}</h1>
-            )}
+        <>
+            <div className="min-h-[calc(100dvh-250px)] flex flex-col items-center justify-center max-md:px-2">
+                {rand !== null && (
+                    <h1 className="font-light text-5xl text-center max-w-[70%] max-lg:text-3xl max-md:max-w-full max-md:text-center">
+                        {welcomeTexts[rand]}
+                    </h1>
+                )}
 
-            <input
-                placeholder={placeholder}
-                onChange={e => setSearch(e.target.value)}
-                className="w-full max-w-[800px] text-tealtext block px-3 py-2 border-[1px] border-teal bg-tealbox text-3xl mt-7 rounded-md placeholder:opacity-50 placeholder:text-tealtext"
-                onKeyDown={e => {
-                    if (e.key === "Enter") {
-                        router.push(`/${search}`);
-                    }
-                }}
-            />
-        </div>
+                <input
+                    placeholder={placeholder}
+                    onChange={e => setSearch(e.target.value)}
+                    className="w-full max-w-[800px] text-tealtext block px-3 py-2 border-[1px] border-teal bg-tealbox text-3xl mt-7 rounded-md placeholder:opacity-50 placeholder:text-tealtext"
+                    onKeyDown={e => {
+                        if (e.key === "Enter") {
+                            router.push(`/${search}`);
+                        }
+                    }}
+                />
+            </div>
+            <section className="flex justify-center gap-[100px] w-3/5 mx-auto max-3xl:gap-4 max-3xl:w-4/5 max-lg:w-full max-lg:px-12 max-md:px-4">
+                <div className="w-3/5 flex flex-col justify-between max-lg:w-full">
+                    <div>
+                        <div className="flex items-center gap-4">
+                            <h2 className="font-fira text-3xl text-white font-medium">
+                                <span className="text-teal">#</span>
+                                about-stream.gift
+                            </h2>
+                            <div className="flex-1 h-[1px] bg-teal"></div>
+                        </div>
+                        <p className="font-fira text-lg text-gr mt-6">
+                            Donate to your favorite streamers using cryptocurrency.
+                        </p>
+                    </div>
+
+                    <Link href="/about" className="border-[1px] border-teal w-fit py-2 px-4 max-lg:mt-10">
+                        Read more →
+                    </Link>
+                </div>
+                <div className="w-2/5 h-[430px] max-w-[500px] relative max-lg:hidden">
+                    <Image
+                        src="/vectors/dots-square.svg"
+                        alt="Dots"
+                        height={84}
+                        width={84}
+                        className="absolute left-8 top-8"
+                    />
+                    <Image
+                        src="/vectors/triangles.svg"
+                        alt="Dots"
+                        height={154}
+                        width={144}
+                        className="absolute right-0 top-16"
+                    />
+                    <Image
+                        src="/vectors/dots.svg"
+                        alt="Dots"
+                        height={56}
+                        width={104}
+                        className="absolute right-4 bottom-28"
+                    />
+                    <Image
+                        src="/vectors/prize.svg"
+                        alt="Dots"
+                        height={133}
+                        width={133}
+                        className="absolute left-8 bottom-12"
+                    />
+                    <div className="absolute w-[70%] h-[1px] bg-teal mx-auto left-0 right-0 bottom-0"></div>
+                </div>
+            </section>
+            <section className="flex justify-center gap-[100px] w-3/5 mx-auto mt-40 max-3xl:gap-4 max-3xl:w-4/5 max-lg:w-full max-lg:px-12 max-md:px-4">
+                <div className="w-3/5 flex flex-col justify-between max-lg:w-full">
+                    <div>
+                        <div className="flex items-center gap-4">
+                            <h2 className="font-fira text-3xl text-white font-medium">
+                                <span className="text-teal">#</span>
+                                stream.gift
+                            </h2>
+                            <div className="flex-1 h-[1px] bg-teal"></div>
+                        </div>
+                        <p className="font-fira text-lg text-gr mt-6">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                            occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                            mollit anim id est laborum.
+                        </p>
+                    </div>
+                    <Link href="/about" className="border-[1px] border-teal w-fit py-2 px-4 max-lg:mt-10">
+                        Read more →
+                    </Link>
+                </div>
+                <div className="w-2/5 h-[430px] max-w-[500px] relative max-lg:hidden">
+                    <Image
+                        src="/vectors/dots-square.svg"
+                        alt="Dots"
+                        height={84}
+                        width={84}
+                        className="absolute left-8 top-8"
+                    />
+                    <Image
+                        src="/vectors/dots.svg"
+                        alt="Dots"
+                        height={56}
+                        width={104}
+                        className="absolute right-4 bottom-24"
+                    />
+                    <div className="absolute w-[70%] h-[1px] bg-teal mx-auto left-0 right-0 bottom-0"></div>
+                </div>
+            </section>
+            <footer className="relative w-3/5 mx-auto mt-[280px] font-fira text-lg text-gr max-lg:w-full max-lg:px-12 max-md:px-4">
+                © Copyright 2024. Made by Nick Mura & TridentVentures.org
+            </footer>
+        </>
     );
 }

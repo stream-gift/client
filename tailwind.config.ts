@@ -22,6 +22,9 @@ const config: Config = {
         "blue": "#4DA2FF",
         "teal": "#26CDD5",
         "tealtext": "#25C8CF"
+      },
+      fontFamily: {
+        "fira": "var(--fira)"
       }
     },
     screens: {
@@ -31,6 +34,7 @@ const config: Config = {
       'llg': '1150px',
       'xl': '1280px',
       '2xl': '1400px',
+      '3xl': '1600px',
     }
   },
   plugins: [],

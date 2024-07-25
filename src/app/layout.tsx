@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Ubuntu } from "next/font/google";
+import { Fira_Code, Ubuntu } from "next/font/google";
 
 import "./globals.css";
 
 const ubuntu = Ubuntu({ weight: ["300", "400", "500", "700"], variable: "--ubuntu", subsets: ["latin"] });
+const firaCode = Fira_Code({ variable: "--fira", subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "stream.gift - Twitch donates on THETA network",
@@ -17,7 +18,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={ubuntu.className}>{children}</body>
+            <body className={`${ubuntu.className} ${firaCode.variable}`}>{children}</body>
         </html>
     );
 }
