@@ -6,6 +6,7 @@
 
 import { useModalStore } from "@/lib/states";
 import Modal from ".";
+import VodModal from "./VodModal";
 
 export default function Modals() {
     const options: any = useModalStore(state => state.options);
@@ -16,6 +17,7 @@ export default function Modals() {
         <>
             {/* Custom Modal */}
             {selectedModal === "custom" && <Modal set={setModal}>{options.content}</Modal>}
+            {selectedModal === "vod-modal" && <VodModal set={setModal} />}
         </>
     );
 }

@@ -11,7 +11,7 @@ export default function DashboardLayout({
             className="flex min-h-[calc(100dvh-80px)]"
         >
             <Sidebar />
-            <div className="p-16 max-lg:p-4">{children}</div>
+            <div className="p-16 max-lg:p-4 w-full">{children}</div>
         </div>
     )
 }
