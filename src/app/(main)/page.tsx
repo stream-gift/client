@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -99,12 +100,13 @@ export default function Home() {
                         <div className="flex items-center gap-4">
                             <h2 className="font-fira text-3xl text-white font-medium">
                                 <span className="text-teal">#</span>
-                                about-stream.gift
+                                about
                             </h2>
                             <div className="flex-1 h-[1px] bg-teal"></div>
                         </div>
                         <p className="font-fira text-lg text-gr mt-6">
-                            Donate to your favorite streamers using cryptocurrency.
+                            stream.gift is a crowdfunding tool & streaming platform that allows you to support your favorite streamers via cryptocurrency. Viewers can  donate/tip to streams, have their name service 
+                            be read on chat, or save your own livestreams as a streamer permanently via Theta Edge Cloud.
                         </p>
                     </div>
 
@@ -150,18 +152,12 @@ export default function Home() {
                         <div className="flex items-center gap-4">
                             <h2 className="font-fira text-3xl text-white font-medium">
                                 <span className="text-teal">#</span>
-                                stream.gift
+                                vod-saver   
                             </h2>
                             <div className="flex-1 h-[1px] bg-teal"></div>
                         </div>
                         <p className="font-fira text-lg text-gr mt-6">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                            occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                            mollit anim id est laborum.
+                            Livestreamers on Twitch/Kick can now save / preserve their past livestreams on stream.gift permanently. Unlike major streaming platforms that only offer temporary storage for 7-30 days, stream.gift leverages <a href='https://thetaedgecloud.com' target='_blank'><b>Theta Edge Cloud</b></a> to encode and securely save your streams indefinitely. With just the link to your broadcast, you can save & ensure that your content is preserved for the long term, solving a problem that has plagued streaming platforms for years. 
                         </p>
                     </div>
                     <Link href="/about" className="border-[1px] border-teal w-fit py-2 px-4 max-lg:mt-10">
@@ -185,10 +181,11 @@ export default function Home() {
                     />
                     <div className="absolute w-[70%] h-[1px] bg-teal mx-auto left-0 right-0 bottom-0"></div>
                 </div>
-            </section>
-            <footer className="relative w-3/5 mx-auto mt-[280px] font-fira text-lg text-gr max-lg:w-full max-lg:px-12 max-md:px-4">
-                © Copyright 2024. Made by Nick Mura & TridentVentures.org
-            </footer>
+            </section> 
+
+            <div className='mt-10'>
+                <Footer/>
+            </div>
         </>
     );
 }
