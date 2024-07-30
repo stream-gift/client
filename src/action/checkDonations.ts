@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 export default async function CheckDonations(username: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
@@ -10,6 +10,6 @@ export default async function CheckDonations(username: string): Promise<any> {
             .catch(e => {
                 console.log(e);
                 return reject({ status: false });
-            })
-    })
+            });
+    });
 }

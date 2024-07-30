@@ -1,6 +1,6 @@
-'use server'
+"use server";
 
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
 export default async function TwitchAccount(token?: string) {
     return new Promise((resolve, reject) => {
@@ -11,8 +11,8 @@ export default async function TwitchAccount(token?: string) {
         fetch(process.env.BACKEND + "/check-streamer", {
             method: "GET",
             headers: {
-                "access-token": token || ""
-            }
+                "access-token": token || "",
+            },
         })
             .then(res => res.json())
             .then(res => {
@@ -20,6 +20,6 @@ export default async function TwitchAccount(token?: string) {
             })
             .catch(e => {
                 return reject({ status: false });
-            })
-    })
+            });
+    });
 }

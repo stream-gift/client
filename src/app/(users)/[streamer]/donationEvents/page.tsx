@@ -1,85 +1,88 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname } from 'next/navigation';
-import { SuiClient, getFullnodeUrl } from "@mysten/sui.js/client";
-
-import Donation from "@/components/Donation";
-import CheckDonations from "@/action/checkDonations";
-import { b64DecodeUnicode, truncateWalletAddress } from "@/lib/helper";
-import { useAccountStore } from "@/lib/states";
-import { useAudio } from "@/hooks/useAudio";
-import GetStreamer from "@/action/getStreamer";
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
+import { b64DecodeUnicode, truncateWalletAddress } from "@/lib/helper";
+import CheckDonations from "@/action/checkDonations";
+import GetStreamer from "@/action/getStreamer";
+import Donation from "@/components/Donation";
+import { useAudio } from "@/hooks/useAudio";
 
 export default function DonationEventListener() {
+    const [user, setUser] = useState<any>(null);
+    const [playing, audio] = useAudio("/notification.wav");
+    const [soundEnabled, setSoundEnabled] = useState(false);
 
-  const [user, setUser] = useState<any>(null);
-  const [playing, toggleAudio] = useAudio("/notification.wav");
-  const [soundEnabled, setSoundEnabled] = useState(false);
+    const pathname = usePathname();
+    const username = pathname.split("/")[1];
 
-  const pathname = usePathname();
-  const username = pathname.split("/")[1];
+    const [toggleAudio, setToggleAudio] = useState(false);
+    const [donation, setDonation] = useState<any>(null);
 
-  const [donation, setDonation] = useState<any>(false);
+    useEffect(() => {
+        if (username) {
+            const interval = setInterval(async () => {
+                try {
+                    console.log(username);
+                    const res = await CheckDonations(username);
+                    if (res?.status !== false && res?.[0]?.sender) {
+                        setDonation(res[0]);
+                        setToggleAudio(s => !s);
+                    } else {
+                        setDonation(false);
+                    }
+                } catch (e) {}
+            }, 30_000);
 
-  useEffect(() => {
-    if (username) {
-      const interval = setInterval(async () => {
-        try {
-          const res = await CheckDonations(username);
-          if (res) console.log(res);
+            return () => clearInterval(interval);
+        }
+    }, [username, user, soundEnabled]);
 
-          if (res?.status !== false && res?.[0]?.sender) {
-            setDonation(res[0]);
+    useEffect(() => {
+        if (username) {
+            (async () => {
+                // Get public streamer data
+                const user_raw = (await GetStreamer(username)).user;
+                if (user_raw?.status !== false) setUser(user_raw);
+            })();
+        }
+    }, [username]);
 
-            if (soundEnabled) {
-              // Play donation sound
-              (toggleAudio as (() => void))();
-            }
-          } else {
-            setDonation(false);
-          }
+    useEffect(() => {
+        if (soundEnabled && donation !== false) (audio as () => void)();
+    }, [soundEnabled, donation, toggleAudio]);
 
-        } catch(e) {}
-      }, 30_000);
-  
-      return () => clearInterval(interval);
-    }
-  }, [username, user]);
+    if (!user || user?.preferred_username !== username)
+        return (
+            <main className="donation-event">
+                <p>Please login...</p>
+            </main>
+        );
 
-  useEffect(() => {
-    if (username) {
-      (async() => {
-        // Get public streamer data
-        const user_raw = (await GetStreamer(username)).user;
-        if (user_raw?.status !== false) setUser(user_raw);
-      })()
-    }
-  }, [username]);
-
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-12">
-        {user?.notificationsound && !soundEnabled && (
-          <button
-            onClick={() => {
-              setSoundEnabled(true);
-              toast.success("Donation sounds are enabled");
-            }}
-            className="px-3 py-1 w-fit rounded-lg text-white bg-blue font-semibold text-lg"
-          >
-            Click here to enable donate sounds
-          </button>
-        )}
-        <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        </div>
-        {donation && (
-          <Donation
-            sender={donation.sender_suins ?? truncateWalletAddress(donation.sender)}
-            amount={donation.amount}
-            message={b64DecodeUnicode(donation.message)}
-          />
-        )}
-    </main>
-  );
+    return (
+        <main className="donation-event flex min-h-screen flex-col items-center justify-between p-12">
+            {user?.notificationsound && !soundEnabled && (
+                <button
+                    onClick={() => {
+                        setSoundEnabled(true);
+                        setToggleAudio(s => !s);
+                        toast.success("Donation sounds are enabled");
+                    }}
+                    className="px-3 py-1 w-fit rounded-lg text-white bg-blue font-semibold text-lg"
+                >
+                    Click here to enable donate sounds
+                </button>
+            )}
+            <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex"></div>
+            {donation && (
+                <Donation
+                    sender={donation.sender_tns ?? truncateWalletAddress(donation.sender, 6, 6)}
+                    amount={donation.amount}
+                    message={donation.message}
+                />
+            )}
+        </main>
+    );
 }

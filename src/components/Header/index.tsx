@@ -1,56 +1,88 @@
-import WalletButton from "./WalletButton";
-import TwitchButton from "./TwitchButton";
+"use client";
+
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import DropdownButton from "../Dropdown/DropdownButton";
+import TwitchButton from "./TwitchButton";
+import ConnectButton from "../Connect/Button";
 
 export default function Header() {
+    const pathname = usePathname();
 
-    const links: JSX.Element[] = [
-        <Link key={1} className="text-lg" href="/"><span className="text-blue">#</span>home</Link>,
-        <Link key={3} className="text-lg" href="/about"><span className="text-blue">#</span>about</Link>,
-        /* <Link key={2} className="text-lg" href="/"><span className="text-blue">#</span>dashboard</Link>, */
-        /* <Link key={4} className="text-lg" href="/donate"><span className="text-blue">#</span>donate</Link>, */
-    ]
+    const links: Array<{ href: string; label: string }> = [
+        { href: "/", label: "Home" },
+        { href: "/dashboard", label: "Dashboard" },
+        { href: "/about", label: "About Us" },
+    ];
 
     return (
         <header
             className="
-                fixed flex items-center justify-between w-[calc(100%-24rem)] mx-auto px-3 pt-8 pb-2 bg-ld
-                max-lg:pt-2 max-xl:w-[calc(100%-4rem)] max-md:w-full max-md:justify-between"
+                h-20 w-full flex items-center justify-between mx-auto px-5 bg-[rgba(22,22,29,0.80)] border-b-[1px] border-b-[#6D6D6D50]
+                max-md:justify-between max-md:px-3"
         >
-            <div className="flex items-center gap-2 max-lg:absolute max-lg:left-2 max-lg:top-2">
+            <div className="flex items-center gap-2 max-lg:left-2">
                 <Image
                     src="/logo.svg"
                     alt="stream.gift Logo"
-                    height={20}
-                    width={20}
+                    height={30}
+                    width={30}
+                    className="min-w-4"
                 />
-                <h1 className="text-lg font-bold">stream.gift</h1>
+                <h1 className="text-lg font-bold max-sm:hidden">stream.gift</h1>
             </div>
-            <div className="flex items-end gap-4 max-lg:hidden">
-                {links.map((el, i) => el)}
+            <div className="flex-1 pl-[10%] flex items-center h-full max-lg:hidden">
+                {links.map((el, i) => {
+                    const isActive =
+                        pathname === el.href || (pathname.startsWith(el.href) && el.href !== "/");
 
-                <TwitchButton />
-                <WalletButton />
+                    return (
+                        <Link
+                            key={i}
+                            className={
+                                "font-medium h-full flex items-center px-4 " +
+                                (isActive
+                                    ? "border-b-4 border-teal text-white pt-1"
+                                    : "text-[#71839B]")
+                            }
+                            href={el.href}
+                        >
+                            {el.label}
+                        </Link>
+                    );
+                })}
             </div>
-            <div className="flex-1 flex-col items-end hidden max-lg:flex">
+            <div className="flex items-center gap-4 h-full max-lg:hidden">
+                <TwitchButton />
+                <ConnectButton />
+            </div>
+            <div className="flex-1 items-center justify-end gap-4 hidden max-lg:flex">
+                <div className="flex items-center gap-4 justify-end max-sm:justify-evenly max-md:gap-2">
+                    <TwitchButton />
+                    <ConnectButton />
+                </div>
+
                 <DropdownButton
                     type="blank"
-                    items={links}
+                    wrapperClass='h-5'
+                    items={links.map((l, i) => {
+                        return (
+                            <Link key={i} className={"text-lg"} href={l.href}>
+                                {l.label}
+                            </Link>
+                        );
+                    })}
                 >
                     <Image
                         src="/hamburger.svg"
                         alt="Hamburger icon"
                         height={20}
                         width={20}
+                        className="min-w-4 h-[20px]"
                     />
                 </DropdownButton>
-                <div className="w-full flex items-center gap-4 justify-end max-sm:justify-evenly max-sm:pt-3">
-                    <TwitchButton />
-                    <WalletButton />
-                </div>
             </div>
         </header>
-    )
+    );
 }

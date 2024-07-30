@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Ubuntu_Mono } from "next/font/google";
+import { Fira_Code, Ubuntu } from "next/font/google";
 
 import "./globals.css";
-import '@mysten/dapp-kit/dist/index.css';
 
-const ubuntu_mono = Ubuntu_Mono({ weight: "400", variable: "--ubuntu", subsets: ["latin"] });
+const ubuntu = Ubuntu({ weight: ["300", "400", "500", "700"], variable: "--ubuntu", subsets: ["latin"] });
+const firaCode = Fira_Code({ variable: "--fira", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: 'stream.gift - Twitch donates on SUI network',
-    description: 'Donate to your favorite Twitch streamer on SUI network.',
-}
+    title: "stream.gift - Twitch donates on THETA network",
+    description: "Donate to your favorite Twitch streamer on THETA network.",
+};
 
 export default function RootLayout({
     children,
@@ -18,9 +18,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={ubuntu_mono.className}>
-                {children}
-            </body>
+            <body className={`${ubuntu.className} ${firaCode.variable}`}>{children}</body>
         </html>
     );
 }

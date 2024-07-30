@@ -1,169 +1,116 @@
-'use client'
+"use client";
 
+import Image from "next/image";
 import toast from "react-hot-toast";
-import { fromB64 } from "@mysten/bcs";
 import { useEffect, useState } from "react";
-import { SuiClient } from "@mysten/sui.js/client";
-import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
-import { generateNonce, generateRandomness } from '@mysten/zklogin';
+import { type IUser, useAccountStore, useWalletStore } from "@/lib/states";
 import TwitchLogin from "@/action/twitchLogin";
-import TwitchAccount from "@/action/twitchAccount";
-import { TwitchUserStore, useAccountStore } from "@/lib/states";
-
-import './wallet-button.scss';
-
-const suiClient = new SuiClient({ url: "https://fullnode.devnet.sui.io" });
-const client_id = process.env.NEXT_PUBLIC_OPENID_CLIENT_ID ?? ''
+import { handleLogin } from "@/lib/auth";
+import "./wallet-button.scss";
 
 export default function TwitchButton() {
-
     const user = useAccountStore(state => state.user);
+    const wallet = useWalletStore(state => state.wallet);
     const setUser = useAccountStore(state => state.setUser);
+    const setStatus = useAccountStore(state => state.setStatus);
 
     const [loading, setLoading] = useState(true);
 
-    const [ephemeralKeyPair, setEphemeralKeyPair] = useState<Ed25519Keypair | null>(null);
-    const [maxEpoch, setMaxEpoch] = useState<number | null>(0);
-    const [randomness, setRandomness] = useState<string | null>(null);
-    const [nonce, setNonce] = useState<string | null>(null);
-
     useEffect(() => {
-        (async() => {
-            // Check if user is trying to login
-            // After redirection
-            const id_token = window.location.href.split("=")[1];
+        if (user) return setStatus("fetched");
+        else setLoading(false);
 
-            if (id_token) {
-                TwitchLogin(id_token)
-                    .then(response => {
-                        TwitchAccount(response as string)
-                            .then(resp => {
-                                setUser(resp as TwitchUserStore);
-                                setLoading(false);
-                            })
-                    })
-                    .catch(err => console.error(err));
-            }
-
-            // Before redirection
-            else {
-                const privateKey = window.sessionStorage.getItem('KEY_PAIR_SESSION_STORAGE_KEY');
-                let ephemeralKeyPair_: Ed25519Keypair;
-                if (privateKey) {
-                    ephemeralKeyPair_ = Ed25519Keypair.fromSecretKey(fromB64(privateKey));
-                    setEphemeralKeyPair(ephemeralKeyPair_);
-                } else {
-                    // Generate ephemeral key pair
-                    ephemeralKeyPair_ = new Ed25519Keypair();
-                    setEphemeralKeyPair(ephemeralKeyPair_);
-        
-                    // Set as session storage variable
-                    window.sessionStorage.setItem(
-                        'KEY_PAIR_SESSION_STORAGE_KEY',
-                        ephemeralKeyPair_.export().privateKey
-                    );
-                }
-        
-                let randomness_ = window.sessionStorage.getItem('RANDOMNESS_SESSION_STORAGE_KEY');
-                if (randomness_) setRandomness(randomness_);
-                else {
-                    // Generate randomness
-                    randomness_ = generateRandomness();
-                    setRandomness(randomness_);
-        
-                    // Set as session storage variable
-                    window.sessionStorage.setItem(
-                        'RANDOMNESS_SESSION_STORAGE_KEY',
-                        randomness_
-                    );
-                }
-        
-                let maxEpoch_: number = parseInt(window.localStorage.getItem('MAX_EPOCH_LOCAL_STORAGE_KEY') ?? '0');
-                if (maxEpoch_) setMaxEpoch(Number(maxEpoch_));
-                else {
-                    // Find maximum epoch
-                    const { epoch } = await suiClient.getLatestSuiSystemState();
-                    maxEpoch_ = Number(epoch);
-                    setMaxEpoch(maxEpoch_);
-    
-                    // Set as session storage variable
-                    window.localStorage.setItem(
-                        'MAX_EPOCH_LOCAL_STORAGE_KEY',
-                        maxEpoch_.toString()
-                    );
-                }
-    
-                // Generate nonce
-                let nonce_ = generateNonce(
-                    ephemeralKeyPair_.getPublicKey(),
-                    maxEpoch_,
-                    randomness_
-                );
-    
-                setNonce(nonce_);
-            }
-        })()
+        (async () => {
+            // Get Twitch account via access-token
+            await loginAction();
+            setLoading(false);
+            setStatus("fetched");
+        })();
     }, []);
 
-    useEffect(() => {
-        TwitchAccount()
-            .then(resp => {
-                setUser(resp as TwitchUserStore);
-                setLoading(false);
-            })
-            .catch(e => setLoading(false))
-    }, []);
+    async function login_twitch() {
+        try {
+            if (user || loading) return;
+            setLoading(true);
 
-    function login_twitch() {
-        if (!ephemeralKeyPair || !maxEpoch || !randomness) toast.error("An error occured");
+            const user_ = await handleLogin("twitch");
+            if (!user_?.thirdparty_user_info?.user_info?.name) return toast.error("Login failed");
 
-        let nonce_;
-        if (!nonce) {
-            nonce_ = generateNonce(
-                (ephemeralKeyPair as Ed25519Keypair).getPublicKey(),
-                (maxEpoch || 0),
-                (randomness || "")
-            );
-    
-            setNonce(nonce_);
+            const newUser: IUser = {
+                preferred_username: user_.thirdparty_user_info.user_info.name,
+
+                // Temporarily set as false
+                textToSpeech: false,
+                notificationsound: false,
+                logged_via: "twitch"
+            };
+
+            if (wallet) newUser["evm_streamer_address"] = wallet;
+
+            loginAction(user_.uuid, user_.token).catch((e) => {
+                console.log(e);
+                if (e?.error_message) toast.error(e.error_message);
+                else toast.error("Login is failed");
+            });
+        } catch (e) {
+            console.error(e);
+            toast.error("Login failed");
         }
-
-        // Redirect to the login page
-        const params = new URLSearchParams({
-            client_id,
-            force_verify: 'true',
-            lang: 'en',
-            login_type: 'login',
-            redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URL ?? 'https://test2.stream.gift', // <-- TODO: Change later
-            response_type: 'id_token',
-            scope: 'openid',
-            nonce: nonce ? nonce : (nonce_ || "")
-        });
-
-        const loginURL = `https://id.twitch.tv/oauth2/authorize?${params}`;
-        window.location.replace(loginURL);
     }
 
-    if (loading) return <></>
+    function loginAction(uuid?: string, token?: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            TwitchLogin(uuid, token)
+                .then((response: any) => {
+                    if (response?.success !== false) {
+                        setUser(response);
+                        return resolve();
+                    }
+                    if (response?.error_message) {
+                        return reject(response);
+                    }
+                    return reject();
+                })
+        });
+    }
+
+    if (user && user.logged_via !== "twitch") return <></>
 
     return (
-        <>
-        { user ? (
-            <p
-                className="wallet-connect-button"
-                style={{ color: "#6441a5" }}
-            >
-                {user.preferred_username}
-            </p>
-        ) : (
-            <button
-                onClick={login_twitch}
-                className="wallet-connect-button"
-                style={{ color: "#6441a5" }}
-            >
-                #twitch-login
-            </button>
-        )}
-        </>
-    )
+        <button
+            onClick={async () => {
+                await login_twitch();
+                setLoading(false);
+                setStatus("fetched");
+            }}
+            className="flex items-center gap-2 px-5 h-12 text-[#A821DC] font-medium border-[1px] border-[#A51FDD] bg-black rounded-[26px] transition-colors hover:bg-[#00000020] max-md:px-2 max-md:h-8"
+        >
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <>
+                    {user ? (
+                        <>
+                            <span className="max-md:hidden">
+                                Logged in as {user.preferred_username}
+                            </span>
+                            <span className="hidden max-md:flex">{user.preferred_username}</span>
+                        </>
+                    ) : (
+                        <>
+                            <span className="max-md:hidden">LOGIN WITH TWITCH</span>
+                            <span className="hidden max-md:flex">TWITCH</span>
+                        </>
+                    )}
+                    <Image
+                        className="max-md:hidden"
+                        src="/twitch.svg"
+                        alt="Twitch"
+                        height={28}
+                        width={28}
+                    />
+                </>
+            )}
+        </button>
+    );
 }
