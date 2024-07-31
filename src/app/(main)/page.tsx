@@ -180,7 +180,7 @@ export default function Home() {
                             <div className="flex-1 h-[1px] bg-teal"></div>
                         </div>
                         <p className="font-fira text-lg text-gr mt-6">
-                            Livestreamers on Twitch/Kick can now save / preserve their past
+                            Streamers on Twitch & Kick can now save their past
                             livestreams on stream.gift permanently. Unlike major streaming platforms
                             that only offer temporary storage for 7-30 days, stream.gift leverages{" "}
                             <a href="https://thetaedgecloud.com" target="_blank">
