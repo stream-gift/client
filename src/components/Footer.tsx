@@ -27,6 +27,7 @@ export default function Footer() {
                         <a href="https://github.com/nickmura/stream.gift" target="_blank">
                             <Image src="/github.svg" alt="Github Logo" height={32} width={32} />
                         </a>
+                        
                     </div>
                 </div>
             </footer>

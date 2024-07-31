@@ -17,6 +17,7 @@ body {
     margin: 0;
     padding: 0;
     color: #fff;
+    background-color: #000g
 }
 
 body:has(.donation-event) {
@@ -83,7 +84,7 @@ table tr td {
 }
 
 ::selection {
-    background: white;
+    background: #000;
     color: #000;
 }
 

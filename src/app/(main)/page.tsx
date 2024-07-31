@@ -189,7 +189,7 @@ export default function Home() {
                             to encode and securely save your streams indefinitely. With just the
                             link to your broadcast, you can save & ensure that your content is
                             preserved for the long term, solving a problem
-                            streaming platforms have struggled with for years.
+                            streaming platforms have struggled for years.
                         </p>
                     </div>
                     <Link
