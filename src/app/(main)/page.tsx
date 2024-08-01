@@ -140,7 +140,7 @@ export default function Home() {
                         alt="Dots"
                         height={154}
                         width={144}
-                        className="absolute right-0 top-16"
+                        className="absolute right-0 top-4"
                     />
                     <Image
                         src="/vectors/dots.svg"
@@ -154,12 +154,12 @@ export default function Home() {
                         alt="Dots"
                         height={133}
                         width={133}
-                        className="absolute left-8 bottom-12"
+                        className="absolute left-8 bottom-12 p-15"
                     />
                     <div className="absolute w-[70%] h-[1px] bg-teal mx-auto left-0 right-0 bottom-0"></div>
 
                     <div className="flex justify-center items-center w-full h-full top-0 left-0 p-6">
-                        <div className="h-full flex relative px-6 py-3 pt-20 z-[100]">
+                        <div className="h-full flex relative px-6 py-3 pt-20 z-[100] top-10">
                             <Donation
                                 sender="caseoh"
                                 amount="6700"
@@ -193,10 +193,10 @@ export default function Home() {
                         </p>
                     </div>
                     <Link
-                        href="/about"
+                        href="https://github.com/stream-gift/vod-saver"
                         className="border-[1px] border-teal w-fit py-2 px-4 max-lg:mt-10"
                     >
-                        Read more →
+                        Learn more
                     </Link>
                 </div>
                 <div className="w-2/5 h-[430px] max-w-[500px] relative max-lg:hidden">
@@ -216,11 +216,11 @@ export default function Home() {
                     /> */}
                     <div className="absolute w-[70%] h-[1px] bg-teal mx-auto left-0 right-0 bottom-0"></div>
 
-                    <div className="w-full h-full relative">
+                    <div className="w-full h-full relative g">
                         <img
                             src="/modal.png"
                             alt="Vod Modal"
-                            className="w-full h-auto -ml-6 -mt-8 mb-4 z-[10000]"
+                            className="w-full h-auto -ml-6 -mt-6 mb-4 z-[10000]"
                         />
                         <img
                             src="/vods.png"
