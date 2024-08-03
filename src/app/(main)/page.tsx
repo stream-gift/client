@@ -3,7 +3,7 @@
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import "./index.css";
@@ -40,6 +40,7 @@ const welcomeTexts = [
 
 export default function Home() {
     const router = useRouter();
+    let searchParams = useSearchParams()
 
     const [search, setSearch] = useState<string>("");
     const [placeholder, setPlaceholder] = useState("");
@@ -48,33 +49,42 @@ export default function Home() {
     const [isPaused, setIsPaused] = useState(false);
     const [rand, setRand] = useState<number | null>(null);
 
+
+    
     useEffect(() => {
         const currentWord = placeholders[currentWordIndex];
         const typingDelay = 80;
         const deletionDelay = 40;
         const pauseDelay = 2500;
+        let searchParamsRef = searchParams.get('ref')
 
-        const timer = setTimeout(
-            () => {
-                if (!isDeleting && !isPaused && placeholder !== currentWord) {
-                    setPlaceholder(currentWord.slice(0, placeholder.length + 1));
-                } else if (isDeleting && !isPaused && placeholder !== "") {
-                    setPlaceholder(placeholder.slice(0, -1));
-                } else if (placeholder === currentWord && !isPaused) {
-                    setIsPaused(true);
-                    setTimeout(() => {
-                        setIsPaused(false);
-                        setIsDeleting(true);
-                    }, pauseDelay);
-                } else if (placeholder === "" && isDeleting) {
-                    setIsDeleting(false);
-                    setCurrentWordIndex(prevIndex => (prevIndex + 1) % placeholders.length);
-                }
-            },
-            isDeleting ? deletionDelay : typingDelay,
-        );
-
-        return () => clearTimeout(timer);
+        if (searchParamsRef != null) if (searchParamsRef == 'blog.sui.io' || searchParamsRef == 'sui') {
+            
+            redirect('https://sui.stream.gift')
+        } else {
+            const timer = setTimeout(
+                () => {
+                    if (!isDeleting && !isPaused && placeholder !== currentWord) {
+                        setPlaceholder(currentWord.slice(0, placeholder.length + 1));
+                    } else if (isDeleting && !isPaused && placeholder !== "") {
+                        setPlaceholder(placeholder.slice(0, -1));
+                    } else if (placeholder === currentWord && !isPaused) {
+                        setIsPaused(true);
+                        setTimeout(() => {
+                            setIsPaused(false);
+                            setIsDeleting(true);
+                        }, pauseDelay);
+                    } else if (placeholder === "" && isDeleting) {
+                        setIsDeleting(false);
+                        setCurrentWordIndex(prevIndex => (prevIndex + 1) % placeholders.length);
+                    }
+                },
+                isDeleting ? deletionDelay : typingDelay,
+            );
+    
+            return () => clearTimeout(timer)
+        }
+        ;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [placeholder, currentWordIndex, isDeleting, isPaused, placeholders]);
 

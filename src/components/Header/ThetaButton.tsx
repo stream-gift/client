@@ -13,7 +13,7 @@ export default function ThetaButton() {
     const setUser = useAccountStore(state => state.setUser);
     const setStatus = useAccountStore(state => state.setStatus);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (user || !wallet) return setStatus("fetched");
