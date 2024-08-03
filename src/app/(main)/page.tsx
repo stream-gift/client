@@ -40,7 +40,11 @@ const welcomeTexts = [
 
 export default function Home() {
     const router = useRouter();
-    let searchParams = useSearchParams()
+    let searchParams = useSearchParams();
+
+    if (searchParams.get("ref") && searchParams.get("ref")?.toLowerCase().includes("blog.sui.io")) {
+        redirect("https://sui.stream.gift");
+    }
 
     const [search, setSearch] = useState<string>("");
     const [placeholder, setPlaceholder] = useState("");
@@ -49,42 +53,39 @@ export default function Home() {
     const [isPaused, setIsPaused] = useState(false);
     const [rand, setRand] = useState<number | null>(null);
 
-
-    
     useEffect(() => {
         const currentWord = placeholders[currentWordIndex];
         const typingDelay = 80;
         const deletionDelay = 40;
         const pauseDelay = 2500;
-        let searchParamsRef = searchParams.get('ref')
+        let searchParamsRef = searchParams.get("ref");
 
-        if (searchParamsRef != null) if (searchParamsRef == 'blog.sui.io' || searchParamsRef == 'sui') {
-            
-            redirect('https://sui.stream.gift')
-        } else {
-            const timer = setTimeout(
-                () => {
-                    if (!isDeleting && !isPaused && placeholder !== currentWord) {
-                        setPlaceholder(currentWord.slice(0, placeholder.length + 1));
-                    } else if (isDeleting && !isPaused && placeholder !== "") {
-                        setPlaceholder(placeholder.slice(0, -1));
-                    } else if (placeholder === currentWord && !isPaused) {
-                        setIsPaused(true);
-                        setTimeout(() => {
-                            setIsPaused(false);
-                            setIsDeleting(true);
-                        }, pauseDelay);
-                    } else if (placeholder === "" && isDeleting) {
-                        setIsDeleting(false);
-                        setCurrentWordIndex(prevIndex => (prevIndex + 1) % placeholders.length);
-                    }
-                },
-                isDeleting ? deletionDelay : typingDelay,
-            );
-    
-            return () => clearTimeout(timer)
-        }
-        ;
+        if (searchParamsRef != null)
+            if (searchParamsRef == "blog.sui.io" || searchParamsRef == "sui") {
+                redirect("https://sui.stream.gift");
+            } else {
+                const timer = setTimeout(
+                    () => {
+                        if (!isDeleting && !isPaused && placeholder !== currentWord) {
+                            setPlaceholder(currentWord.slice(0, placeholder.length + 1));
+                        } else if (isDeleting && !isPaused && placeholder !== "") {
+                            setPlaceholder(placeholder.slice(0, -1));
+                        } else if (placeholder === currentWord && !isPaused) {
+                            setIsPaused(true);
+                            setTimeout(() => {
+                                setIsPaused(false);
+                                setIsDeleting(true);
+                            }, pauseDelay);
+                        } else if (placeholder === "" && isDeleting) {
+                            setIsDeleting(false);
+                            setCurrentWordIndex(prevIndex => (prevIndex + 1) % placeholders.length);
+                        }
+                    },
+                    isDeleting ? deletionDelay : typingDelay,
+                );
+
+                return () => clearTimeout(timer);
+            }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [placeholder, currentWordIndex, isDeleting, isPaused, placeholders]);
 
@@ -190,16 +191,16 @@ export default function Home() {
                             <div className="flex-1 h-[1px] bg-teal"></div>
                         </div>
                         <p className="font-fira text-lg text-gr mt-6">
-                            Streamers on Twitch & Kick can now save their past
-                            livestreams on stream.gift permanently. Unlike major streaming platforms
-                            that only offer temporary storage for 7-30 days, stream.gift leverages{" "}
+                            Streamers on Twitch & Kick can now save their past livestreams on
+                            stream.gift permanently. Unlike major streaming platforms that only
+                            offer temporary storage for 7-30 days, stream.gift leverages{" "}
                             <a href="https://thetaedgecloud.com" target="_blank">
                                 <b>Theta Edge Cloud</b>
                             </a>{" "}
                             to encode and securely save your streams indefinitely. With just the
                             link to your broadcast, you can save & ensure that your content is
-                            preserved for the long term, solving a problem
-                            streaming platforms have struggled for years.
+                            preserved for the long term, solving a problem streaming platforms have
+                            struggled for years.
                         </p>
                     </div>
                     <Link
