@@ -42,10 +42,6 @@ export default function Home() {
     const router = useRouter();
     let searchParams = useSearchParams();
 
-    if (searchParams.get("ref") && searchParams.get("ref")?.toLowerCase().includes("blog.sui.io")) {
-        redirect("https://sui.stream.gift");
-    }
-
     const [search, setSearch] = useState<string>("");
     const [placeholder, setPlaceholder] = useState("");
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
