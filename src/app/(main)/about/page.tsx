@@ -17,7 +17,7 @@ export default function GetStarted() {
                Introducing stream.gift, a streaming service that allows streamers on platforms like Twitch & Kick to crowdfund and receive donations via cryptocurrency & TFUEL. Viewers can donate to their favorite streamers on Theta Network, and have their donation be read on stream.
             </p>
             <p className="text-gr mt-7 font-medium text-lg max-w-[70%] max-md:max-w-full max-md:text-center">
-                In addition, with integration with Theta Edge Cloud we've created our <a href='https://github.com/stream-gift/vod-saver'>vod-saver</a>{" "} tool, a permanent storage solution for streamers past livestreams & VODs, and ease of access for saving one - just paste your temporary video URL and start uploading to the Cloud immediately.
+                In addition with integration via Theta Edge Cloud, stream.gift features <a href='https://github.com/stream-gift/vod-saver'>vod-saver</a>{" "}, a permanent storage solution for streamers past livestreams & VODs, and ease of access for saving one - just paste your temporary video URL and start uploading to the Cloud immediately.
             </p>
 
             <p className="text-gr mt-7 font-medium text-lg max-w-[70%] max-md:max-w-full max-md:text-center">
