@@ -30,13 +30,23 @@ export default function StepOne({
         <>
             <h1 className="font-light text-5xl mb-8 text-center max-md:max-w-full max-md:text-3xl">
                 Send {streamer} a tip on{" "}
-                <a
-                    href={`https://twitch.tv/${userInfo.preferred_username}`}
-                    target="_blank"
-                    className="text-[#863AD7] underline"
-                >
-                    Twitch
-                </a>
+                {1 == 1 ? (
+                    <a
+                        href={`https://twitch.tv/${userInfo.preferred_username}`}
+                        target="_blank"
+                        className="text-[#863AD7] underline"
+                    >
+                        Twitch
+                    </a>
+                ) : (
+                    <a
+                        href={`https://kick.com/${userInfo.preferred_username}`}
+                        target="_blank"
+                        className="text-[#52fc17] underline"
+                    >
+                        Kick
+                    </a>
+                )}
             </h1>
 
             <div className="flex flex-col items-center px-2 py-3 rounded-[6px] border-[1px] border-[rgba(38,205,213,0.50)] bg-blueglass w-[460px] max-md:w-[calc(100%-20px)]">

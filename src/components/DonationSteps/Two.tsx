@@ -4,8 +4,8 @@ import Image from "next/image";
 import Pagination from "./Pagination";
 import { useWalletStore } from "@/lib/states";
 import toast from "react-hot-toast";
-import Donate from '@/action/donate';
-import { useState } from 'react';
+import Donate from "@/action/donate";
+import { useState } from "react";
 
 export default function StepTwo({ streamer, userInfo, amount, message, setStep }: any) {
     const wallet = useWalletStore(s => s.wallet);
@@ -18,24 +18,22 @@ export default function StepTwo({ streamer, userInfo, amount, message, setStep }
         setLoading(true);
 
         try {
-            const hash = await handler?.sendTransaction(userInfo.evm_streamer_address, amount.toString(), message);
+            const hash = await handler?.sendTransaction(
+                userInfo.evm_streamer_address,
+                amount.toString(),
+                message,
+            );
 
             if (!hash) return toast.error("Transaction is cancelled");
 
-            const donation_response = await Donate(
-                streamer,
-                hash,
-                wallet!,
-                message
-            );
+            const donation_response = await Donate(streamer, hash, wallet!, message);
 
             if (donation_response?.status) {
                 setStep(0);
                 toast.success("Donation is sent", {
-                    duration: 9999
+                    duration: 9999,
                 });
-            }
-            else {
+            } else {
                 toast.error("Transaction cannot be validated");
             }
         } catch (e) {
@@ -49,13 +47,23 @@ export default function StepTwo({ streamer, userInfo, amount, message, setStep }
         <>
             <h1 className="font-light text-5xl mb-8 max-md:max-w-full text-center max-md:text-3xl">
                 Send {streamer} a tip on{" "}
-                <a
-                    href={`https://twitch.tv/${userInfo.preferred_username}`}
-                    target="_blank"
-                    className="text-[#863AD7] underline"
-                >
-                    Twitch
-                </a>
+                {1 == 1 ? (
+                    <a
+                        href={`https://twitch.tv/${userInfo.preferred_username}`}
+                        target="_blank"
+                        className="text-[#863AD7] underline"
+                    >
+                        Twitch
+                    </a>
+                ) : (
+                    <a
+                        href={`https://kick.com/${userInfo.preferred_username}`}
+                        target="_blank"
+                        className="text-[#52fc17] underline"
+                    >
+                        Kick
+                    </a>
+                )}
             </h1>
 
             <div className="flex flex-col items-center px-2 py-3 rounded-[6px] border-[1px] border-[rgba(38,205,213,0.50)] bg-blueglass w-[460px] max-md:w-[calc(100%-20px)]">
@@ -108,9 +116,9 @@ export default function StepTwo({ streamer, userInfo, amount, message, setStep }
 
                 <button
                     onClick={signTransaction}
-                    className={`rounded-[24px] py-2 px-4 bg-transparent border-[1px] border-teal hover:bg-teal hover:text-black transition-all text-lg font-medium ${loading ? 'cursor-default' : ''}`}
+                    className={`rounded-[24px] py-2 px-4 bg-transparent border-[1px] border-teal hover:bg-teal hover:text-black transition-all text-lg font-medium ${loading ? "cursor-default" : ""}`}
                 >
-                    {loading ? 'Please wait...' : 'Sign transaction'}
+                    {loading ? "Please wait..." : "Sign transaction"}
                 </button>
             </div>
         </>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import ConnectButton from "../Connect/Button";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 export default function StepZero({
     streamer,
@@ -18,13 +18,23 @@ export default function StepZero({
         <>
             <h1 className="font-light text-5xl mb-5 max-lg:max-w-full mx-2 text-center max-lg:text-3xl">
                 Show some love to {streamer} with a tip on{" "}
-                <a
-                    href={`https://twitch.tv/${userInfo.preferred_username}`}
-                    target="_blank"
-                    className="text-[#863AD7] underline"
-                >
-                    Twitch
-                </a>
+                {1 == 1 ? (
+                    <a
+                        href={`https://twitch.tv/${userInfo.preferred_username}`}
+                        target="_blank"
+                        className="text-[#863AD7] underline"
+                    >
+                        Twitch
+                    </a>
+                ) : (
+                    <a
+                        href={`https://kick.com/${userInfo.preferred_username}`}
+                        target="_blank"
+                        className="text-[#52fc17] underline"
+                    >
+                        Kick
+                    </a>
+                )}
             </h1>
             <p className="text-center font-light text-2xl max-w-[40%] max-lg:max-w-full max-md:mx-2 max-lg:text-lg">
                 Send a tip & message to your favorite streamer. Your donation will be read on
@@ -79,7 +89,7 @@ export default function StepZero({
                         <button
                             onClick={() => {
                                 if (amount > 0) {
-                                    setStep(message ? 1 : 2)
+                                    setStep(message ? 1 : 2);
                                 } else toast.error("Enter a valid TFUEL amount");
                             }}
                             className="rounded-[24px] py-2 px-4 bg-transparent border-[1px] border-teal hover:bg-teal hover:text-black transition-all text-lg font-medium"
