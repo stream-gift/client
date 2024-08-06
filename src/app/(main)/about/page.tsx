@@ -11,17 +11,21 @@ export default function GetStarted() {
                 About stream.gift
             </h1>
             <p className="text-gr mb-7 font-medium text-2xl max-w-[70%] max-md:max-w-full max-md:text-center">
-                Created by Nick Mura
+                Created by Nick Mura & Trident Ventures
             </p>
             <p className="text-gr mt-7 font-medium text-lg max-w-[70%] max-md:max-w-full max-md:text-center">
-                stream.gift is a cryptocurrency solution for streaming platforms & streamers who want to accept
-                donations/tips via crypto. In 2023, Twitch streamers raised over 400M in crowdfunding efforts.
-                stream.gift currently supports Twitch (with partial support for Kick & Theta Edge livestreaming). You can send donations via Theta Network, an EVM compatible network, as well as <a href=''>Sui Network</a> with plans to support more networks in the future
-                Kick & Theta Edge Cloud streaming.
+               Introducing stream.gift, a streaming service that allows streamers on platforms like Twitch & Kick to crowdfund and receive donations via cryptocurrency & TFUEL. Viewers can donate to their favorite streamers on Theta Network, and have their donation be read on stream.
+            </p>
+            <p className="text-gr mt-7 font-medium text-lg max-w-[70%] max-md:max-w-full max-md:text-center">
+                In addition with integration via Theta Edge Cloud, stream.gift features <a href='https://github.com/stream-gift/vod-saver'>vod-saver</a>{" "}, a permanent storage solution for streamers past livestreams & VODs, and ease of access for saving one - just paste your temporary video URL and start uploading to the Cloud immediately.
+            </p>
+
+            <p className="text-gr mt-7 font-medium text-lg max-w-[70%] max-md:max-w-full max-md:text-center">
+
             </p>
             <div className="w-full flex max-md:justify-center mt-7 ">
                 <ConnectButton />
             </div>
         </div>
     );
-}
+} 
