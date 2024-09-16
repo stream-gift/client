@@ -21,4 +21,11 @@ export default class StreamerService {
 
     return response.json().then((data) => data.data);
   }
+
+  static async getData(token: string) {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/streamer/data?token=${token}`
+    );
+    return response.json().then((data) => data.data);
+  }
 }

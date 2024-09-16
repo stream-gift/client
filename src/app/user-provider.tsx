@@ -39,12 +39,12 @@ export const LoggedIn: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { isLoggedIn } = useUser();
-  return isLoggedIn ? <>{children}</> : null;
+  return isLoggedIn ? <div>{children}</div> : null;
 };
 
 export const LoggedOut: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { isLoggedIn } = useUser();
-  return !isLoggedIn ? <>{children}</> : null;
+  return !isLoggedIn ? <div>{children}</div> : null;
 };

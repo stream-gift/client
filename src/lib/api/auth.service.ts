@@ -1,15 +1,9 @@
-import { cookies } from "next/headers";
+import { api } from ".";
+
+type UserResponse = User;
 
 export default class AuthService {
-  static async getUser(): Promise<User> {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/user`,
-      {
-        headers: {
-          Cookie: cookies().toString(),
-        },
-      }
-    );
-    return response.json().then((data) => data.data);
+  static async getUser() {
+    return api.get<UserResponse>("/auth/user");
   }
 }

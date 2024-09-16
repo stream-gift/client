@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import AuthService from "@/lib/api/auth.service";
 import { UserProvider } from "./user-provider";
+import { cn } from "@/lib/utils";
 
 const archivo = Archivo({ subsets: ["latin"] });
 

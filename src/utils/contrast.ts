@@ -13,5 +13,5 @@ export const getContrastFromBg = (
   // Gets the average value of the colors
   const contrastRatio = (hexR + hexG + hexB) / (255 * 3);
 
-  return contrastRatio >= 0.77 ? darkReturn : lightReturn;
+  return contrastRatio >= 0.6 ? darkReturn : lightReturn;
 };

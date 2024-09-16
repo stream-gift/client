@@ -28,6 +28,7 @@ import Confetti from "@/components/magicui/confetti";
 import dynamic from "next/dynamic";
 import StreamerService from "@/lib/api/streamer.service";
 import { useRouter } from "next/navigation";
+import Particles from "@/components/magicui/particles";
 
 const WalletMultiButton = dynamic(
   async () =>
@@ -162,13 +163,13 @@ export default function Onboard() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white w-full p-5 lg:p-8 flex relative overflow-hidden">
-      {/* <Particles
+      <Particles
         className="absolute inset-0"
-        quantity={300}
+        quantity={150}
         ease={80}
         color={"#fff"}
         refresh
-      /> */}
+      />
 
       <div className="w-full lg:w-2/3 bg-indigo-600 rounded-xl flex-shrink-0 self-stretch p-8 relative overflow-hidden">
         {finalDone && (
@@ -417,8 +418,11 @@ export default function Onboard() {
                         <Input
                           type="text"
                           placeholder="G4c1xNzbYTyH19NcUdFzsGZ6hTj12YjAQU7fJAQDeRhA"
-                          className="w-full px-3 py-2 bg-white text-black border border-gray-300 rounded-md shadow-sm"
-                          value={address}
+                          className={cn(
+                            "w-full px-3 py-2 bg-white text-black border border-gray-300 rounded-md shadow-sm",
+                            walletConnected && "opacity-60"
+                          )}
+                          value={walletConnected ? "" : address}
                           onChange={(e) => setAddress(e.target.value)}
                           disabled={walletConnected}
                           startContent={
