@@ -3,7 +3,7 @@ import { Archivo } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
-import AuthService from "@/lib/api/auth.service";
+import { APIService } from "@/lib/api/server";
 import { UserProvider } from "./user-provider";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await AuthService.getUser();
+  const user = await APIService.Auth.getUser();
 
   return (
     <html lang="en">

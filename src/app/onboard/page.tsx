@@ -26,7 +26,7 @@ import type { ConfettiRef } from "@/components/magicui/confetti";
 import Confetti from "@/components/magicui/confetti";
 
 import dynamic from "next/dynamic";
-import StreamerService from "@/lib/api/streamer.service";
+import { ClientAPIService } from "@/lib/api/client";
 import { useRouter } from "next/navigation";
 import Particles from "@/components/magicui/particles";
 
@@ -48,7 +48,7 @@ export default function Onboard() {
   const onboardUser = async () => {
     setFinalLoading(true);
 
-    const response = await StreamerService.onboard({
+    const response = await ClientAPIService.Streamer.onboard({
       username,
       address,
       profileImage,
@@ -106,9 +106,9 @@ export default function Onboard() {
       setTimeout(async () => {
         setIsCheckingUsername(true);
 
-        const usernameTaken = await StreamerService.getStreamer(username).then(
-          (data) => !!data
-        );
+        const usernameTaken = await ClientAPIService.Streamer.getStreamer(
+          username
+        ).then((data) => !!data);
 
         setIsCheckingUsername(false);
         setCheckedMap((prev) => ({

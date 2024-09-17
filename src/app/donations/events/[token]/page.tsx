@@ -1,11 +1,11 @@
 "use client";
 
-import DonationService from "@/lib/api/donation.service";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import StreamerService from "@/lib/api/streamer.service";
+
+import { ClientAPIService } from "@/lib/api/client";
 
 const INTERVAL_TIME_SECONDS = 5;
 const ANIMATION_TIME_SECONDS = 3;
@@ -36,7 +36,10 @@ export default function DonationsEventsPage() {
   );
 
   const fetchEvents = async () => {
-    let events = await DonationService.getDonationEvents(token, since);
+    let events = await ClientAPIService.Donation.getDonationEvents(
+      token,
+      since
+    );
 
     setState((state) => {
       events = events.filter(
@@ -86,7 +89,9 @@ export default function DonationsEventsPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const data = await StreamerService.getData(token);
+      const data = await ClientAPIService.Streamer.getStreamerDataByToken(
+        token
+      );
       setData(data);
     }
 

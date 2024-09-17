@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { DonateInterface } from "./components/DonateInterface";
 import { cn } from "@/lib/utils";
 import { getContrastFromBg } from "@/utils/contrast";
-import StreamerService from "@/lib/api/streamer.service";
+import { APIService } from "@/lib/api/server";
 import { getOptimalColorFromBackground } from "@/utils/color";
 
 interface PageProps {
@@ -12,7 +12,7 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const data = await StreamerService.getStreamer(params.streamer);
+  const data = await APIService.Streamer.getStreamer(params.streamer);
 
   if (!data) {
     notFound();
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function StreamerPage({ params }: PageProps) {
-  const data = await StreamerService.getStreamer(params.streamer);
+  const data = await APIService.Streamer.getStreamer(params.streamer);
 
   if (!data) {
     notFound();

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import DonationService from "@/lib/api/donation.service";
+import { ClientAPIService } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 import { getOptimalColorFromBackground } from "@/utils/color";
 import { getContrastFromBg } from "@/utils/contrast";
@@ -165,7 +165,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
   const handleSubmit = async () => {
     setIsLoading(true);
 
-    const { donation, address } = await DonationService.donate({
+    const { donation, address } = await ClientAPIService.Donation.donate({
       message,
       name,
       amount: donationAmount,
@@ -197,7 +197,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
 
     setCheckInterval(
       setInterval(async () => {
-        const latestDonationState = await DonationService.getDonation(
+        const latestDonationState = await ClientAPIService.Donation.getDonation(
           donation.id
         );
 
