@@ -78,7 +78,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
     >
       <img
         src="https://cryptologos.cc/logos/solana-sol-logo.png"
-        className="size-3.5 rounded-full mr-1.5"
+        className="size-3.5 mr-1.5"
         alt="solana"
       />
       {amount}
@@ -313,7 +313,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
               startContent={
                 <img
                   src="https://cryptologos.cc/logos/solana-sol-logo.png"
-                  className="size-3.5 rounded-full mr-1.5"
+                  className="size-3.5 mr-1.5"
                   alt="solana"
                 />
               }
@@ -507,7 +507,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
                 Tip{" "}
                 <img
                   src="https://cryptologos.cc/logos/solana-sol-logo.png"
-                  className="size-3.5 rounded-full ml-1.5 mr-1"
+                  className="size-3.5 ml-1.5 mr-1"
                   alt="solana"
                 />
                 {donationAmount} SOL to {streamer.username}

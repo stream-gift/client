@@ -6,6 +6,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 import { ClientAPIService } from "@/lib/api/client";
+import { TbLoader2 } from "react-icons/tb";
+import { cn } from "@/lib/utils";
+import { getOptimalColorFromBackground } from "@/utils/color";
+import { getContrastFromBg } from "@/utils/contrast";
 
 const INTERVAL_TIME_SECONDS = 5;
 const ANIMATION_TIME_SECONDS = 3;
@@ -13,14 +17,17 @@ const ANIMATION_TIME_SECONDS = 3;
 export default function DonationsEventsPage() {
   const { token } = useParams<{ token: string }>();
 
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const startRef = useRef<HTMLDivElement>(null);
+  const [started, setStarted] = useState(false);
 
-  const [data, setData] = useState<any>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [data, setData] = useState<{
+    streamer: Streamer;
+    settings: StreamerSettings;
+  } | null>(null);
 
   const [state, setState] = useState<{
-    events: any[];
-    currentEvent: any | null;
+    events: Donation[];
+    currentEvent: Donation | null;
     eventsDisplayed: string[];
   }>({
     events: [],
@@ -52,6 +59,12 @@ export default function DonationsEventsPage() {
 
   const processEvents = () => {
     setState((state) => {
+      // return {
+      //   currentEvent: state.events[0],
+      //   events: state.events.slice(1),
+      //   eventsDisplayed: [...state.eventsDisplayed],
+      // };
+
       if (state.events.length === 0) {
         return { ...state, currentEvent: null };
       }
@@ -68,8 +81,25 @@ export default function DonationsEventsPage() {
   };
 
   useEffect(() => {
-    if (state.currentEvent && audioRef.current) {
+    if (
+      state.currentEvent &&
+      audioRef.current &&
+      data?.settings?.playNotificationSound
+    ) {
       audioRef.current.play();
+
+      if (state.currentEvent.message) {
+        const utterance = new SpeechSynthesisUtterance(
+          state.currentEvent.message
+        );
+
+        // Select a voice
+        const voices = speechSynthesis.getVoices();
+        utterance.voice = voices[0];
+
+        // Speak the text
+        speechSynthesis.speak(utterance);
+      }
     }
   }, [state.currentEvent]);
 
@@ -84,7 +114,7 @@ export default function DonationsEventsPage() {
       );
     }
 
-    startRef.current?.remove();
+    setStarted(true);
   };
 
   useEffect(() => {
@@ -103,15 +133,36 @@ export default function DonationsEventsPage() {
   }, []);
 
   return (
-    <div>
-      <div ref={startRef} className="flex flex-col p-2">
+    <div
+      className={cn(
+        "max-w-96",
+        started ? "" : "h-fit border border-red-500 border-dashed p-2"
+      )}
+    >
+      {!data && (
+        <div className="p-4 max-w-96 flex items-center justify-center">
+          <TbLoader2 className="animate-spin size-10" />
+        </div>
+      )}
+
+      <div
+        className={cn("flex flex-col p-2", !data || started ? "hidden" : "")}
+      >
         <div className="flex items-center gap-2 text-white">
           <img src="/images/logo.svg" alt="stream.gift" className="size-8" />
           <span className="text-xl">stream.gift</span>
         </div>
 
-        <div className="mt-1 text-lg text-white/90">
-          Signed in as {data?.streamer?.username}
+        <div className="mt-1 text-lg text-white/90 flex gap-2">
+          Signed in as
+          <div className="flex items-center gap-2">
+            <img
+              src={data?.streamer.profileImage}
+              alt={data?.streamer.username}
+              className="size-6 rounded-full"
+            />
+            <span>{data?.streamer.username}</span>
+          </div>
         </div>
 
         <div className="mt-2 flex items-center gap-2">
@@ -119,16 +170,17 @@ export default function DonationsEventsPage() {
             Start
           </Button>
 
-          <Button onClick={start} className="w-fit">
+          {/* <Button onClick={start} className="w-fit">
             Start [Test Mode]
-          </Button>
+          </Button> */}
         </div>
 
-        <div className="mt-2 text-sm text-white/80">
+        {/* <div className="mt-2 text-sm text-white/80">
           In test mode, 5 donations will be shown every 10 seconds.
-        </div>
+        </div> */}
       </div>
       <audio ref={audioRef} src="/audios/chime.mp3" />
+
       <AnimatePresence>
         {state.currentEvent && (
           <motion.div
@@ -141,10 +193,33 @@ export default function DonationsEventsPage() {
               type: "spring",
               stiffness: 100,
             }}
-            className="border-2 border-white p-4 bg-blue-400"
+            className="border p-4 bg-indigo-950 text-white max-w-96 rounded-lg shadow-lg"
           >
-            {state.currentEvent.name || state.currentEvent.transactionSender}{" "}
-            donated {state.currentEvent.amountFloat} SOL
+            <div className="flex items-center justify-center text-xl">
+              <span className="font-bold">
+                {state.currentEvent.name ||
+                  state.currentEvent.transactionSenderDomainName ||
+                  `${state.currentEvent.transactionSender!.slice(
+                    0,
+                    6
+                  )}...${state.currentEvent.transactionSender!.slice(-6)}`}{" "}
+              </span>
+              <span className="ml-1">tipped</span>
+              <div className="flex items-center ml-2 gap-1.5">
+                <img
+                  src="https://cryptologos.cc/logos/solana-sol-logo.png"
+                  alt="solana"
+                  className="size-5"
+                />{" "}
+                {state.currentEvent.amountFloat} SOL
+              </div>
+            </div>
+
+            {state.currentEvent.message && (
+              <div className="mt-1.5 text-white/90 text-base text-center">
+                &quot;{state.currentEvent.message}&quot;
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
