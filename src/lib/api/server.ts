@@ -27,7 +27,8 @@ export const APIService = {
     getUser: () => api.get<User>("/auth/user"),
   },
   Streamer: {
-    getStreamer: (username: string) => api.get(`/streamer/profile/${username}`),
+    getStreamer: (username: string) =>
+      api.get<Streamer>(`/streamer/profile/${username}`),
     getDashboard: () => api.get("/streamer/dashboard"),
   },
 };

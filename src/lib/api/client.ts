@@ -22,16 +22,24 @@ const api = {
 
 export const ClientAPIService = {
   Donation: {
-    donate: (data: any) => api.post<any>("/donation/donate", data),
-    getDonation: (id: string) => api.get<any>(`/donation/${id}`),
+    donate: (data: any) =>
+      api.post<{
+        donation: Donation;
+        address: { address: string; currency: string };
+      }>("/donation/donate", data),
+    getDonation: (id: string) =>
+      api.get<{ donation: Donation }>(`/donation/${id}`),
     getDonationEvents: (token: string, since: number) =>
-      api.get(`/donation/events?token=${token}&since=${since}`),
+      api.get<Donation[]>(`/donation/events?token=${token}&since=${since}`),
   },
 
   Streamer: {
-    getStreamer: (username: string) => api.get<any>(`/streamer/${username}`),
-    onboard: (data: any) => api.post("/streamer/onboard", data),
+    getStreamer: (username: string) =>
+      api.get<Streamer>(`/streamer/profile/${username}`),
+    onboard: (data: any) => api.post<Streamer>("/streamer/onboard", data),
     getStreamerDataByToken: (token: string) =>
-      api.get(`/streamer/data?token=${token}`),
+      api.get<{ streamer: Streamer; settings: StreamerSettings }>(
+        `/streamer/data?token=${token}`
+      ),
   },
 };
