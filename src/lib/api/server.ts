@@ -30,5 +30,12 @@ export const APIService = {
     getStreamer: (username: string) =>
       api.get<Streamer>(`/streamer/profile/${username}`),
     getDashboard: () => api.get("/streamer/dashboard"),
+
+    getAddresses: () => api.get("/streamer/addresses"),
+    getBalances: () => api.get("/streamer/balances"),
+    getWithdrawals: () => api.get("/streamer/withdrawals"),
+
+    getSettings: () => api.get("/streamer/settings"),
+    getToken: () => api.get("/streamer/token"),
   },
 };

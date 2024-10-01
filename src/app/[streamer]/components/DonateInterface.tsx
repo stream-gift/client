@@ -66,6 +66,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
         currentAmount === amount && !usingCustomAmount ? "outline" : "light"
       }
       className={cn(
+        // "font-mono text-xs",
         currentAmount === amount && !usingCustomAmount
           ? "text-white"
           : "border border-gray-200"
@@ -77,7 +78,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
       disabled={disabled}
     >
       <img
-        src="https://cryptologos.cc/logos/solana-sol-logo.png"
+        src="/images/3p/solana.png"
         className="size-3.5 mr-1.5"
         alt="solana"
       />
@@ -197,9 +198,8 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
 
     setCheckInterval(
       setInterval(async () => {
-        const latestDonationState = await ClientAPIService.Donation.getDonation(
-          donation.id
-        );
+        const { donation: latestDonationState } =
+          await ClientAPIService.Donation.getDonation(donation.id);
 
         if (latestDonationState.status === "PENDING") {
           return;
@@ -312,7 +312,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
               // ~ $50k
               startContent={
                 <img
-                  src="https://cryptologos.cc/logos/solana-sol-logo.png"
+                  src="/images/3p/solana.png"
                   className="size-3.5 mr-1.5"
                   alt="solana"
                 />
@@ -388,7 +388,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
                   <div className="font-medium">Amount</div>
                   <div className="flex items-center">
                     <img
-                      src="https://cryptologos.cc/logos/solana-sol-logo.png"
+                      src="/images/3p/solana.png"
                       className="size-3 mr-1.5"
                       alt="solana"
                     />
@@ -506,7 +506,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
               <div className="flex items-center justify-center">
                 Tip{" "}
                 <img
-                  src="https://cryptologos.cc/logos/solana-sol-logo.png"
+                  src="/images/3p/solana.png"
                   className="size-3.5 ml-1.5 mr-1"
                   alt="solana"
                 />

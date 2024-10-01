@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
+import { Archivo, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { APIService } from "@/lib/api/server";
 import { UserProvider } from "./user-provider";
-import { cn } from "@/lib/utils";
-
+import { ProgressProvider } from "./progress-provider";
 const archivo = Archivo({ subsets: ["latin"] });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+});
 
 export const metadata: Metadata = {
   title: "stream.gift",
@@ -20,9 +23,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await APIService.Auth.getUser();
+  const streamer = await APIService.Streamer.getStreamer(user.id);
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${jetbrainsMono.variable}`}>
       <head>
         {/* Meta Tags for Favicon/App Icons */}
         <link
@@ -49,17 +53,19 @@ export default async function RootLayout({
       </head>
 
       <body className={archivo.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <UserProvider initialUser={user}>
-            <div>{children}</div>
-          </UserProvider>
-          <Toaster />
-        </ThemeProvider>
+        <ProgressProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <UserProvider initialUser={user} initialStreamer={streamer}>
+              <div>{children}</div>
+            </UserProvider>
+            <Toaster />
+          </ThemeProvider>
+        </ProgressProvider>
       </body>
     </html>
   );

@@ -36,6 +36,19 @@ const WalletMultiButton = dynamic(
   { ssr: false }
 );
 
+const DISALLOWED_USERNAMES = [
+  "admin",
+  "mod",
+  "moderator",
+  "support",
+  "login",
+  "home",
+  "settings",
+  "alerts",
+  "donations",
+  "withdrawals",
+];
+
 export default function Onboard() {
   const [step, setStep] = useState(1); // Start at 1
   const wallet = useWallet();
@@ -106,14 +119,20 @@ export default function Onboard() {
       setTimeout(async () => {
         setIsCheckingUsername(true);
 
-        const usernameTaken = await ClientAPIService.Streamer.getStreamer(
-          username
-        ).then((data) => !!data);
+        const usernameDisallowed = DISALLOWED_USERNAMES.includes(
+          username.trim().toLowerCase()
+        );
+        const usernameAlreadyTaken =
+          await ClientAPIService.Streamer.getStreamer(username).then(
+            (data) => !!data
+          );
+
+        const canUseUsername = !usernameDisallowed && !usernameAlreadyTaken;
 
         setIsCheckingUsername(false);
         setCheckedMap((prev) => ({
           ...prev,
-          [username]: !usernameTaken,
+          [username]: canUseUsername,
         }));
       }, 500)
     );
@@ -162,7 +181,7 @@ export default function Onboard() {
   const canGoBack = useMemo(() => step > 1, [step]);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white w-full p-5 lg:p-8 flex relative overflow-hidden">
+    <div className="min-h-screen bg-zinc-950 text-white w-full p-5 lg:p-8 flex relative overflow-hidden">
       <Particles
         className="absolute inset-0"
         quantity={150}
@@ -293,7 +312,7 @@ export default function Onboard() {
                               className="aspect-square size-12 rounded-xl shadow mr-1"
                             />
                             <img
-                              src="https://pbs.twimg.com/profile_images/1782015842210705408/Lslm15Q7_400x400.jpg"
+                              src="/images/3p/solflare.jpeg"
                               alt=""
                               className="aspect-square size-12 rounded-xl shadow mr-1"
                             />
@@ -427,7 +446,7 @@ export default function Onboard() {
                           disabled={walletConnected}
                           startContent={
                             <img
-                              src="https://cryptologos.cc/logos/solana-sol-logo.png"
+                              src="/images/3p/solana.png"
                               alt=""
                               className="inline-block size-4 mx-0.5"
                             />

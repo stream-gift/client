@@ -56,22 +56,9 @@ export function LoginForm() {
         <Button
           variant="outline"
           type="button"
-          onClick={signInWithGoogle}
-          disabled={isLoading}
-        >
-          {isLoadingGoogle ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Icons.google className="mr-2 h-4 w-4" />
-          )}{" "}
-          Google
-        </Button>
-
-        <Button
-          variant="outline"
-          type="button"
           onClick={signInWithTwitch}
           disabled={isLoading}
+          className="py-3 h-auto shadow-white/5 shadow-inner"
         >
           {isLoadingTwitch ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -79,6 +66,21 @@ export function LoginForm() {
             <TbBrandTwitch className="mr-2 h-4 w-4" />
           )}{" "}
           Twitch
+        </Button>
+
+        <Button
+          variant="outline"
+          type="button"
+          onClick={signInWithGoogle}
+          disabled={isLoading}
+          className="py-3 h-auto shadow-white/5 shadow-inner"
+        >
+          {isLoadingGoogle ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Icons.google className="mr-2 size-3.5" />
+          )}{" "}
+          Google
         </Button>
 
         {/* <Button

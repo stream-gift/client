@@ -193,9 +193,20 @@ export default function DonationsEventsPage() {
               type: "spring",
               stiffness: 100,
             }}
-            className="border p-4 bg-indigo-950 text-white max-w-96 rounded-lg shadow-lg"
+            className="border p-4 max-w-96 rounded-lg shadow-lg"
+            style={{
+              background:
+                data?.settings?.animationParams.background || "#1e1b4b",
+              color: data?.settings?.animationParams.color || "#ffffff",
+            }}
           >
-            <div className="flex items-center justify-center text-xl">
+            {state.currentEvent.message && (
+              <div className="mb-2 text-xl text-center">
+                &quot;{state.currentEvent.message}&quot;
+              </div>
+            )}
+
+            <div className="flex items-center justify-center text-base opacity-90">
               <span className="font-bold">
                 {state.currentEvent.name ||
                   state.currentEvent.transactionSenderDomainName ||
@@ -207,19 +218,13 @@ export default function DonationsEventsPage() {
               <span className="ml-1">tipped</span>
               <div className="flex items-center ml-2 gap-1.5">
                 <img
-                  src="https://cryptologos.cc/logos/solana-sol-logo.png"
+                  src="/images/3p/solana.png"
                   alt="solana"
-                  className="size-5"
+                  className="size-4"
                 />{" "}
                 {state.currentEvent.amountFloat} SOL
               </div>
             </div>
-
-            {state.currentEvent.message && (
-              <div className="mt-1.5 text-white/90 text-base text-center">
-                &quot;{state.currentEvent.message}&quot;
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

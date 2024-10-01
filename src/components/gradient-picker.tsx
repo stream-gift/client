@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { getContrastFromBg } from "@/utils/contrast";
 import { Paintbrush } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -17,20 +18,22 @@ export function GradientPicker({
   background,
   setBackground,
   className,
+  solidOnly = false,
 }: {
   background: string;
   setBackground: (background: string) => void;
   className?: string;
+  solidOnly?: boolean;
 }) {
   const solids = [
-    "#E2E2E2",
+    "#ffffff",
     "#ff75c3",
     "#ffa647",
     "#ffe83f",
     "#9fff5b",
     "#70e2ff",
     "#cd93ff",
-    "#09203f",
+    "#000000",
   ];
 
   const gradients = [
@@ -64,43 +67,36 @@ export function GradientPicker({
           variant={"light"}
           size="sm"
           className={cn(
-            "justify-start text-left font-normal",
+            "justify-center font-medium text-center",
             !background && "text-muted-foreground",
             className
           )}
+          style={{ background, color: getContrastFromBg(background) }}
         >
-          <div className="w-full flex items-center gap-2">
-            {background ? (
-              <div
-                className="h-4 w-4 rounded !bg-center !bg-cover transition-all"
-                style={{ background }}
-              ></div>
-            ) : (
-              <Paintbrush className="h-4 w-4" />
-            )}
-            <div className="truncate flex-1 text-black">
-              {background ? background : "Pick a color"}
-            </div>
+          <div className="truncate text-sm">
+            {background ? background : "Pick a color"}
           </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-64" align="start">
         <Tabs defaultValue={defaultTab} className="w-full">
-          <TabsList className="w-full mb-4">
-            <TabsTrigger className="flex-1" value="solid">
-              Solid
-            </TabsTrigger>
-            <TabsTrigger className="flex-1" value="gradient">
-              Gradient
-            </TabsTrigger>
-          </TabsList>
+          {!solidOnly && (
+            <TabsList className="w-full mb-4">
+              <TabsTrigger className="flex-1" value="solid">
+                Solid
+              </TabsTrigger>
+              <TabsTrigger className="flex-1" value="gradient">
+                Gradient
+              </TabsTrigger>
+            </TabsList>
+          )}
 
           <TabsContent value="solid" className="flex flex-wrap gap-1 mt-0">
             {solids.map((s) => (
               <div
                 key={s}
                 style={{ background: s }}
-                className="rounded-md h-6 w-6 cursor-pointer active:scale-105"
+                className="rounded h-6 w-6 cursor-pointer active:scale-105"
                 onClick={() => setBackground(s)}
               />
             ))}
@@ -112,7 +108,7 @@ export function GradientPicker({
                 <div
                   key={s}
                   style={{ background: s }}
-                  className="rounded-md h-6 w-6 cursor-pointer active:scale-105"
+                  className="rounded h-6 w-6 cursor-pointer active:scale-105"
                   onClick={() => setBackground(s)}
                 />
               ))}

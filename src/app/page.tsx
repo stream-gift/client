@@ -6,13 +6,16 @@ export default function Home() {
   const { user } = useUser();
 
   return (
-    <main className="min-h-screen p-12">
-      <LoggedIn>Yessir we out here!</LoggedIn>
-      <LoggedOut>Not Logged In</LoggedOut>
+    <main className="min-h-screen">
+      <div></div>
 
-      <pre className="mt-4">
-        {JSON.stringify({ user: { ...user, email: "*********" } }, null, 2)}
-      </pre>
+      <LoggedIn>
+        Yessir we out here!
+        <pre className="mt-4">
+          {JSON.stringify({ user: { ...user, email: "*********" } }, null, 2)}
+        </pre>
+      </LoggedIn>
+      <LoggedOut>Not Logged In</LoggedOut>
     </main>
   );
 }

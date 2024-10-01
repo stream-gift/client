@@ -6,6 +6,8 @@ type UserContextType = {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   isLoggedIn: boolean;
+  streamer: Streamer | null;
+  setStreamer: React.Dispatch<React.SetStateAction<Streamer | null>>;
 };
 
 // Create the context
@@ -15,11 +17,14 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<{
   children: React.ReactNode;
   initialUser?: User | null;
-}> = ({ children, initialUser = null }) => {
+  initialStreamer?: Streamer | null;
+}> = ({ children, initialUser = null, initialStreamer = null }) => {
   const [user, setUser] = useState<User | null>(initialUser);
-
+  const [streamer, setStreamer] = useState<Streamer | null>(initialStreamer);
   return (
-    <UserContext.Provider value={{ user, setUser, isLoggedIn: !!user }}>
+    <UserContext.Provider
+      value={{ user, setUser, isLoggedIn: !!user, streamer, setStreamer }}
+    >
       {children}
     </UserContext.Provider>
   );

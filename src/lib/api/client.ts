@@ -1,3 +1,5 @@
+import { Settings } from "http2";
+
 const api = {
   _request: async (path: string, method: string, body?: any) => {
     const url = new URL(path, process.env.NEXT_PUBLIC_SERVER_URL).toString();
@@ -41,5 +43,9 @@ export const ClientAPIService = {
       api.get<{ streamer: Streamer; settings: StreamerSettings }>(
         `/streamer/data?token=${token}`
       ),
+    setSettings: (data: any) =>
+      api.post<StreamerSettings>("/streamer/settings/set", data),
+    withdraw: (data: any) =>
+      api.post<StreamerWithdrawal>("/streamer/withdraw", data),
   },
 };
