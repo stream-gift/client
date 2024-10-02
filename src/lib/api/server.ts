@@ -24,7 +24,7 @@ const api = {
 
 export const APIService = {
   Auth: {
-    getUser: () => api.get<User>("/auth/user"),
+    getUser: () => api.get<User | null>("/auth/user"),
   },
   Streamer: {
     getStreamer: (username: string) =>

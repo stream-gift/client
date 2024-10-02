@@ -14,9 +14,9 @@ type Streamer = {
   username: string;
   createdAt: string;
   updatedAt: string;
-  profileImage: string | null;
-  profileBanner: string | null;
-  profileColor: string | null;
+  profileImage: string;
+  profileBanner: string;
+  profileColor: string;
   settings?: StreamerSettings;
   token?: StreamerToken;
   donations: Donation[];
@@ -43,11 +43,7 @@ type StreamerSettings = {
 
 type Currency = "SOL" | (string & {});
 
-enum DonationStatus {
-  PENDING,
-  COMPLETED,
-  FAILED,
-}
+type DonationStatus = "PENDING" | "COMPLETED" | "FAILED";
 
 type Donation = {
   id: string;

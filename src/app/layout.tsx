@@ -23,7 +23,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await APIService.Auth.getUser();
-  const streamer = await APIService.Streamer.getStreamer(user.id);
+  const streamer = await APIService.Streamer.getStreamer(user?.id ?? "null");
 
   return (
     <html lang="en" className={`${jetbrainsMono.variable}`}>

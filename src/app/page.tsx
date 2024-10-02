@@ -1,21 +1,18 @@
-"use client";
-
+import { APIService } from "@/lib/api/server";
 import { LoggedIn, LoggedOut, useUser } from "./user-provider";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  const { user } = useUser();
+export default async function Home() {
+  const user = await APIService.Auth.getUser();
+  const streamer = user ? await APIService.Streamer.getStreamer(user.id) : null;
 
-  return (
-    <main className="min-h-screen">
-      <div></div>
+  if (streamer) {
+    return redirect(`/home`);
+  }
 
-      <LoggedIn>
-        Yessir we out here!
-        <pre className="mt-4">
-          {JSON.stringify({ user: { ...user, email: "*********" } }, null, 2)}
-        </pre>
-      </LoggedIn>
-      <LoggedOut>Not Logged In</LoggedOut>
-    </main>
-  );
+  if (user) {
+    return redirect(`/onboard`);
+  }
+
+  return <main className="min-h-screen"></main>;
 }
