@@ -40,7 +40,7 @@ export default async function Home() {
                 <WordRotate
                   words={[
                     <span key="crypto">crypto</span>,
-                    <span key="solana">solana</span>,
+                    <span key="solana">Solana</span>,
                   ]}
                 />
               </span>{" "}
