@@ -50,6 +50,13 @@ export default async function RootLayout({
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#23cdd5" />
         <meta name="msapplication-TileColor" content="#23cdd5" />
         <meta name="theme-color" content="#23cdd5" />
+
+        <meta property="og:image" content="/og.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="/og.png" />
       </head>
 
       <body className={archivo.className}>

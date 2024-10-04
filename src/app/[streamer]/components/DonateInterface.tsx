@@ -19,6 +19,10 @@ import {
   TbPlane,
   TbQrcode,
   TbSend,
+  TbSwitch,
+  TbSwitch2,
+  TbSwitch3,
+  TbSwitchVertical,
   TbWallet,
   TbX,
 } from "react-icons/tb";
@@ -42,6 +46,7 @@ import {
 } from "@solana/web3.js";
 import { CheckmarkAnimation } from "@/components/checkmark";
 import { HiEmojiSad } from "react-icons/hi";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DonationButtonProps {
   amount: number;
@@ -87,6 +92,37 @@ const DonationButton: React.FC<DonationButtonProps> = ({
   );
 };
 
+const USDCDonationButton: React.FC<DonationButtonProps> = ({
+  amount,
+  currentAmount,
+  setCurrentAmount,
+  usingCustomAmount,
+  setUsingCustomAmount,
+  disabled,
+}) => {
+  return (
+    <Button
+      variant={
+        currentAmount === amount && !usingCustomAmount ? "outline" : "light"
+      }
+      className={cn(
+        // "font-mono text-xs",
+        currentAmount === amount && !usingCustomAmount
+          ? "text-white"
+          : "border border-gray-200"
+      )}
+      onClick={() => {
+        setCurrentAmount(amount);
+        setUsingCustomAmount(false);
+      }}
+      disabled={disabled}
+    >
+      <img src="/images/3p/usdc.png" className="size-3.5 mr-1.5" alt="usdc" />
+      {amount}
+    </Button>
+  );
+};
+
 interface DonateInterfaceProps {
   streamer: {
     username: string;
@@ -95,13 +131,23 @@ interface DonateInterfaceProps {
   className?: string;
 }
 
-const DONATION_AMOUNTS = [0.05, 0.1, 0.2, 0.3, 0.5];
+const DONATION_AMOUNTS_SOL = [0.05, 0.1, 0.2, 0.3, 0.5];
+const DONATION_AMOUNTS_USDC = [1, 3, 5, 10, 20];
 const DONATION_TIME_LEFT = 15 * 60;
 
 export const DonateInterface: React.FC<DonateInterfaceProps> = ({
   streamer,
   className,
 }) => {
+  const [currency, setCurrency] = useState<string>("sol");
+
+  useEffect(() => {
+    setPresetAmount(
+      currency === "sol" ? DONATION_AMOUNTS_SOL[2] : DONATION_AMOUNTS_USDC[2]
+    );
+    setUsingCustomAmount(false);
+  }, [currency]);
+
   const { Image: ImageQRCode } = useQRCode();
 
   const { visible, setVisible } = useWalletModal();
@@ -272,31 +318,80 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
       )}
     >
       <div className="bg-white h-full rounded-lg p-4 text-black">
-        <h3 className="text-md font-semibold">Tip Amount</h3>
-        <div className="grid grid-cols-3 gap-2 mt-2">
-          {DONATION_AMOUNTS.map((amount) => (
-            <DonationButton
-              key={amount}
-              amount={amount}
-              currentAmount={presetAmount}
-              setCurrentAmount={setPresetAmount}
-              usingCustomAmount={usingCustomAmount}
-              setUsingCustomAmount={setUsingCustomAmount}
-              disabled={!!address}
-            />
-          ))}
-
-          <Button
-            variant={usingCustomAmount ? "outline" : "light"}
-            className={cn(
-              usingCustomAmount ? "text-white" : "border border-gray-200"
-            )}
-            onClick={() => setUsingCustomAmount(true)}
-            disabled={!!address}
-          >
-            Custom
-          </Button>
+        <div className="flex items-center gap-3">
+          <h3 className="text-md font-semibold">Tip Amount</h3>
         </div>
+
+        <Tabs value={currency} onValueChange={setCurrency}>
+          <TabsList className="mt-2 w-full grid grid-cols-2 gap-2 bg-gray-100">
+            <TabsTrigger
+              className="data-[state=active]:bg-white data-[state=active]:text-black"
+              value="sol"
+            >
+              SOL
+            </TabsTrigger>
+            <TabsTrigger
+              className="data-[state=active]:bg-white data-[state=active]:text-black"
+              value="usdc"
+            >
+              USDC
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="sol">
+            <div className="grid grid-cols-3 gap-2 mt-2">
+              {DONATION_AMOUNTS_SOL.map((amount) => (
+                <DonationButton
+                  key={amount}
+                  amount={amount}
+                  currentAmount={presetAmount}
+                  setCurrentAmount={setPresetAmount}
+                  usingCustomAmount={usingCustomAmount}
+                  setUsingCustomAmount={setUsingCustomAmount}
+                  disabled={!!address}
+                />
+              ))}
+
+              <Button
+                variant={usingCustomAmount ? "outline" : "light"}
+                className={cn(
+                  usingCustomAmount ? "text-white" : "border border-gray-200"
+                )}
+                onClick={() => setUsingCustomAmount(true)}
+                disabled={!!address}
+              >
+                Custom
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="usdc">
+            <div className="grid grid-cols-3 gap-2 mt-2">
+              {DONATION_AMOUNTS_USDC.map((amount) => (
+                <USDCDonationButton
+                  key={amount}
+                  amount={amount}
+                  currentAmount={presetAmount}
+                  setCurrentAmount={setPresetAmount}
+                  usingCustomAmount={usingCustomAmount}
+                  setUsingCustomAmount={setUsingCustomAmount}
+                  disabled={!!address}
+                />
+              ))}
+
+              <Button
+                variant={usingCustomAmount ? "outline" : "light"}
+                className={cn(
+                  usingCustomAmount ? "text-white" : "border border-gray-200"
+                )}
+                onClick={() => setUsingCustomAmount(true)}
+                disabled={!!address}
+              >
+                Custom
+              </Button>
+            </div>
+          </TabsContent>
+        </Tabs>
 
         {usingCustomAmount && (
           <div className="flex items-center justify-center">
@@ -312,9 +407,9 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
               // ~ $50k
               startContent={
                 <img
-                  src="/images/3p/solana.png"
+                  src="/images/3p/usdc.png"
                   className="size-3.5 mr-1.5"
-                  alt="solana"
+                  alt="usdc"
                 />
               }
             />
@@ -506,11 +601,16 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
               <div className="flex items-center justify-center">
                 Tip{" "}
                 <img
-                  src="/images/3p/solana.png"
+                  src={
+                    currency === "sol"
+                      ? "/images/3p/solana.png"
+                      : "/images/3p/usdc.png"
+                  }
                   className="size-3.5 ml-1.5 mr-1"
-                  alt="solana"
+                  alt={currency === "sol" ? "solana" : "usdc"}
                 />
-                {donationAmount} SOL to {streamer.username}
+                {donationAmount} {currency === "sol" ? "SOL" : "USDC"} to{" "}
+                {streamer.username}
               </div>
 
               <div className="mt-3 flex flex-col gap-2">

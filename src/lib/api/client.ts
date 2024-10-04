@@ -38,7 +38,11 @@ export const ClientAPIService = {
   Streamer: {
     getStreamer: (username: string) =>
       api.get<Streamer>(`/streamer/profile/${username}`),
-    onboard: (data: any) => api.post<Streamer>("/streamer/onboard", data),
+    onboard: (data: any) =>
+      api.post<Streamer & { streamerDomainName: string }>(
+        "/streamer/onboard",
+        data
+      ),
     getStreamerDataByToken: (token: string) =>
       api.get<{ streamer: Streamer; settings: StreamerSettings }>(
         `/streamer/data?token=${token}`
