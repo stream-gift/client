@@ -6,6 +6,9 @@ stream.gift provides crypto donations to streamers. This repository contains the
 
 Built by [fakes1lent](https://github.com/fakes1lent) & [Nick Mura](https://github.com/nickmura)
 
+Questions? Email us at contact@stream.gift
+
+
 ## Dependencies
 
 - Next.js 14
