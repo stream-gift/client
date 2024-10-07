@@ -48,7 +48,7 @@ export default async function StreamerPage({ params }: PageProps) {
 
           <div className="w-full relative mt-4">
             <img
-              src={data.profileBanner}
+              src={data.profileBanner || "https://i.imgur.com/iugfnT6.jpg"}
               alt={`${data.username} profile banner`}
               className="w-full h-40 object-cover rounded-xl"
             />

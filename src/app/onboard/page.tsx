@@ -178,18 +178,10 @@ export default function Onboard() {
   const canGoNext = useMemo(() => {
     if (step === 2) return checkedMap[username] === true;
     if (step === 3) return isAddressValid;
-    if (step === 4) return profileImage && profileBanner && profileColor;
+    if (step === 4) return profileImage && profileColor;
     if (step < 5) return true;
     return false;
-  }, [
-    step,
-    checkedMap,
-    username,
-    isAddressValid,
-    profileImage,
-    profileBanner,
-    profileColor,
-  ]);
+  }, [step, checkedMap, username, isAddressValid, profileImage, profileColor]);
 
   const canGoBack = useMemo(() => step > 1, [step]);
 
