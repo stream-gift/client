@@ -12,7 +12,7 @@ import { getOptimalColorFromBackground } from "@/utils/color";
 import { getContrastFromBg } from "@/utils/contrast";
 
 const INTERVAL_TIME_SECONDS = 5;
-const ANIMATION_TIME_SECONDS = 3;
+const ANIMATION_TIME_SECONDS = 10;
 
 export default function DonationsEventsPage() {
   const { token } = useParams<{ token: string }>();
