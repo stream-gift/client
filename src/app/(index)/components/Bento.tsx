@@ -41,7 +41,7 @@ const features = [
   {
     Icon: TbCoins,
     name: "Donations",
-    description: "We automatically save your files as you type.",
+    description: "Receive & send donations to your favorite streamers on Solana.",
     href: "#",
     cta: "Learn more",
     className: "col-span-3 lg:col-span-1",
