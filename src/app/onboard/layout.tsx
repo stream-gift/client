@@ -1,34 +1,30 @@
 "use client";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { getFullnodeUrl } from "@mysten/sui/client";
 import {
-  ConnectionProvider,
+  createNetworkConfig,
+  SuiClientProvider,
   WalletProvider,
-} from "@solana/wallet-adapter-react";
-import {
-  WalletModalContext,
-  WalletModalProvider,
-} from "@solana/wallet-adapter-react-ui";
-import { Cluster, clusterApiUrl } from "@solana/web3.js";
-import { useMemo } from "react";
-
-import "@solana/wallet-adapter-react-ui/styles.css";
+} from "@mysten/dapp-kit";
 import "@uploadthing/react/styles.css";
+import "@mysten/dapp-kit/dist/index.css";
+
+const { networkConfig } = createNetworkConfig({
+  mainnet: { url: getFullnodeUrl("mainnet") },
+});
+const queryClient = new QueryClient();
 
 export default function OnboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const endpoint = clusterApiUrl(
-    (process.env.NEXT_PUBLIC_SOLANA_NETWORK as Cluster) || "devnet"
-  );
-  const wallets = useMemo(() => [], []);
-
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets}>
-        <WalletModalProvider>{children}</WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SuiClientProvider networks={networkConfig} defaultNetwork="mainnet">
+        <WalletProvider>{children}</WalletProvider>
+      </SuiClientProvider>
+    </QueryClientProvider>
   );
 }

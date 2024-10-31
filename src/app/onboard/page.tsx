@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
-import { PublicKey } from "@solana/web3.js";
 import {
   TbCircleCheckFilled,
   TbCircleXFilled,
@@ -16,8 +15,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { GradientPicker } from "@/components/gradient-picker";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { UploadButton } from "@/utils/uploadthing";
 import { toast } from "sonner";
 
@@ -25,16 +22,10 @@ import { useRef } from "react";
 import type { ConfettiRef } from "@/components/magicui/confetti";
 import Confetti from "@/components/magicui/confetti";
 
-import dynamic from "next/dynamic";
+import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
+import { isValidSuiAddress } from "@mysten/sui/utils";
 import { ClientAPIService } from "@/lib/api/client";
-import { useRouter } from "next/navigation";
 import Particles from "@/components/magicui/particles";
-
-const WalletMultiButton = dynamic(
-  async () =>
-    (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
-  { ssr: false }
-);
 
 const DISALLOWED_USERNAMES = [
   "admin",
@@ -51,8 +42,7 @@ const DISALLOWED_USERNAMES = [
 
 export default function Onboard() {
   const [step, setStep] = useState(1); // Start at 1
-  const wallet = useWallet();
-  const router = useRouter();
+  const currentAccount = useCurrentAccount();
 
   const [finalLoading, setFinalLoading] = useState(false);
   const [finalDone, setFinalDone] = useState(false);
@@ -124,11 +114,11 @@ export default function Onboard() {
         setIsCheckingUsername(true);
 
         const usernameDisallowed = DISALLOWED_USERNAMES.includes(
-          username.trim().toLowerCase()
+          username.trim().toLowerCase(),
         );
         const usernameAlreadyTaken =
           await ClientAPIService.Streamer.getStreamer(username).then(
-            (data) => !!data
+            (data) => !!data,
           );
 
         const canUseUsername = !usernameDisallowed && !usernameAlreadyTaken;
@@ -138,7 +128,7 @@ export default function Onboard() {
           ...prev,
           [username]: canUseUsername,
         }));
-      }, 500)
+      }, 500),
     );
   }, [username]);
 
@@ -146,26 +136,21 @@ export default function Onboard() {
   const [walletConnected, setWalletConnected] = useState(false);
 
   useEffect(() => {
-    if (wallet.connected && wallet.publicKey) {
-      setAddress(wallet.publicKey.toBase58());
+    if (currentAccount) {
+      setAddress(currentAccount.address);
       setWalletConnected(true);
-    } else if (!wallet.connected) {
+    } else {
       setAddress("");
       setWalletConnected(false);
     }
-  }, [wallet.connected, wallet.publicKey]);
+  }, [currentAccount]);
 
   const isAddressValid = useMemo(() => {
     if (!address || address.length < 32) {
       return false;
     }
 
-    try {
-      const pk = new PublicKey(address);
-      return PublicKey.isOnCurve(pk);
-    } catch (e) {
-      return false;
-    }
+    return isValidSuiAddress(address);
   }, [address]);
 
   const [profileImage, setProfileImage] = useState<string>("");
@@ -212,7 +197,7 @@ export default function Onboard() {
                   <div
                     className={cn(
                       step === 1 ? "text-sm" : "text-xs text-white/60",
-                      "transition-all duration-500"
+                      "transition-all duration-500",
                     )}
                   >
                     1. Start
@@ -225,7 +210,7 @@ export default function Onboard() {
                   <div
                     className={cn(
                       step === 2 ? "text-sm" : "text-xs text-white/60",
-                      "transition-all duration-500"
+                      "transition-all duration-500",
                     )}
                   >
                     2. Link
@@ -238,7 +223,7 @@ export default function Onboard() {
                   <div
                     className={cn(
                       step === 3 ? "text-sm" : "text-xs text-white/60",
-                      "transition-all duration-500"
+                      "transition-all duration-500",
                     )}
                   >
                     3. Wallets
@@ -251,7 +236,7 @@ export default function Onboard() {
                   <div
                     className={cn(
                       step === 4 ? "text-sm" : "text-xs text-white/60",
-                      "transition-all duration-500"
+                      "transition-all duration-500",
                     )}
                   >
                     4. Profile
@@ -420,11 +405,12 @@ export default function Onboard() {
                     Connect your wallet
                   </h2>
                   <div className="mt-2 text-md text-white/60">
-                    This is where your SOL tips will be withdrawn to.
+                    This is where your SUI tips will be withdrawn to.
                   </div>
 
                   <div className="mt-6">
-                    <WalletMultiButton />
+                    <ConnectButton />
+                    <p>{currentAccount ? address : "Wallet Not Connected"}</p>
 
                     <div className={cn("relative my-6 opacity-50")}>
                       <div className="absolute inset-0 flex items-center">
@@ -441,17 +427,17 @@ export default function Onboard() {
                       <div>
                         <Input
                           type="text"
-                          placeholder="G4c1xNzbYTyH19NcUdFzsGZ6hTj12YjAQU7fJAQDeRhA"
+                          placeholder="0x72b8c32f30813d230410976c46697db09f416e3396d462a170d290ac60d822ea"
                           className={cn(
                             "w-full px-3 py-2 bg-white text-black border border-gray-300 rounded-md shadow-sm",
-                            walletConnected && "opacity-60"
+                            walletConnected && "opacity-60",
                           )}
                           value={walletConnected ? "" : address}
                           onChange={(e) => setAddress(e.target.value)}
                           disabled={walletConnected}
                           startContent={
                             <img
-                              src="/images/3p/solana.png"
+                              src="/images/3p/sui.png"
                               alt=""
                               className="inline-block size-4 mx-0.5"
                             />
@@ -496,7 +482,7 @@ export default function Onboard() {
                             }}
                             onUploadError={(error: Error) => {
                               toast.error(
-                                `Error uploading photo: ${error.message}`
+                                `Error uploading photo: ${error.message}`,
                               );
                             }}
                           />
@@ -531,7 +517,7 @@ export default function Onboard() {
                             }}
                             onUploadError={(error: Error) => {
                               toast.error(
-                                `Error uploading banner: ${error.message}`
+                                `Error uploading banner: ${error.message}`,
                               );
                             }}
                           />
@@ -649,7 +635,7 @@ export default function Onboard() {
               <div
                 className={cn(
                   "flex justify-end gap-4 mt-4",
-                  step === 5 && "hidden"
+                  step === 5 && "hidden",
                 )}
               >
                 {canGoBack && (
