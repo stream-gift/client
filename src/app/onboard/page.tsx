@@ -479,7 +479,6 @@ export default function Onboard() {
                               );
                             }}
                           />
-                          <div className="text-sm">{profileImageName}</div>
                         </div>
 
                         <div className="mt-1.5 text-xs text-white/60">
@@ -507,7 +506,6 @@ export default function Onboard() {
                               );
                             }}
                           />
-                          <div className="text-sm">{profileBannerName}</div>
                         </div>
 
                         <div className="mt-1.5 text-xs text-white/60">
