@@ -17,8 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { GradientPicker } from "@/components/gradient-picker";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { UploadButton } from "@/utils/uploadthing";
+import { UploadButton } from "@/components/UploadIpfsButton";
 import { toast } from "sonner";
 
 import { useRef } from "react";
@@ -33,7 +32,7 @@ import Particles from "@/components/magicui/particles";
 const WalletMultiButton = dynamic(
   async () =>
     (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
-  { ssr: false }
+  { ssr: false },
 );
 
 const DISALLOWED_USERNAMES = [
@@ -124,11 +123,11 @@ export default function Onboard() {
         setIsCheckingUsername(true);
 
         const usernameDisallowed = DISALLOWED_USERNAMES.includes(
-          username.trim().toLowerCase()
+          username.trim().toLowerCase(),
         );
         const usernameAlreadyTaken =
           await ClientAPIService.Streamer.getStreamer(username).then(
-            (data) => !!data
+            (data) => !!data,
           );
 
         const canUseUsername = !usernameDisallowed && !usernameAlreadyTaken;
@@ -138,7 +137,7 @@ export default function Onboard() {
           ...prev,
           [username]: canUseUsername,
         }));
-      }, 500)
+      }, 500),
     );
   }, [username]);
 
@@ -212,7 +211,7 @@ export default function Onboard() {
                   <div
                     className={cn(
                       step === 1 ? "text-sm" : "text-xs text-white/60",
-                      "transition-all duration-500"
+                      "transition-all duration-500",
                     )}
                   >
                     1. Start
@@ -225,7 +224,7 @@ export default function Onboard() {
                   <div
                     className={cn(
                       step === 2 ? "text-sm" : "text-xs text-white/60",
-                      "transition-all duration-500"
+                      "transition-all duration-500",
                     )}
                   >
                     2. Link
@@ -238,7 +237,7 @@ export default function Onboard() {
                   <div
                     className={cn(
                       step === 3 ? "text-sm" : "text-xs text-white/60",
-                      "transition-all duration-500"
+                      "transition-all duration-500",
                     )}
                   >
                     3. Wallets
@@ -251,7 +250,7 @@ export default function Onboard() {
                   <div
                     className={cn(
                       step === 4 ? "text-sm" : "text-xs text-white/60",
-                      "transition-all duration-500"
+                      "transition-all duration-500",
                     )}
                   >
                     4. Profile
@@ -444,7 +443,7 @@ export default function Onboard() {
                           placeholder="G4c1xNzbYTyH19NcUdFzsGZ6hTj12YjAQU7fJAQDeRhA"
                           className={cn(
                             "w-full px-3 py-2 bg-white text-black border border-gray-300 rounded-md shadow-sm",
-                            walletConnected && "opacity-60"
+                            walletConnected && "opacity-60",
                           )}
                           value={walletConnected ? "" : address}
                           onChange={(e) => setAddress(e.target.value)}
@@ -482,21 +481,14 @@ export default function Onboard() {
 
                         <div className="flex items-center gap-2.5 mt-3 ">
                           <UploadButton
-                            endpoint="imageUploader"
-                            className="w-fit items-start"
-                            appearance={{
-                              button:
-                                "h-8 rounded-md px-3 text-xs w-fit bg-white text-black shadow hover:bg-white/90",
-                              allowedContent: "hidden",
-                            }}
-                            onClientUploadComplete={([file]) => {
+                            onClientUploadComplete={(file) => {
                               console.log("File: ", file);
                               setProfileImage(file.url);
                               setProfileImageName(file.name);
                             }}
                             onUploadError={(error: Error) => {
                               toast.error(
-                                `Error uploading photo: ${error.message}`
+                                `Error uploading photo: ${error.message}`,
                               );
                             }}
                           />
@@ -517,21 +509,14 @@ export default function Onboard() {
 
                         <div className="flex items-center gap-2.5 mt-3 ">
                           <UploadButton
-                            endpoint="imageUploader"
-                            className="w-fit items-start"
-                            appearance={{
-                              button:
-                                "h-8 rounded-md px-3 text-xs w-fit bg-white text-black shadow hover:bg-white/90",
-                              allowedContent: "hidden",
-                            }}
-                            onClientUploadComplete={([file]) => {
+                            onClientUploadComplete={(file) => {
                               console.log("File: ", file);
                               setProfileBanner(file.url);
                               setProfileBannerName(file.name);
                             }}
                             onUploadError={(error: Error) => {
                               toast.error(
-                                `Error uploading banner: ${error.message}`
+                                `Error uploading banner: ${error.message}`,
                               );
                             }}
                           />
@@ -649,7 +634,7 @@ export default function Onboard() {
               <div
                 className={cn(
                   "flex justify-end gap-4 mt-4",
-                  step === 5 && "hidden"
+                  step === 5 && "hidden",
                 )}
               >
                 {canGoBack && (
