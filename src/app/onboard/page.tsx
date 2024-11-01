@@ -15,7 +15,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { GradientPicker } from "@/components/gradient-picker";
-import { UploadButton } from "@/utils/uploadthing";
 import { toast } from "sonner";
 
 import { useRef } from "react";
@@ -26,6 +25,7 @@ import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
 import { isValidSuiAddress } from "@mysten/sui/utils";
 import { ClientAPIService } from "@/lib/api/client";
 import Particles from "@/components/magicui/particles";
+import { UploadButton } from "@/components/UploadIpfsButton";
 
 const DISALLOWED_USERNAMES = [
   "admin",
@@ -468,14 +468,7 @@ export default function Onboard() {
 
                         <div className="flex items-center gap-2.5 mt-3 ">
                           <UploadButton
-                            endpoint="imageUploader"
-                            className="w-fit items-start"
-                            appearance={{
-                              button:
-                                "h-8 rounded-md px-3 text-xs w-fit bg-white text-black shadow hover:bg-white/90",
-                              allowedContent: "hidden",
-                            }}
-                            onClientUploadComplete={([file]) => {
+                            onClientUploadComplete={(file) => {
                               console.log("File: ", file);
                               setProfileImage(file.url);
                               setProfileImageName(file.name);
@@ -503,14 +496,7 @@ export default function Onboard() {
 
                         <div className="flex items-center gap-2.5 mt-3 ">
                           <UploadButton
-                            endpoint="imageUploader"
-                            className="w-fit items-start"
-                            appearance={{
-                              button:
-                                "h-8 rounded-md px-3 text-xs w-fit bg-white text-black shadow hover:bg-white/90",
-                              allowedContent: "hidden",
-                            }}
-                            onClientUploadComplete={([file]) => {
+                            onClientUploadComplete={(file) => {
                               console.log("File: ", file);
                               setProfileBanner(file.url);
                               setProfileBannerName(file.name);
