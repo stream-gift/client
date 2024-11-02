@@ -26,6 +26,7 @@ import {
 import WithdrawBalance from "./components/WithdrawBalance";
 import { TimeAgo } from "@/components/timeago";
 import { cn } from "@/lib/utils";
+import { MIST_PER_SUI } from "@mysten/sui/utils";
 
 export default async function BalancesPage() {
   const addresses = await APIService.Streamer.getAddresses();
@@ -52,16 +53,12 @@ export default async function BalancesPage() {
                   <TbArrowUp className="text-green-400" />
                 </div>
                 <div className="flex items-center gap-3 mt-2">
-                  <img
-                    src="/images/3p/solana.png"
-                    alt="SOL"
-                    className="size-6"
-                  />
+                  <img src="/images/3p/sui.png" alt="SUI" className="size-6" />
 
                   <p className="text-white text-2xl font-bold font-mono">
-                    {balances.find((balance: any) => balance.currency === "SOL")
-                      ?.balance / LAMPORTS_PER_SOL || 0}
-                    <span className="text-white ml-2">SOL</span>
+                    {balances.find((balance: any) => balance.currency === "SUI")
+                      ?.balance / Number(MIST_PER_SUI) || 0}
+                    <span className="text-white ml-2">SUI</span>
                   </p>
                 </div>
               </div>
@@ -97,22 +94,22 @@ export default async function BalancesPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <img
-                        src="/images/3p/solana.png"
+                        src="/images/3p/sui.png"
                         className="size-5"
-                        alt="solana"
+                        alt="sui"
                       />
                       <div className="flex items-center gap-1 font-mono text-xl">
                         <span className="font-medium">
-                          {withdrawal.amount / LAMPORTS_PER_SOL}
+                          {withdrawal.amount / Number(MIST_PER_SUI)}
                         </span>
-                        <span className="text-white/60">SOL</span>
+                        <span className="text-white/60">SUI</span>
                       </div>
                     </div>
 
                     <a
                       href={
                         withdrawal.transactionHash
-                          ? ` https://explorer.solana.com/tx/${withdrawal.transactionHash}`
+                          ? `https://suiscan.xyz/mainnet/tx/${withdrawal.transactionHash}`
                           : "#"
                       }
                       target="_blank"
@@ -166,7 +163,7 @@ export default async function BalancesPage() {
                   <div
                     className={cn(
                       "mt-3 text-sm",
-                      !withdrawal.transactionHash ? "hidden" : ""
+                      !withdrawal.transactionHash ? "hidden" : "",
                     )}
                   >
                     <div className="mt-1 break-all">

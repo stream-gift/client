@@ -18,6 +18,7 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { toast } from "sonner";
 import { ClientAPIService } from "@/lib/api/client";
 import { useRouter } from "next/navigation";
+import { MIST_PER_SUI } from "@mysten/sui/utils";
 
 export default function WithdrawBalance({
   className,
@@ -33,12 +34,12 @@ export default function WithdrawBalance({
   const [modalOpen, setModalOpen] = useState(false);
 
   const currentBalance = useMemo(() => {
-    return balances.find((b) => b.currency === "SOL")?.balance || 0;
+    return balances.find((b) => b.currency === "SUI")?.balance || 0;
   }, [balances]);
 
   const [withdrawalAmount, setWithdrawalAmount] = useState(0);
   const [withdrawalAddress, setWithdrawalAddress] = useState(
-    addresses[0]?.address || ""
+    addresses[0]?.address || "",
   );
 
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +47,7 @@ export default function WithdrawBalance({
   const withdraw = async () => {
     setIsLoading(true);
 
-    const withdrawalAmountLamports = withdrawalAmount * LAMPORTS_PER_SOL;
+    const withdrawalAmountLamports = withdrawalAmount * Number(MIST_PER_SUI);
 
     if (withdrawalAmountLamports > currentBalance) {
       toast.error("Insufficient balance");
@@ -94,7 +95,7 @@ export default function WithdrawBalance({
               />
 
               <div className="text-xs text-white/80 mt-2">
-                Max: {currentBalance / LAMPORTS_PER_SOL} SOL
+                Max: {currentBalance / Number(MIST_PER_SUI)} SUI
               </div>
             </div>
 
@@ -108,7 +109,7 @@ export default function WithdrawBalance({
               />
 
               <div className="text-xs text-white/80 mt-2">
-                Must be a Solana address on SOL Chain
+                Must be a SUI address on SUI Chain
               </div>
             </div>
 
