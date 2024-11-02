@@ -12,41 +12,23 @@ import { getContrastFromBg } from "@/utils/contrast";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useQRCode } from "next-qrcode";
-import {
-  TbCircleX,
-  TbCircleXFilled,
-  TbCopy,
-  TbPlane,
-  TbQrcode,
-  TbSend,
-  TbSwitch,
-  TbSwitch2,
-  TbSwitch3,
-  TbSwitchVertical,
-  TbWallet,
-  TbX,
-} from "react-icons/tb";
+import { TbCopy, TbQrcode, TbSend, TbWallet, TbX } from "react-icons/tb";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { useWallet, useConnection, Wallet } from "@solana/wallet-adapter-react";
-import { useWalletMultiButton } from "@solana/wallet-adapter-base-ui";
-import {
-  WalletName,
-  WalletNotConnectedError,
-} from "@solana/wallet-adapter-base";
-import {
-  Transaction,
-  SystemProgram,
-  PublicKey,
-  LAMPORTS_PER_SOL,
-} from "@solana/web3.js";
 import { CheckmarkAnimation } from "@/components/checkmark";
 import { HiEmojiSad } from "react-icons/hi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  ConnectButton,
+  useCurrentAccount,
+  useDisconnectWallet,
+  useSignAndExecuteTransaction,
+} from "@mysten/dapp-kit";
+import { Transaction as TransactionBlock } from "@mysten/sui/transactions";
+import { parseUnits } from "@/utils/bigints";
 
 interface DonationButtonProps {
   amount: number;
@@ -74,7 +56,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
         // "font-mono text-xs",
         currentAmount === amount && !usingCustomAmount
           ? "text-white"
-          : "border border-gray-200"
+          : "border border-gray-200",
       )}
       onClick={() => {
         setCurrentAmount(amount);
@@ -82,11 +64,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
       }}
       disabled={disabled}
     >
-      <img
-        src="/images/3p/solana.png"
-        className="size-3.5 mr-1.5"
-        alt="solana"
-      />
+      <img src="/images/3p/sui.png" className="size-3.5 mr-1.5" alt="solana" />
       {amount}
     </Button>
   );
@@ -109,7 +87,7 @@ const USDCDonationButton: React.FC<DonationButtonProps> = ({
         // "font-mono text-xs",
         currentAmount === amount && !usingCustomAmount
           ? "text-white"
-          : "border border-gray-200"
+          : "border border-gray-200",
       )}
       onClick={() => {
         setCurrentAmount(amount);
@@ -131,7 +109,7 @@ interface DonateInterfaceProps {
   className?: string;
 }
 
-const DONATION_AMOUNTS_SOL = [0.05, 0.1, 0.2, 0.3, 0.5];
+const DONATION_AMOUNTS_SUI = [0.05, 0.1, 0.2, 0.3, 0.5];
 const DONATION_AMOUNTS_USDC = [1, 3, 5, 10, 20];
 const DONATION_TIME_LEFT = 15 * 60;
 
@@ -139,42 +117,21 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
   streamer,
   className,
 }) => {
-  const [currency, setCurrency] = useState<string>("sol");
+  const [currency, setCurrency] = useState<string>("sui");
 
   useEffect(() => {
     setPresetAmount(
-      currency === "sol" ? DONATION_AMOUNTS_SOL[2] : DONATION_AMOUNTS_USDC[2]
+      currency === "sui" ? DONATION_AMOUNTS_SUI[2] : DONATION_AMOUNTS_USDC[2],
     );
     setUsingCustomAmount(false);
   }, [currency]);
 
   const { Image: ImageQRCode } = useQRCode();
 
-  const { visible, setVisible } = useWalletModal();
-  const { connection } = useConnection();
-  const wallet = useWallet();
-
-  const [walletModalConfig, setWalletModalConfig] = useState<Readonly<{
-    onSelectWallet(walletName: WalletName): void;
-    wallets: Wallet[];
-  }> | null>(null);
-  const { buttonState } = useWalletMultiButton({
-    onSelectWallet: setWalletModalConfig,
-  });
-
-  const [genesisHash, setGenesisHash] = useState("");
-  useEffect(() => {
-    const fetchNetworkInfo = async () => {
-      try {
-        const hash = await connection.getGenesisHash();
-        setGenesisHash(hash);
-      } catch (error) {
-        console.error("Error fetching Solana network information:", error);
-      }
-    };
-
-    fetchNetworkInfo();
-  }, [connection]);
+  const wallet = useCurrentAccount();
+  const { mutate: disconnectWallet } = useDisconnectWallet();
+  const { mutateAsync: signAndExecuteTransaction } =
+    useSignAndExecuteTransaction();
 
   const [presetAmount, setPresetAmount] = useState(0.2);
   const [usingCustomAmount, setUsingCustomAmount] = useState(false);
@@ -182,7 +139,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
 
   const donationAmount = useMemo(
     () => (usingCustomAmount ? customAmount : presetAmount),
-    [usingCustomAmount, customAmount, presetAmount]
+    [usingCustomAmount, customAmount, presetAmount],
   );
 
   const [message, setMessage] = useState("");
@@ -190,7 +147,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
 
   const backgroundColor = useMemo(
     () => getOptimalColorFromBackground(streamer.profileColor),
-    []
+    [],
   );
   const contrastColor = useMemo(() => getContrastFromBg(backgroundColor), []);
 
@@ -202,7 +159,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
   const [secondsCounterInterval, setSecondsCounterInterval] =
     useState<NodeJS.Timeout | null>(null);
   const [checkInterval, setCheckInterval] = useState<NodeJS.Timeout | null>(
-    null
+    null,
   );
 
   const [success, setSuccess] = useState(false);
@@ -239,7 +196,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
 
           return secondsLeft - 1;
         });
-      }, 1000)
+      }, 1000),
     );
 
     setCheckInterval(
@@ -260,49 +217,24 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
 
         clearInterval(checkInterval!);
         setCheckInterval(null);
-      }, 1000)
+      }, 1000),
     );
 
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    if (buttonState === "has-wallet" && donation) {
-      try {
-        wallet.connect();
-      } catch {}
-    }
-  }, [buttonState]);
-
   const handleTransactionSubmit = async () => {
-    if (!wallet.connected) {
-      try {
-        await wallet.connect();
-      } catch (error) {
-        setVisible(true);
-      }
-
-      return;
-    }
-
-    if (!wallet.publicKey) {
-      throw new WalletNotConnectedError();
-    }
+    if (!wallet) throw new Error("WalletNotConnected");
 
     try {
-      const recipientPubKey = new PublicKey(address);
-      const transaction = new Transaction();
-
-      const sendSolInstruction = SystemProgram.transfer({
-        fromPubkey: wallet.publicKey,
-        toPubkey: recipientPubKey,
-        lamports: donationAmount * LAMPORTS_PER_SOL,
+      const amount = parseUnits(donationAmount.toString(10), 9);
+      const txb = new TransactionBlock();
+      const coin = txb.splitCoins(txb.gas, [amount]);
+      txb.transferObjects([coin], address);
+      const response = await signAndExecuteTransaction({
+        transaction: txb,
       });
-      transaction.add(sendSolInstruction);
-
-      const signature = await wallet.sendTransaction(transaction, connection);
-      console.log(`Transaction signature: ${signature}`);
-
+      console.log(`Transaction signature: ${response.signature}`);
       setSuccess(true);
     } catch (error) {
       console.error("Transaction failed", error);
@@ -314,7 +246,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
     <div
       className={cn(
         "grid grid-cols-1 md:grid-cols-2 gap-4 h-fit md:min-h-72",
-        className
+        className,
       )}
     >
       <div className="bg-white h-full rounded-lg p-4 text-black">
@@ -326,9 +258,9 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
           <TabsList className="mt-2 w-full grid grid-cols-2 gap-2 bg-gray-100">
             <TabsTrigger
               className="data-[state=active]:bg-white data-[state=active]:text-black"
-              value="sol"
+              value="sui"
             >
-              SOL
+              SUI
             </TabsTrigger>
             <TabsTrigger
               className="data-[state=active]:bg-white data-[state=active]:text-black"
@@ -338,9 +270,9 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="sol">
+          <TabsContent value="sui">
             <div className="grid grid-cols-3 gap-2 mt-2">
-              {DONATION_AMOUNTS_SOL.map((amount) => (
+              {DONATION_AMOUNTS_SUI.map((amount) => (
                 <DonationButton
                   key={amount}
                   amount={amount}
@@ -355,7 +287,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
               <Button
                 variant={usingCustomAmount ? "outline" : "light"}
                 className={cn(
-                  usingCustomAmount ? "text-white" : "border border-gray-200"
+                  usingCustomAmount ? "text-white" : "border border-gray-200",
                 )}
                 onClick={() => setUsingCustomAmount(true)}
                 disabled={!!address}
@@ -382,7 +314,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
               <Button
                 variant={usingCustomAmount ? "outline" : "light"}
                 className={cn(
-                  usingCustomAmount ? "text-white" : "border border-gray-200"
+                  usingCustomAmount ? "text-white" : "border border-gray-200",
                 )}
                 onClick={() => setUsingCustomAmount(true)}
                 disabled={!!address}
@@ -433,7 +365,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
           disabled={!!address}
           className={cn(
             "w-full mt-2 border-gray-200",
-            !!address && "opacity-50"
+            !!address && "opacity-50",
           )}
         />
       </div>
@@ -483,12 +415,12 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
                   <div className="font-medium">Amount</div>
                   <div className="flex items-center">
                     <img
-                      src="/images/3p/solana.png"
+                      src="/images/3p/sui.png"
                       className="size-3 mr-1.5"
                       alt="solana"
                     />
                     <div className="font-mono text-xs">
-                      {donationAmount} SOL
+                      {donationAmount} SUI
                     </div>
                   </div>
                 </div>
@@ -513,45 +445,43 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
                   <div className="font-medium">Wallet</div>
                   <div className="flex items-center gap-1">
                     <div className="font-mono text-xs">
-                      {wallet.connected
-                        ? `${wallet.publicKey
-                            ?.toBase58()
-                            .slice(0, 6)}...${wallet.publicKey
-                            ?.toBase58()
-                            .slice(-6)}`
+                      {wallet
+                        ? `${wallet.address.slice(0, 6)}...${wallet.address.slice(-6)}`
                         : "Not Connected"}
                     </div>
                     <TbX
                       className={cn(
                         "size-3.5 opacity-50 hover:opacity-100 transition-opacity duration-300 ease-in-out cursor-pointer",
-                        wallet.connected === false && "hidden"
+                        !wallet && "hidden",
                       )}
-                      onClick={() => {
-                        wallet.disconnect();
-                      }}
+                      onClick={() => disconnectWallet()}
                     />
                   </div>
                 </div>
               </div>
 
               <div className="mt-3 flex flex-col gap-2">
-                <Button
-                  style={{ backgroundColor, color: contrastColor }}
-                  className="w-full hover:opacity-80 transition-opacity duration-300 ease-in-out"
-                  onClick={handleTransactionSubmit}
-                >
-                  {wallet.connected ? (
-                    <>
-                      <TbSend className="mr-2 h-4 w-4" />
-                      Send Transaction
-                    </>
-                  ) : (
-                    <>
-                      <TbWallet className="mr-2 h-4 w-4" />
-                      Connect Wallet
-                    </>
-                  )}
-                </Button>
+                {wallet ? (
+                  <Button
+                    style={{ backgroundColor, color: contrastColor }}
+                    className="w-full hover:opacity-80 transition-opacity duration-300 ease-in-out"
+                    onClick={handleTransactionSubmit}
+                  >
+                    <TbSend className="mr-2 h-4 w-4" />
+                    Send Transaction
+                  </Button>
+                ) : (
+                  <ConnectButton
+                    style={{ backgroundColor, color: contrastColor }}
+                    className="w-full hover:opacity-80 transition-opacity duration-300 ease-in-out"
+                    connectText={
+                      <>
+                        <TbWallet className="mr-2 h-4 w-4" />
+                        Connect Wallet
+                      </>
+                    }
+                  />
+                )}
 
                 <Popover>
                   <PopoverTrigger asChild>
@@ -566,7 +496,7 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
                   >
                     <div className="w-fit border border-gray-200 rounded-lg p-1 shadow">
                       <ImageQRCode
-                        text={`solana:${address}?amount=${donationAmount}`}
+                        text={`sui:${address}?amount=${donationAmount}`}
                         options={{
                           errorCorrectionLevel: "M",
                           margin: 3,
@@ -602,14 +532,14 @@ export const DonateInterface: React.FC<DonateInterfaceProps> = ({
                 Tip{" "}
                 <img
                   src={
-                    currency === "sol"
-                      ? "/images/3p/solana.png"
+                    currency === "sui"
+                      ? "/images/3p/sui.png"
                       : "/images/3p/usdc.png"
                   }
                   className="size-3.5 ml-1.5 mr-1"
-                  alt={currency === "sol" ? "solana" : "usdc"}
+                  alt={currency === "sui" ? "sui" : "usdc"}
                 />
-                {donationAmount} {currency === "sol" ? "SOL" : "USDC"} to{" "}
+                {donationAmount} {currency === "sui" ? "SUI" : "USDC"} to{" "}
                 {streamer.username}
               </div>
 

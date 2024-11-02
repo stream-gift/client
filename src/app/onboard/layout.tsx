@@ -7,7 +7,6 @@ import {
   SuiClientProvider,
   WalletProvider,
 } from "@mysten/dapp-kit";
-import "@uploadthing/react/styles.css";
 import "@mysten/dapp-kit/dist/index.css";
 
 const { networkConfig } = createNetworkConfig({
