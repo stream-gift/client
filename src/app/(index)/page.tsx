@@ -22,6 +22,7 @@ export default async function Home() {
     return redirect(`/onboard`);
   }
 
+  
   return (
     <main className="min-h-screen relative">
       <div className="absolute w-full h-full bg-primary -z-20 bg-gradient-to-b from-background via-background/75 to-black"></div>
