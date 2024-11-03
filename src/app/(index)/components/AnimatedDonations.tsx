@@ -36,7 +36,7 @@ const Notification = ({ name, message, amount }: (typeof donations)[0]) => {
         // light styles
         "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
         // dark styles
-        "transform-gpu dark:bg-background dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
+        "transform-gpu dark:bg-background dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
       )}
     >
       <div className="mb-2 text-xl text-center">&quot;{message}&quot;</div>
@@ -45,8 +45,8 @@ const Notification = ({ name, message, amount }: (typeof donations)[0]) => {
         <span className="font-bold">{name} </span>
         <span className="ml-1">tipped</span>
         <div className="flex items-center ml-2 gap-1.5">
-          <img src="/images/3p/solana.png" alt="solana" className="size-4" />{" "}
-          {amount} SOL
+          <img src="/images/3p/sui.png" alt="sui" className="size-4" /> {amount}{" "}
+          SUI
         </div>
       </div>
     </figure>
@@ -58,7 +58,7 @@ export function AnimatedDonations({ className }: { className?: string }) {
     <div
       className={cn(
         "relative flex h-[500px] w-full flex-col p-6 overflow-hidden rounded-lg border md:shadow-xl",
-        className
+        className,
       )}
     >
       <AnimatedList delay={2000}>

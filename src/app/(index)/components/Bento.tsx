@@ -41,7 +41,8 @@ const features = [
   {
     Icon: TbCoins,
     name: "Donations",
-    description: "Receive & send donations to your favorite streamers on Solana.",
+    description:
+      "Receive & send donations to your favorite streamers on Solana.",
     href: "#",
     cta: "Learn more",
     className: "col-span-3 lg:col-span-1",
@@ -57,19 +58,15 @@ const features = [
               "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4 pb-32",
               "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
               "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
-              "transform-gpu blur-[0.3px] transition-all duration-300 ease-out hover:blur-none"
+              "transform-gpu blur-[0.3px] transition-all duration-300 ease-out hover:blur-none",
             )}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <img
-                  src="/images/3p/solana.png"
-                  className="size-5"
-                  alt="solana"
-                />
+                <img src="/images/3p/sui.png" className="size-5" alt="sui" />
                 <div className="flex items-center gap-1 font-mono text-xl">
                   <span className="font-medium">{donation.amount}</span>
-                  <span className="text-white/60">SOL</span>
+                  <span className="text-white/60">SUI</span>
                 </div>
               </div>
 
@@ -136,7 +133,7 @@ const features = [
           <DotPattern
             className={cn(
               "[mask-image:radial-gradient(220px_circle_at_center,transparent,transparent,rgba(124,58,237,0.3))]",
-              "-z-10"
+              "-z-10",
             )}
           />
         </div>
@@ -167,7 +164,7 @@ const features = [
               "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4 pb-32",
               "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
               "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
-              "transform-gpu blur-[0.1px] transition-all duration-300 ease-out hover:blur-none"
+              "transform-gpu blur-[0.1px] transition-all duration-300 ease-out hover:blur-none",
             )}
           >
             <img

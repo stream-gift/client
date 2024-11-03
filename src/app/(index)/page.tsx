@@ -40,7 +40,7 @@ export default async function Home() {
                 <WordRotate
                   words={[
                     <span key="crypto">crypto</span>,
-                    <span key="solana">Solana</span>,
+                    <span key="sui">SUI</span>,
                   ]}
                 />
               </span>{" "}
@@ -67,7 +67,7 @@ export default async function Home() {
                 <Link href="/login">
                   <Button
                     size="lg"
-                    className="text-lg font-medium h-10 bg-[#220f46] hover:bg-primary/30 text-white"
+                    className="text-lg font-medium h-10 bg-primary/20 hover:bg-primary/30 text-white"
                   >
                     Login
                   </Button>
@@ -142,7 +142,7 @@ export default async function Home() {
             className={cn(
               "[mask-image:radial-gradient(800px_circle_at_center,rgba(255,255,255,0.85),rgba(255,255,255,0.7),rgba(255,255,255,0.55),transparent,transparent)]",
               "inset-x-0 inset-y-[-30%] h-[120%]",
-              "-z-10"
+              "-z-10",
             )}
           />
 
