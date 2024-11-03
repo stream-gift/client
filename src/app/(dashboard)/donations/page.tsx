@@ -50,7 +50,7 @@ export default async function DonationsPage() {
               </div>
 
               <a
-                href={`https://suiscan.xyz/mainnet/tx/${donation.transactionHash}`}
+                href={`https://suiscan.xyz/testnet/tx/${donation.transactionHash}`}
                 target="_blank"
               >
                 <div className="flex items-center gap-1.5 text-white/60 hover:text-white transition-all text-sm">

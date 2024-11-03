@@ -101,7 +101,7 @@ export default async function BalancesPage() {
                     <a
                       href={
                         withdrawal.transactionHash
-                          ? `https://suiscan.xyz/mainnet/tx/${withdrawal.transactionHash}`
+                          ? `https://suiscan.xyz/testnet/tx/${withdrawal.transactionHash}`
                           : "#"
                       }
                       target="_blank"
