@@ -109,7 +109,7 @@ interface DonateInterfaceProps {
   className?: string;
 }
 
-const DONATION_AMOUNTS_SUI = [0.05, 0.1, 0.2, 0.3, 0.5];
+const DONATION_AMOUNTS_SUI = [0.25, 1, 2, 5, 10];
 const DONATION_AMOUNTS_USDC = [1, 3, 5, 10, 20];
 const DONATION_TIME_LEFT = 15 * 60;
 
