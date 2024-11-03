@@ -11,7 +11,6 @@ import {
 } from "react-icons/tb";
 
 import { Chart } from "./components/Chart";
-import { Button } from "@/components/ui/button";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DonationLink } from "./components/DonationLink";
@@ -81,7 +80,7 @@ export default async function Dashboard() {
             </div>
             <p className="text-white text-xl font-bold font-mono">
               {data.aggregated.totalDonationsAmount / LAMPORTS_PER_SOL || 0}
-              <span className="text-white/60 ml-2">SOL</span>
+              <span className="text-white/60 ml-2">SUI</span>
             </p>
           </div>
         </div>
@@ -97,9 +96,9 @@ export default async function Dashboard() {
               <TbTrendingUp className="text-green-400" />
             </div>
             <p className="text-white text-xl font-bold font-mono">
-              {data.balances.find((balance: any) => balance.currency === "SOL")
+              {data.balances.find((balance: any) => balance.currency === "SUI")
                 ?.balance / LAMPORTS_PER_SOL || 0}
-              <span className="text-white/60 ml-2">SOL</span>
+              <span className="text-white/60 ml-2">SUI</span>
             </p>
           </div>
         </div>
@@ -108,7 +107,7 @@ export default async function Dashboard() {
           <div
             className={cn(
               "p-0 md:p-4",
-              data.donations.length === 0 && "blur-md"
+              data.donations.length === 0 && "blur-md",
             )}
           >
             <Chart data={data.donations} />
@@ -166,15 +165,15 @@ export default async function Dashboard() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <img
-                            src="/images/3p/solana.png"
+                            src="/images/3p/sui.png"
                             className="size-5"
-                            alt="solana"
+                            alt="sui"
                           />
                           <div className="flex items-center gap-1 font-mono text-xl">
                             <span className="font-medium">
                               {donation.amount / LAMPORTS_PER_SOL}
                             </span>
-                            <span className="text-white/60">SOL</span>
+                            <span className="text-white/60">SUI</span>
                           </div>
                         </div>
 

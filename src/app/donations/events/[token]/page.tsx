@@ -14,7 +14,6 @@ import { getContrastFromBg } from "@/utils/contrast";
 const INTERVAL_TIME_SECONDS = 5;
 const ANIMATION_TIME_SECONDS = 10;
 
-
 export default function DonationsEventsPage() {
   const { token } = useParams<{ token: string }>();
 
@@ -40,18 +39,18 @@ export default function DonationsEventsPage() {
 
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [queueIntervalId, setQueueIntervalId] = useState<NodeJS.Timeout | null>(
-    null
+    null,
   );
 
   const fetchEvents = async () => {
     let events = await ClientAPIService.Donation.getDonationEvents(
       token,
-      since
+      since,
     );
 
     setState((state) => {
       events = events.filter(
-        (event: any) => !state.eventsDisplayed.includes(event.id)
+        (event: any) => !state.eventsDisplayed.includes(event.id),
       );
 
       return { ...state, events };
@@ -91,7 +90,7 @@ export default function DonationsEventsPage() {
 
       if (state.currentEvent.message) {
         const utterance = new SpeechSynthesisUtterance(
-          state.currentEvent.message
+          state.currentEvent.message,
         );
 
         // Select a voice
@@ -111,7 +110,7 @@ export default function DonationsEventsPage() {
 
     if (!queueIntervalId) {
       setQueueIntervalId(
-        setInterval(processEvents, ANIMATION_TIME_SECONDS * 1000)
+        setInterval(processEvents, ANIMATION_TIME_SECONDS * 1000),
       );
     }
 
@@ -120,9 +119,8 @@ export default function DonationsEventsPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const data = await ClientAPIService.Streamer.getStreamerDataByToken(
-        token
-      );
+      const data =
+        await ClientAPIService.Streamer.getStreamerDataByToken(token);
       setData(data);
     }
 
@@ -137,7 +135,7 @@ export default function DonationsEventsPage() {
     <div
       className={cn(
         "max-w-96",
-        started ? "" : "h-fit border border-red-500 border-dashed p-2"
+        started ? "" : "h-fit border border-red-500 border-dashed p-2",
       )}
     >
       {!data && (
@@ -213,17 +211,13 @@ export default function DonationsEventsPage() {
                   state.currentEvent.transactionSenderDomainName ||
                   `${state.currentEvent.transactionSender!.slice(
                     0,
-                    6
+                    6,
                   )}...${state.currentEvent.transactionSender!.slice(-6)}`}{" "}
               </span>
               <span className="ml-1">tipped</span>
               <div className="flex items-center ml-2 gap-1.5">
-                <img
-                  src="/images/3p/solana.png"
-                  alt="solana"
-                  className="size-4"
-                />{" "}
-                {state.currentEvent.amountFloat} SOL
+                <img src="/images/3p/sui.png" alt="sui" className="size-4" />{" "}
+                {state.currentEvent.amountFloat} SUI
               </div>
             </div>
           </motion.div>

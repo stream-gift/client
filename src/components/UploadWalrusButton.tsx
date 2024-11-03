@@ -25,7 +25,7 @@ export function UploadButton(props: {
       const data = (await response.json()) as { cid: string; name: string };
       return props.onClientUploadComplete({
         name: data.name,
-        url: `/api/walrus?blobId=${data.cid}`,
+        url: `https://alpha.stream.gift/api/walrus?blobId=${data.cid}`,
       });
     } catch (error) {
       console.error("Error uploading file:", error);

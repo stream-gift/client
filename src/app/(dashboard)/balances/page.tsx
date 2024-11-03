@@ -1,21 +1,13 @@
-import { Button } from "@/components/ui/button";
 import { APIService } from "@/lib/api/server";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import React from "react";
 import {
   TbArrowUp,
-  TbCheck,
-  TbCircle,
-  TbCircleCheck,
   TbCircleCheckFilled,
   TbCircleXFilled,
   TbDownload,
   TbExternalLink,
   TbLoader2,
-  TbMoneybag,
-  TbProgressCheck,
   TbSend,
-  TbTrendingUp,
 } from "react-icons/tb";
 import {
   Accordion,
@@ -210,8 +202,9 @@ export default async function BalancesPage() {
                   What&apos;s the minimum withdrawal amount?
                 </AccordionTrigger>
                 <AccordionContent>
-                  The minimum withdrawal amount is 0.1 SOL. This helps to ensure
-                  that transaction fees don&apos;t eat into smaller withdrawals.
+                  The minimum withdrawal amount is 0.01 SUI. This helps to
+                  ensure that transaction fees don&apos;t eat into smaller
+                  withdrawals.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
@@ -220,9 +213,9 @@ export default async function BalancesPage() {
                 </AccordionTrigger>
                 <AccordionContent>
                   Withdrawals are typically processed immediately. Once
-                  processed, the transaction will be sent & visible on the
-                  Solana blockchain. The speed of the transaction is dependent
-                  on the Solana network.
+                  processed, the transaction will be sent & visible on the SUI
+                  blockchain. The speed of the transaction is dependent on the
+                  SUI network.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-4">
@@ -231,17 +224,17 @@ export default async function BalancesPage() {
                 </AccordionTrigger>
                 <AccordionContent>
                   We don&apos;t charge any fees for withdrawals. However,
-                  standard Solana network transaction fees will apply, which are
+                  standard SUI network transaction fees will apply, which are
                   typically very low.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-5">
                 <AccordionTrigger>
-                  Can I withdraw to any Solana wallet?
+                  Can I withdraw to any SUI wallet?
                 </AccordionTrigger>
                 <AccordionContent>
-                  Yes, you can withdraw to any valid Solana wallet address.
-                  Always double-check the withdrawal address to ensure it&apos;s
+                  Yes, you can withdraw to any valid SUI wallet address. Always
+                  double-check the withdrawal address to ensure it&apos;s
                   correct.
                 </AccordionContent>
               </AccordionItem>
@@ -249,18 +242,6 @@ export default async function BalancesPage() {
           </div>
         </div>
       </div>
-
-      {/* <pre className="mt-6">
-        {JSON.stringify(
-          {
-            addresses,
-            balances,
-            withdrawals,
-          },
-          null,
-          2
-        )}
-      </pre> */}
     </div>
   );
 }
