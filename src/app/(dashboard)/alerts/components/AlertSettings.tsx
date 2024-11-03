@@ -159,12 +159,8 @@ export const AlertSettings = ({
                 <span className="font-bold">{"YourViewer"} </span>
                 <span className="ml-1">tipped</span>
                 <div className="flex items-center ml-2 gap-1.5">
-                  <img
-                    src="/images/3p/solana.png"
-                    alt="solana"
-                    className="size-4"
-                  />{" "}
-                  0.5 SOL
+                  <img src="/images/3p/sui.png" alt="sui" className="size-4" />{" "}
+                  0.5 SUI
                 </div>
               </div>
             </motion.div>

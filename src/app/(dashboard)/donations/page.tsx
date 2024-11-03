@@ -40,16 +40,12 @@ export default async function DonationsPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <img
-                  src="/images/3p/solana.png"
-                  className="size-5"
-                  alt="solana"
-                />
+                <img src="/images/3p/sui.png" className="size-5" alt="sui" />
                 <div className="flex items-center gap-1 font-mono text-xl">
                   <span className="font-medium">
                     {donation.amount / LAMPORTS_PER_SOL}
                   </span>
-                  <span className="text-white/60">SOL</span>
+                  <span className="text-white/60">SUI</span>
                 </div>
               </div>
 
