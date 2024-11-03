@@ -25,7 +25,7 @@ import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
 import { isValidSuiAddress } from "@mysten/sui/utils";
 import { ClientAPIService } from "@/lib/api/client";
 import Particles from "@/components/magicui/particles";
-import { UploadButton } from "@/components/UploadIpfsButton";
+import { UploadButton } from "@/components/UploadWalrusButton";
 
 const DISALLOWED_USERNAMES = [
   "admin",
