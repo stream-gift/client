@@ -180,7 +180,7 @@ export default function Onboard() {
         refresh
       />
 
-      <div className="w-full lg:w-2/3 bg-indigo-600 rounded-xl flex-shrink-0 self-stretch p-8 relative overflow-hidden">
+      <div className="w-full lg:w-2/3 bg-[#2585f4] rounded-xl flex-shrink-0 self-stretch p-8 relative overflow-hidden">
         {finalDone && (
           <Confetti
             ref={confettiRef}
@@ -417,7 +417,7 @@ export default function Onboard() {
                         <span className="w-full border-t-[1.5px] border-white" />
                       </div>
                       <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-indigo-600 text-white px-2 font-medium">
+                        <span className="bg-[#2585f4] text-white px-2 font-medium">
                           Or Enter Manually
                         </span>
                       </div>

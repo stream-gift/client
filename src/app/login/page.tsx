@@ -21,7 +21,7 @@ export default async function LoginPage() {
 
         <div
           id="side-panel"
-           className="transition-all duration-500 ease-in-out bg-gradient-to-br bg-indigo-800 w-full h-full hidden md:block relative overflow-hidden"
+          className="transition-all duration-500 ease-in-out bg-gradient-to-br bg-[#2585f4] w-full h-full hidden md:block relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-transparent to-primary/20 animate-pulse"></div>
         </div>
