@@ -8,6 +8,7 @@ import { Icons } from "@/components/icons";
 
 import {
   TbBrandTwitch,
+  TbBrandTiktok,
   TbHttpConnect,
   TbLink,
   TbPlug,
@@ -18,11 +19,13 @@ import {
 export function LoginForm() {
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
   const [isLoadingTwitch, setIsLoadingTwitch] = useState(false);
+  const [isLoadingTiktok, setIsLoadingTiktok] = useState(false);
   const [isLoadingWallet, setIsLoadingWallet] = useState(false);
 
   const isLoading = useMemo(
-    () => isLoadingGoogle || isLoadingTwitch || isLoadingWallet,
-    [isLoadingGoogle, isLoadingTwitch, isLoadingWallet]
+    () =>
+      isLoadingGoogle || isLoadingTwitch || isLoadingTiktok || isLoadingWallet,
+    [isLoadingGoogle, isLoadingTwitch, isLoadingTiktok, isLoadingWallet]
   );
 
   const signInWithGoogle = () => {
@@ -36,6 +39,13 @@ export function LoginForm() {
     setIsLoadingTwitch(true);
     setTimeout(() => {
       window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitch/login`;
+    }, 800);
+  };
+
+  const signInWithTiktok = () => {
+    setIsLoadingTiktok(true);
+    setTimeout(() => {
+      window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/tiktok/login`;
     }, 800);
   };
 
@@ -53,6 +63,21 @@ export function LoginForm() {
       </div>
 
       <div className="flex flex-col gap-3">
+        <Button
+          variant="outline"
+          type="button"
+          onClick={signInWithTiktok}
+          disabled={isLoading}
+          className="py-3 h-auto shadow-white/5 shadow-inner"
+        >
+          {isLoadingTiktok ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <TbBrandTiktok className="mr-2 h-4 w-4" />
+          )}{" "}
+          TikTok
+        </Button>
+
         <Button
           variant="outline"
           type="button"
@@ -84,18 +109,18 @@ export function LoginForm() {
         </Button>
 
         {/* <Button
-          variant="outline"
-          type="button"
-          onClick={signInWithWallet}
-          disabled={isLoading}
-        >
-          {isLoadingWallet ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <TbLink className="mr-2 h-4 w-4" />
-          )}{" "}
-          Wallet
-        </Button> */}
+					variant="outline"
+					type="button"
+					onClick={signInWithWallet}
+					disabled={isLoading}
+				>
+					{isLoadingWallet ? (
+						<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+					) : (
+						<TbLink className="mr-2 h-4 w-4" />
+					)}{" "}
+					Wallet
+				</Button> */}
       </div>
     </div>
   );
