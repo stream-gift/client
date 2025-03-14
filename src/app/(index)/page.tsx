@@ -67,7 +67,7 @@ export default async function Home() {
                 <Link href="/login">
                   <Button
                     size="lg"
-                    className="text-lg font-medium h-10 bg-[#220f46] hover:bg-primary/30 text-white"
+                    className="text-lg font-medium h-10 bg-primary/70 hover:bg-primary/30 text-white"
                   >
                     Login
                   </Button>
