@@ -1,5 +1,3 @@
-import { Settings } from "http2";
-
 const api = {
   _request: async (path: string, method: string, body?: any) => {
     const url = new URL(path, process.env.NEXT_PUBLIC_SERVER_URL).toString();

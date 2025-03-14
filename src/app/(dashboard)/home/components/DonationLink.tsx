@@ -31,6 +31,7 @@ export function DonationLink({ username }: { username: string }) {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="stream.gift">stream.gift</SelectItem>
+          <SelectItem value="tik.gift">tik.gift</SelectItem>
           <SelectItem value="twitch.gift">twitch.gift</SelectItem>
           <SelectItem value="kick.gift">kick.gift</SelectItem>
         </SelectContent>

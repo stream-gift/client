@@ -136,8 +136,9 @@ export default async function Dashboard() {
                   </p>
 
                   <div className="mt-3">
-                    stream.gift is the main link. twitch.gift and kick.gift are
-                    for aesethetic purposes and redirect to stream.gift
+                    stream.gift is the main link. tik.gift, twitch.gift and
+                    kick.gift are for aesethetic purposes and redirect to
+                    stream.gift
                   </div>
                 </PopoverContent>
               </Popover>
