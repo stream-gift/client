@@ -131,6 +131,24 @@ export function Sidebar({ className }: { className?: string }) {
             target="_blank"
           />
         </div>
+        <div className="flex flex-col gap-2 mt-6">
+          <div className="text-sm text-white/80">Events</div>
+
+          <div className="w-full rounded-lg shadow-sm bg-gradient-to-br from-[#0000FF] to-[#FBB042] p-3 mt-2">
+            <img
+              src="https://cdn.prod.website-files.com/66459509d57ff3db9f95c06f/6645d6e2ec712147651b7fcc_sonic-logo.svg"
+              alt=""
+              className="h-5"
+            />
+
+            <div className="mt-3 text-white font-bold font-mono text-xl">
+              24-Hour Gameathon
+            </div>
+            <div className="text-sm mt-1 tracking-tight font-medium text-white/80">
+              Play exclusive games to get donation boosts & more!
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-grow justify-start items-end">
