@@ -97,7 +97,7 @@ export function Sidebar({ className }: { className?: string }) {
             route="/streams"
           />
 
-          {/* <SidebarButton
+          <SidebarButton
             icon={
               <TbUserCircle
                 strokeWidth={1.2}
@@ -106,7 +106,7 @@ export function Sidebar({ className }: { className?: string }) {
             }
             label="Profile"
             route="/profile"
-          /> */}
+          />
 
           {/* <SidebarButton
             icon={<TbUserPlus className={SidebarButtonIconClass} />}

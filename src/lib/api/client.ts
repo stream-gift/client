@@ -18,6 +18,9 @@ const api = {
   post: async <T = any>(path: string, body: any): Promise<T> => {
     return api._request(path, "POST", body);
   },
+  patch: async <T = any>(path: string, body: any): Promise<T> => {
+    return api._request(path, "PATCH", body);
+  },
 };
 
 export const ClientAPIService = {
@@ -41,6 +44,8 @@ export const ClientAPIService = {
         "/streamer/onboard",
         data
       ),
+    updateProfile: (data: any) =>
+      api.patch<Streamer>("/streamer/profile", data),
     getStreamerDataByToken: (token: string) =>
       api.get<{ streamer: Streamer; settings: StreamerSettings }>(
         `/streamer/data?token=${token}`
