@@ -58,8 +58,6 @@ export default function Onboard() {
   const [finalDone, setFinalDone] = useState(false);
   const confettiRef = useRef<ConfettiRef>(null);
 
-  const [streamerDomainName, setStreamerDomainName] = useState<string>("");
-
   const onboardUser = async () => {
     setFinalLoading(true);
 
@@ -70,8 +68,6 @@ export default function Onboard() {
       profileBanner,
       profileColor,
     });
-
-    setStreamerDomainName(response.streamerDomainName);
 
     setTimeout(() => {
       setFinalLoading(false);
@@ -607,8 +603,7 @@ export default function Onboard() {
                       >
                         <TbCircleCheckFilled className="size-10 text-green-500 rounded-full" />
                         <div className="text-lg mt-1">
-                          Nice {streamerDomainName || username}, you&apos;re all
-                          set!
+                          Nice {username}, you&apos;re all set!
                         </div>
                         <Button
                           variant="light"
