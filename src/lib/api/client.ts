@@ -1,5 +1,3 @@
-import { Settings } from "http2";
-
 const api = {
   _request: async (path: string, method: string, body?: any) => {
     const url = new URL(path, process.env.NEXT_PUBLIC_SERVER_URL).toString();
@@ -19,6 +17,9 @@ const api = {
   },
   post: async <T = any>(path: string, body: any): Promise<T> => {
     return api._request(path, "POST", body);
+  },
+  patch: async <T = any>(path: string, body: any): Promise<T> => {
+    return api._request(path, "PATCH", body);
   },
 };
 
@@ -43,6 +44,8 @@ export const ClientAPIService = {
         "/streamer/onboard",
         data
       ),
+    updateProfile: (data: any) =>
+      api.patch<Streamer>("/streamer/profile", data),
     getStreamerDataByToken: (token: string) =>
       api.get<{ streamer: Streamer; settings: StreamerSettings }>(
         `/streamer/data?token=${token}`

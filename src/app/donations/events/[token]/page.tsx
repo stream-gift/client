@@ -14,7 +14,6 @@ import { getContrastFromBg } from "@/utils/contrast";
 const INTERVAL_TIME_SECONDS = 5;
 const ANIMATION_TIME_SECONDS = 10;
 
-
 export default function DonationsEventsPage() {
   const { token } = useParams<{ token: string }>();
 
@@ -172,13 +171,13 @@ export default function DonationsEventsPage() {
           </Button>
 
           {/* <Button onClick={start} className="w-fit">
-            Start [Test Mode]
-          </Button> */}
+						Start [Test Mode]
+					</Button> */}
         </div>
 
         {/* <div className="mt-2 text-sm text-white/80">
-          In test mode, 5 donations will be shown every 10 seconds.
-        </div> */}
+					In test mode, 5 donations will be shown every 10 seconds.
+				</div> */}
       </div>
       <audio ref={audioRef} src="/audios/chime.mp3" />
 
@@ -194,36 +193,50 @@ export default function DonationsEventsPage() {
               type: "spring",
               stiffness: 100,
             }}
-            className="border p-4 max-w-96 rounded-lg shadow-lg"
-            style={{
-              background:
-                data?.settings?.animationParams.background || "#1e1b4b",
-              color: data?.settings?.animationParams.color || "#ffffff",
-            }}
+            className="flex flex-col items-center w-full"
           >
-            {state.currentEvent.message && (
-              <div className="mb-2 text-xl text-center">
-                &quot;{state.currentEvent.message}&quot;
-              </div>
+            {data?.settings?.animationParams.gifUrl && (
+              <img
+                src={data.settings.animationParams.gifUrl}
+                alt="gif"
+                className="h-48 object-cover rounded-xl mb-6"
+              />
             )}
 
-            <div className="flex items-center justify-center text-base opacity-90">
-              <span className="font-bold">
-                {state.currentEvent.name ||
-                  state.currentEvent.transactionSenderDomainName ||
-                  `${state.currentEvent.transactionSender!.slice(
-                    0,
-                    6
-                  )}...${state.currentEvent.transactionSender!.slice(-6)}`}{" "}
-              </span>
-              <span className="ml-1">tipped</span>
-              <div className="flex items-center ml-2 gap-1.5">
-                <img
-                  src="/images/3p/solana.png"
-                  alt="solana"
-                  className="size-4"
-                />{" "}
-                {state.currentEvent.amountFloat} SOL
+            <div
+              className="border p-4 max-w-96 rounded-lg shadow-lg w-full"
+              style={{
+                background:
+                  data?.settings?.animationParams.background || "#1e1b4b",
+                color: data?.settings?.animationParams.color || "#ffffff",
+              }}
+            >
+              {state.currentEvent.message && (
+                <div className="mb-2 text-xl text-center">
+                  &quot;{state.currentEvent.message}&quot;
+                </div>
+              )}
+
+              <div className="flex items-center justify-center text-base opacity-90">
+                <span className="font-bold">
+                  {state.currentEvent.name ||
+                    state.currentEvent.transactionSenderDomainName ||
+                    `${state.currentEvent.transactionSender!.slice(
+                      0,
+                      6
+                    )}...${state.currentEvent.transactionSender!.slice(
+                      -6
+                    )}`}{" "}
+                </span>
+                <span className="ml-1">tipped</span>
+                <div className="flex items-center ml-2 gap-1.5">
+                  <img
+                    src="/images/3p/solana.png"
+                    alt="solana"
+                    className="size-4"
+                  />{" "}
+                  {state.currentEvent.amountFloat} SOL
+                </div>
               </div>
             </div>
           </motion.div>

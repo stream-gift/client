@@ -11,7 +11,7 @@ export const ProgressProvider = ({
     <>
       <ProgressBar
         height="1px"
-        color="#7c3aed"
+        color="#3C83F6"
         options={{ showSpinner: false }}
         shallowRouting
       />

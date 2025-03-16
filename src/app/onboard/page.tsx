@@ -379,7 +379,7 @@ export default function Onboard() {
                   </h2>
                   <div className="mt-2 text-md text-white/60">
                     Set your donation link. Btw, these links can also be used
-                    with{" "}
+                    with <span className="underline text-white">tik.gift</span>,{" "}
                     <span className="underline text-white">twitch.gift</span>{" "}
                     and <span className="underline text-white">kick.gift</span>!
                   </div>

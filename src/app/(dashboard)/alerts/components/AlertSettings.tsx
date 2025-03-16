@@ -2,6 +2,7 @@
 
 import { GradientPicker } from "@/components/gradient-picker";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { ClientAPIService } from "@/lib/api/client";
 import { AnimatePresence, motion } from "framer-motion";
@@ -114,6 +115,26 @@ export const AlertSettings = ({
           </div>
         </div>
 
+        <div className="mt-4 flex items-center justify-between">
+          <h3 className="text-base">GIF</h3>
+
+          <Input
+            type="url"
+            placeholder="https://example.com/gif.gif"
+            value={settings.animationParams.gifUrl}
+            onChange={(e) =>
+              setSettings({
+                ...settings,
+                animationParams: {
+                  ...settings.animationParams,
+                  gifUrl: e.target.value,
+                },
+              })
+            }
+            className="w-1/2 max-w-96 bg-white text-black border-gray-100"
+          />
+        </div>
+
         <Button
           className="mt-4 w-full"
           size="lg"
@@ -132,10 +153,10 @@ export const AlertSettings = ({
           </Button>
         </div>
 
-        <div className="mt-4 h-72 w-full bg-zinc-800 rounded-lg flex items-center justify-center">
+        <div className="mt-4 h-96 w-full bg-zinc-800 rounded-lg flex flex-col items-center justify-center">
           <AnimatePresence mode="popLayout">
             <motion.div
-              layoutId="alert"
+              layoutId="alert-container"
               key={playKey}
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -145,26 +166,38 @@ export const AlertSettings = ({
                 type: "spring",
                 stiffness: 100,
               }}
-              className="border p-4 max-w-72 lg:max-w-96 w-full rounded-lg shadow-lg"
-              style={{
-                background: settings.animationParams.background || "#1e1b4b",
-                color: settings.animationParams.color || "#ffffff",
-              }}
+              className="flex flex-col items-center w-full"
             >
-              <div className="mb-2 text-xl text-center">
-                &quot;Love the stream!&quot;
-              </div>
+              {settings.animationParams.gifUrl && (
+                <img
+                  src={settings.animationParams.gifUrl}
+                  alt="gif"
+                  className="h-48 object-cover rounded-xl mb-6"
+                />
+              )}
 
-              <div className="flex items-center justify-center text-base opacity-90">
-                <span className="font-bold">{"YourViewer"} </span>
-                <span className="ml-1">tipped</span>
-                <div className="flex items-center ml-2 gap-1.5">
-                  <img
-                    src="/images/3p/solana.png"
-                    alt="solana"
-                    className="size-4"
-                  />{" "}
-                  0.5 SOL
+              <div
+                className="border p-4 max-w-72 lg:max-w-96 w-full rounded-lg shadow-lg"
+                style={{
+                  background: settings.animationParams.background || "#1e1b4b",
+                  color: settings.animationParams.color || "#ffffff",
+                }}
+              >
+                <div className="mb-2 text-xl text-center">
+                  &quot;Love the stream!&quot;
+                </div>
+
+                <div className="flex items-center justify-center text-base opacity-90">
+                  <span className="font-bold">{"YourViewer"} </span>
+                  <span className="ml-1">tipped</span>
+                  <div className="flex items-center ml-2 gap-1.5">
+                    <img
+                      src="/images/3p/solana.png"
+                      alt="solana"
+                      className="size-4"
+                    />{" "}
+                    0.5 SOL
+                  </div>
                 </div>
               </div>
             </motion.div>

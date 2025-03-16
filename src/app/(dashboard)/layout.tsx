@@ -11,6 +11,12 @@ import { Sidebar } from "./components/Sidebar";
 import { useUser } from "../user-provider";
 import { redirect } from "next/navigation";
 import { APIService } from "@/lib/api/server";
+import { JetBrains_Mono } from "next/font/google";
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+});
 
 export default async function DashboardLayout({
   children,
@@ -30,7 +36,9 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen lg:h-screen flex max-w-[100%] bg-zinc-950">
+    <div
+      className={`min-h-screen lg:h-screen flex max-w-[100%] bg-zinc-950 ${jetbrainsMono.variable}`}
+    >
       <Sidebar className="w-[20%] hidden lg:flex border-r border-white/10" />
 
       <div id="scroll-reset" className="w-full overflow-y-auto">
